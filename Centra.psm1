@@ -1,16 +1,19 @@
-Function ConvertFrom-UnixTime ($UnixDate) {
+Function ConvertFrom-UnixTime {
 
 <#
 Converts a given Unix timestamp in milliseconds to a System.DateTime object in UTC
 #>
-
+	[cmdletbinding()]
+	Param (
+		[Parameter(Mandatory=$true,ValueFromPipeline=$true)][Long]$UnixDate
+	)
 	Process {
-		[datetime]$Origin = '1970-01-01 00:00:00'
+		[System.DateTime]$Origin = '1970-01-01 00:00:00'
 		$Origin = $Origin.ToUniversalTime()
-		$Converted = $Origin.AddSeconds($UnixDate)
+		$Converted = $Origin.AddSeconds($UnixDate/1000) #Remember: GuardiCore works with epoch times in milliseconds
 	}
 	End {
-		Return $Converted * 1000 #Remember: GuardiCore works with epoch times in milliseconds
+		Return $Converted
 	}
 } #End ConvertFrom-UnixTime
 
@@ -77,14 +80,12 @@ Gets and parses an API key from the specified server using the given credentials
 	Process {
 		$OutRaw = Invoke-WebRequest -UseBasicParsing -Uri $Uri -Method 'Post' -Body $Body -Headers $Headers
 		if ($OutRaw.StatusCode -ne 200) {
-			Write-Host "Web server error:"
-			Write-Host $OutRaw.RawContent
-			Return $false
+			Return "Something broke"
 		}
 		$OutParsed = $OutRaw.Content | ConvertFrom-JSON
 	}
 	End {
-		Return $OutParsed.access_token
+		Return $OutParsed."2fa_temp_token"
 	}
 } #End Get-APIKey
 
@@ -92,9 +93,25 @@ Function Get-NetworkLog {
 
 <#
 Makes an API call to download a csv file of the network log of a management server
-(as defined by, and via the API key generated from, the Get-APIKey function)
+(as defined by, and via the API key generated from, the Get-APIKey function);
+note that times are in Unix format, in milliseconds (use the ConvertTo-UnixTime function beforehand)
 #>
 
+	[cmdletbinding()]
+	Param (
+		[Parameter(Mandatory=$true,ValueFromPipeline=$true)][System.Array]$Logs,
+		[Parameter(Mandatory=$true)][String]$StartTime,
+		[Parameter(Mandatory=$true)][String]$EndTime
+	)
+	Begin {
+		
+	}
+	Process {
+		
+	}
+	End {
+		
+	}
 } #End Get-NetworkLog
 
 Function Format-NetworkLog {
@@ -102,30 +119,11 @@ Function Format-NetworkLog {
 <#
 Takes a GuardiCore Network Log as an array of PSCustomObjects (formatted as imported by Import-Csv)
 and filters it by the arguments, then returns a new array;
-note that time is in UTC in YYYY-MM-DD HH:MM:SS format;
+
 can be conveniently used right after a Get-NetworkLog call via the pipeline
 #>
 
-	[cmdletbinding()]
-	Param (
-		[Parameter(Mandatory=$true,ValueFromPipeline=$true)][System.Array]$Logs,
-		[String]$Id,
-		[String]$ConnectionType,
-		[String]$Action,
-		[String]$SourceIP,
-		[String]$SourceAsset,
-		[String]$SourceProcess,
-		[String]$DestinationIP,
-		[String]$DestinationAsset,
-		[String]$DestinationProcess,
-		[Int]$DestinationPort,
-		[Int]$Count,
-		[String]$Time,
-		[Boolean]$Incidents,
-		[String]$PolicyRule,
-		[String]$PolicyRuleset,
-		[Boolean]$ExportingError
-	)
+	
 	Begin {
 		
 	}
