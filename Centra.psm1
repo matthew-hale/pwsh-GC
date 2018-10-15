@@ -49,7 +49,7 @@ contains a Post switch that appends "Content-Type","application/json" to the hea
 	)
 	Process {
 		$Headers = New-Object 'System.Collections.Generic.Dictionary[String,String]'
-		$Headers.add("Authorization","bearer " + $Token)
+		$Headers.add("Authorization","bearer " + $Token.access_token)
 		
 		if ($Post) {
 			$Headers.add("Content-Type","application/json")
@@ -85,7 +85,7 @@ Gets and parses an API key from the specified server using the given credentials
 		$OutParsed = $OutRaw.Content | ConvertFrom-JSON
 	}
 	End {
-		Return $OutParsed."2fa_temp_token"
+		Return $OutParsed
 	}
 } #End Get-APIKey
 
@@ -114,14 +114,16 @@ note that times are in Unix format, in milliseconds (use the ConvertTo-UnixTime 
 	}
 } #End Get-NetworkLog
 
+<#
+Removed
 Function Format-NetworkLog {
 
-<#
+
 Takes a GuardiCore Network Log as an array of PSCustomObjects (formatted as imported by Import-Csv)
 and filters it by the arguments, then returns a new array;
 
 can be conveniently used right after a Get-NetworkLog call via the pipeline
-#>
+
 
 	
 	Begin {
@@ -134,6 +136,7 @@ can be conveniently used right after a Get-NetworkLog call via the pipeline
 		
 	}
 } #End Format-NetworkLog
+#>
 
 Function Get-FlowTotal {
 
