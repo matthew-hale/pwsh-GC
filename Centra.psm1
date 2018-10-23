@@ -1,4 +1,4 @@
-Function ConvertFrom-UnixTime {
+Function ConvertFrom-GCUnixTime {
 
 <#
 Converts a given Unix timestamp in milliseconds to a System.DateTime object in UTC
@@ -17,7 +17,7 @@ Converts a given Unix timestamp in milliseconds to a System.DateTime object in U
 	}
 } #End ConvertFrom-UnixTime
 
-Function ConvertTo-UnixTime {
+Function ConvertTo-GCUnixTime {
 
 <#
 Converts a given UTC DateTime object to Unix time in milliseconds
@@ -35,7 +35,7 @@ Converts a given UTC DateTime object to Unix time in milliseconds
 	}
 } #End ConvertTo-UnixTime
 
-Function Set-Headers {
+Function Set-GCHeaders {
 
 <#
 Returns correctly formatted authentication header within a headers object for GET requests given an auth token input;
@@ -49,7 +49,7 @@ contains a Post switch that appends "Content-Type","application/json" to the hea
 	)
 	Process {
 		$Headers = New-Object 'System.Collections.Generic.Dictionary[String,String]'
-		$Headers.add("Authorization","bearer " + $Token.access_token)
+		$Headers.add("Authorization","bearer " + $Token)
 		
 		if ($Post) {
 			$Headers.add("Content-Type","application/json")
@@ -60,7 +60,7 @@ contains a Post switch that appends "Content-Type","application/json" to the hea
 	}
 } #End Set-Headers
 
-Function Get-APIKey {
+Function Get-GCAPIKey {
 
 <#
 Gets and parses an API key from the specified server using the given credentials
@@ -82,18 +82,18 @@ Gets and parses an API key from the specified server using the given credentials
 		if ($OutRaw.StatusCode -ne 200) {
 			Return "Something broke"
 		}
-		$OutParsed = $OutRaw.Content | ConvertFrom-JSON
+		$Output = $OutRaw.Content | ConvertFrom-JSON
 	}
 	End {
-		Return $OutParsed
+		Return $Output
 	}
 } #End Get-APIKey
 
-Function Get-NetworkLog {
+Function Get-GCNetworkLog {
 
 <#
 Makes an API call to download a csv file of the network log of a management server
-(as defined by, and via the API key generated from, the Get-APIKey function);
+(via the API key generated from the Get-APIKey function);
 note that times are in Unix format, in milliseconds (use the ConvertTo-UnixTime function beforehand)
 #>
 
@@ -104,7 +104,7 @@ note that times are in Unix format, in milliseconds (use the ConvertTo-UnixTime 
 		[Parameter(Mandatory=$true)][String]$EndTime
 	)
 	Begin {
-		
+		$Uri = "https://" + $Server + ".cloud.guardicore.com/api/v3.0/connections/"
 	}
 	Process {
 		
@@ -114,31 +114,7 @@ note that times are in Unix format, in milliseconds (use the ConvertTo-UnixTime 
 	}
 } #End Get-NetworkLog
 
-<#
-Removed
-Function Format-NetworkLog {
-
-
-Takes a GuardiCore Network Log as an array of PSCustomObjects (formatted as imported by Import-Csv)
-and filters it by the arguments, then returns a new array;
-
-can be conveniently used right after a Get-NetworkLog call via the pipeline
-
-
-	
-	Begin {
-		
-	}
-	Process {
-		
-	}
-	End {
-		
-	}
-} #End Format-NetworkLog
-#>
-
-Function Get-FlowTotal {
+Function Get-GCFlowTotal {
 
 <#
 Each flow has a "count" field that increments whenever an identical flow is recorded;
