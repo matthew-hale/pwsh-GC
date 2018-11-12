@@ -1,2 +1,2 @@
 # GuardiCoreHelper
-A Powershell module for GuardiCore Centra administration and management.
+A collection of Powershell modules and scripts for GuardiCore Centra administration and management.
