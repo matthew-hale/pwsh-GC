@@ -1,11 +1,25 @@
+<#
+.SYNOPSIS
+	Converts a given Unix timestamp in milliseconds to a System.DateTime object in UTC.
+	
+.DESCRIPTION
+	GuardiCore uses Unix time in milliseconds for most timestamps in the API. This funciton, and its sister function ConvertTo-GCUnixTime, allow conversion to/from UTC timestamps (System.DateTime objects) and Unix timestamps (in milliseconds).
+	
+.PARAMETER UnixDate
+	[Long] Unix timestamp in milliseconds.
+	
+.INPUT
+	Long (Parameter: UnixDate)
+	
+.OUTPUT
+	System.DateTime
+	
+#>
 Function ConvertFrom-GCUnixTime {
 
-<#
-Converts a given Unix timestamp in milliseconds to a System.DateTime object in UTC
-#>
 	[cmdletbinding()]
 	Param (
-		[Parameter(Mandatory=$true,ValueFromPipeline=$true)][Long]$UnixDate
+		[Parameter(Mandatory=$true,ValueFromPipeline=$true,ParameterSetName="UnixDate")][Int64]$UnixDate
 	)
 	Process {
 		[System.DateTime]$Origin = '1970-01-01 00:00:00'
@@ -17,6 +31,24 @@ Converts a given Unix timestamp in milliseconds to a System.DateTime object in U
 	}
 } #End ConvertFrom-UnixTime
 
+
+<#
+.SYNOPSIS
+	Converts a given System.DateTime object in UTC to a Unix timestamp in milliseconds.
+
+.DESCRIPTION
+	GuardiCore uses Unix time in milliseconds for most timestamps in the API. This funciton, and its sister function ConvertFrom-GCUnixTime, allow conversion to/from UTC timestamps (System.DateTime objects) and Unix timestamps (in milliseconds).
+
+.PARAMETER
+	
+
+.INPUT
+	
+
+.OUTPUT
+	
+
+#>
 Function ConvertTo-GCUnixTime {
 
 <#
@@ -35,6 +67,24 @@ Converts a given UTC DateTime object to Unix time in milliseconds
 	}
 } #End ConvertTo-UnixTime
 
+
+<#
+.SYNOPSIS
+	
+
+.DESCRIPTION
+	
+
+.PARAMETER
+	
+
+.INPUT
+	
+
+.OUTPUT
+	
+
+#>
 Function Set-GCHeaders {
 
 <#
@@ -60,15 +110,29 @@ contains a Post switch that appends "Content-Type","application/json" to the hea
 	}
 } #End Set-Headers
 
-Function Get-GCAPIKey {
 
 <#
-Gets and parses an API key from the specified server using the given credentials
+.SYNOPSIS
+	Returns an API key from the specified GuardiCore management server using the given credentials.
+
+.DESCRIPTION
+	To make GuardiCore API calls, an API key must be included in the headers. Thus, this first API call must be made; it returns a token that can be used for further API calls. The token represents a user session, and has the same timeout duration.
+
+.PARAMETER Server
+	[System.String] Management server, in the format: "cus-5555"
+
+.INPUT
+	
+
+.OUTPUT
+	
+
 #>
+Function Get-GCAPIKey {
 
 	[cmdletbinding()]
 	Param (
-		[Parameter(Mandatory=$true,ValueFromPipeline=$true)][String]$Server
+		[Parameter(Mandatory=$true,ValueFromPipeline=$true)][System.String]$Server
 	)
 	Begin {
 		$Uri = "https://" + $Server + ".cloud.guardicore.com/api/v3.0/authenticate"
@@ -85,10 +149,28 @@ Gets and parses an API key from the specified server using the given credentials
 		$Output = $OutRaw.Content | ConvertFrom-JSON
 	}
 	End {
-		Return $Output
+		Return $Output.access_token
 	}
 } #End Get-APIKey
 
+
+<#
+.SYNOPSIS
+	
+
+.DESCRIPTION
+	
+
+.PARAMETER
+	
+
+.INPUT
+	
+
+.OUTPUT
+	
+
+#>
 Function Get-GCNetworkLog {
 
 <#
@@ -114,29 +196,41 @@ note that times are in Unix format, in milliseconds (use the ConvertTo-UnixTime 
 	}
 } #End Get-NetworkLog
 
-Function Get-GCFlowTotal {
 
 <#
-Each flow has a "count" field that increments whenever an identical flow is recorded;
-to obtain the true total number of flows for a given set of flow objects, we need to increment a separate counter by these "count" fields;
-this function does that
+.SYNOPSIS
+	Returns the total number of connections in a given array of GuardiCore flow objects.
+
+.DESCRIPTION
+	Each flow has a "count" field that increments whenever an identical flow is recorded. To obtain the true total number of connections for a given set of flow objects, this function sums each individual count field.
+
+.PARAMETER Flows
+	[System.Array] GuardiCore flows.
+
+.INPUT
+	System.Array (Parameter: Flows)
+
+.OUTPUT
+	System.Int32
+
 #>
+Function Get-GCFlowTotal {
 
 	[cmdletbinding()]
 	Param (
-		[Parameter(Mandatory=$true,ValueFromPipeline=$true)][System.Array]$Connections
+		[Parameter(Mandatory=$true,ValueFromPipeline=$true)][System.Array]$Flows
 	)
 	
 	Begin {
 		$Subtotal = 0
 	}
 	Process {
-		foreach ($Flow in $Connections) {
+		foreach ($Flow in $Flows) {
 			$Subtotal += $Flow.count
 		}
 	}
 	End {
-		$Total = $Subtotal
+		[Int32]$Total = $Subtotal
 		Return $Total
 	}
 } #End Get-FlowTotal
