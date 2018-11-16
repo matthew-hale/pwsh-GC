@@ -22,7 +22,7 @@
 	[System.String] Title of the resultant object. Defaults to "Flows".
 	
 .INPUTS
-	System.Array (Parameter: Flows)
+	None. This script takes no pipeline inputs.
 
 .OUTPUTS
 	System.Object.PSCustomObject
@@ -32,8 +32,8 @@
 
 
 Param (
-	#An array of flows, as formatted from GuardiCore (converted from JSON). Can also be piped in.
-	[Parameter(Mandatory=$true,ValueFromPipeline=$true)][System.Array]$Flows,
+	#An array of flows, as formatted from GuardiCore (converted from JSON).
+	[Parameter(Mandatory=$true)][System.Array]$Flows,
 	[System.String]$Title = "Flows"
 	
 )
