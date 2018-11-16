@@ -8,6 +8,9 @@ This function takes a String as an argument, specifying a GuardiCore management 
 #### Set-GCHeaders
 This one's really simple: it takes the API token returned from Get-GCAPIKey and places it into a "System.Collections.Generic.Dictionary" object to be used as part of a header for Invoke-WebRequest. It has an optional -Post switch that adds "Content-Type: application/json" to headers used in POST requests. (This function is here because I use it all the time; it can take the token from the pipeline, so I can pipe Get-GCAPIKey into this and get my usable header in one line.)
 
+#### Get-GCFlowInfo.ps1
+This script takes an array of flows, as formatted from GuardiCore, and returns a custom object containing basic, useful information from a set of flows. "Useful information" includes process name, count, source ip, destination ip, etc. sorted by unique where applicable. Basically metadata for a set of flows. Pipeline isn't working fully yet.
+
 ## What's Technically Usable?
 #### ConvertFrom-GCUnixTime
 While technically functional, its sister function isn't, so its intended functionality isn't fully realized. You can definitely feed it UTC datetimes though.
