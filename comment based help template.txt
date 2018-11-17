@@ -8,10 +8,10 @@
 .PARAMETER
 	
 
-.INPUT
+.INPUTS
 	
 
-.OUTPUT
+.OUTPUTS
 	
 
 #>
