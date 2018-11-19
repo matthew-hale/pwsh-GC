@@ -35,7 +35,7 @@ $Connectivity = Test-Connection $AggregatorIP -Quiet -Count 2
 #If the aggregator isn't reachable from here, log it and skip everything else
 If ($Connectivity -ne $true) {
 	$LogEntry = New-Object PSObject
-	$LogEntry | AddMember -MemberType NoteProperty -Name "Message" -Value "Aggregator Unreachable"
+	$LogEntry | Add-Member -MemberType NoteProperty -Name "Message" -Value "Aggregator Unreachable"
 } else {
 	$InstallPath = $HOME + "\Downloads\" + $InstallScript
 	$InstallCommand = $InstallPath + " " + $ManagementPassword
@@ -79,7 +79,7 @@ Add-Type @"
 	
 	& cmd.exe /c $InstallCommand
 	$LogEntry = New-Object PSObject
-	$LogEntry | AddMember -MemberType NoteProperty -Name "Message" -Value "Script run"
+	$LogEntry | Add-Member -MemberType NoteProperty -Name "Message" -Value "Script run"
 	
 	[System.Net.ServicePointManager]::SecurityProtocol = $DefaultSecurityProtocol
 	[System.Net.ServicePointManager]::CertificatePolicy = $DefaultCertificatePolicy
