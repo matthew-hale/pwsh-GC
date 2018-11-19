@@ -75,6 +75,9 @@ return true;
 	$LogEntry = [PSCustomObject]@(
 		Message = "Script run"
 	)
+	
+	[System.Net.ServicePointManager]::SecurityProtocol = $DefaultSecurityProtocol
+	[System.Net.ServicePointManager]::CertificatePolicy = $DefaultCertificatePolicy
 } #End if/else
 
 $LogEntry
