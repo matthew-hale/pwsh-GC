@@ -51,6 +51,7 @@ If ($Connectivity -ne $true) {
 	#PS 2.0 support
 	$Client = New-Object System.Net.WebClient
 	$Client.DownloadFile($Uri,$InstallPath)
+	(Get-Content $InstallPath) -Replace "pause","echo" | Set-Content $InstallPath 
 	
 	& cmd.exe /c $InstallCommand
 	$LogEntry = New-Object PSObject
