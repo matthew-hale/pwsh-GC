@@ -73,7 +73,8 @@ Add-Type @"
 		$Client.DownloadString($Uri) > $InstallPath
 		[System.Io.File]::ReadAllText($InstallPath) | Out-File -FilePath $InstallPath -Encoding "UTF8"
 	} else {
-		Invoke-WebRequest -UseBasicParsing -Uri $Uri -Method "Get"
+		$Script = Invoke-WebRequest -UseBasicParsing -Uri $Uri -Method "Get"
+		$Script.Content | Out-File -FilePath $InstallPath -Encoding "UTF8"
 	}
 	
 	& cmd.exe /c $InstallCommand
