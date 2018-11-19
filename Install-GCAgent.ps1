@@ -34,9 +34,8 @@ $Connectivity = Test-Connection $AggregatorIP -Quiet -Count 2
 
 #If the aggregator isn't reachable from here, log it and skip everything else
 If ($Connectivity -ne $true) {
-	$LogEntry = [PSCustomObject]@(
-		Message = "Aggregator unreachable"
-	)
+	$LogEntry = New-Object PSObject
+	$LogEntry | AddMember -MemberType NoteProperty -Name "Message" -Value "Aggregator Unreachable"
 } else {
 	$InstallPath = $HOME + "\Downloads\" + $InstallScript
 	$InstallCommand = $InstallPath + " " + $ManagementPassword
@@ -62,9 +61,10 @@ Add-Type @"
 		}
 	}
 "@
-
+	<#this sometimes breaks, so I'm disabling it for now
 	$AllProtocols = [System.Net.SecurityProtocolType]'Ssl3,Tls,Tls11,Tls12'
 	[System.Net.ServicePointManager]::SecurityProtocol = $AllProtocols
+	#>
 	[System.Net.ServicePointManager]::CertificatePolicy = New-Object TrustAllCertsPolicy
 	
 	#PS 2.0 support
@@ -77,9 +77,8 @@ Add-Type @"
 	}
 	
 	& cmd.exe /c $InstallCommand
-	$LogEntry = [PSCustomObject]@(
-		Message = "Script run"
-	)
+	$LogEntry = New-Object PSObject
+	$LogEntry | AddMember -MemberType NoteProperty -Name "Message" -Value "Script run"
 	
 	[System.Net.ServicePointManager]::SecurityProtocol = $DefaultSecurityProtocol
 	[System.Net.ServicePointManager]::CertificatePolicy = $DefaultCertificatePolicy
