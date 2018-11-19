@@ -31,8 +31,9 @@ $Uri = "https://" + $AggregatorIP + "/" + $InstallScript #This is done this way 
 
 $RemoteScript = {
 #Testing connectivity to aggregator before we continue
-$Connectivity = Test-Connection $AggregatorIP -Quiet
-#If the aggregator isn't reachable from here, log it and exit the Invoke-Command session
+$Connectivity = Test-Connection $AggregatorIP -Quiet -Count 2
+
+#If the aggregator isn't reachable from here, log it and skip everything else
 If ($Connectivity -ne $true) {
 	$LogEntry = [PSCustomObject]@(
 		Message = "Aggregator unreachable"
