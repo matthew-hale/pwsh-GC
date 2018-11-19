@@ -11,6 +11,9 @@ This one's really simple: it takes the API token returned from Get-GCAPIKey and 
 #### Get-GCFlowInfo.ps1
 This script takes an array of flows, as formatted from GuardiCore, and returns a custom object containing basic, useful information from a set of flows. "Useful information" includes process name, count, source ip, destination ip, etc. sorted by unique where applicable. Basically metadata for a set of flows. Pipeline isn't working fully yet.
 
+#### Install-GCAgent.ps1
+This script installs the GuardiCore agent to a local machine. Not yet fully automatic, as the install script from GuardiCore contains interactive elements, but it's getting there. It at least automates the "browse & download" process.
+
 ## What's Technically Usable?
 #### ConvertFrom-GCUnixTime
 While technically functional, its sister function isn't, so its intended functionality isn't fully realized. You can definitely feed it UTC datetimes though.
