@@ -29,7 +29,6 @@ Param (
 $InstallScript = "install.bat" #Hardcoded variable, I know, I know
 $Uri = "https://" + $AggregatorIP + "/" + $InstallScript #This is done this way because I may need to use $InstallScript again
 
-$RemoteScript = {
 #Testing connectivity to aggregator before we continue
 $Connectivity = Test-Connection $AggregatorIP -Quiet -Count 2
 
@@ -55,23 +54,29 @@ If ($Connectivity -ne $true) {
 	#>
 	#Tabbing breaks this for some reason
 Add-Type @"
-using System.Net;
-using System.Security.Cryptography.X509Certificates;
-public class TrustAllCertsPolicy : ICertificatePolicy {
-public bool CheckValidationResult(
-ServicePoint srvPoint, X509Certificate certificate,
-WebRequest request, int certificateProblem) {
-return true;
-}
-}
+	using System.Net;
+	using System.Security.Cryptography.X509Certificates;
+	public class TrustAllCertsPolicy : ICertificatePolicy {
+		public bool CheckValidationResult(ServicePoint srvPoint, X509Certificate certificate, WebRequest request, int certificateProblem) {
+				return true;
+		}
+	}
 "@
 
 	$AllProtocols = [System.Net.SecurityProtocolType]'Ssl3,Tls,Tls11,Tls12'
 	[System.Net.ServicePointManager]::SecurityProtocol = $AllProtocols
 	[System.Net.ServicePointManager]::CertificatePolicy = New-Object TrustAllCertsPolicy
-
-	Invoke-WebRequest -UseBasicParsing -Uri $Uri -Method "Get"
-	cmd.exe /c $InstallCommand
+	
+	#PS 2.0 support
+	If ($psversiontable.psversion.Major -lt 3) {
+		$Client = New-Object System.Net.WebClient
+		$Client.DownloadString($Uri) > $InstallPath
+		[System.Io.File]::ReadAllText($InstallPath) | Out-File -FilePath $InstallPath -Encoding "UTF8"
+	} else {
+		Invoke-WebRequest -UseBasicParsing -Uri $Uri -Method "Get"
+	}
+	
+	& cmd.exe /c $InstallCommand
 	$LogEntry = [PSCustomObject]@(
 		Message = "Script run"
 	)
