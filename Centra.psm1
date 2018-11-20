@@ -227,7 +227,7 @@ Function Get-GCNetworkFlows {
 		$Counter = 1
 	}
 	Process {
-		For () { #This loop iterates through chunks of time
+		For ($j = 0; $j -lt $Chunks; $j++) { #This loop iterates through chunks of time
 			$Offset = 0
 			
 			
