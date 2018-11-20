@@ -28,7 +28,7 @@ Function ConvertFrom-GCUnixTime {
 	End {
 		Return $Converted.ToLocalTime()
 	}
-} #End ConvertFrom-UnixTime
+}
 
 
 <#
@@ -60,7 +60,7 @@ Function ConvertTo-GCUnixTime {
 	End {
 		
 	}
-} #End ConvertTo-UnixTime
+}
 
 
 <#
@@ -103,7 +103,7 @@ contains a Post switch that appends "Content-Type","application/json" to the hea
 	End {
 		Return $Headers
 	}
-} #End Set-Headers
+}
 
 
 <#
@@ -148,7 +148,7 @@ Function Get-GCAPIKey {
 	End {
 		Return $Output.access_token
 	}
-} #End Get-APIKey
+}
 
 
 <#
@@ -183,7 +183,7 @@ Function Get-GCAPIKey {
 	CSV file(s)
 
 #>
-Function Get-GCNetworkLog {
+Function Get-GCNetworkFlows {
 
 	[cmdletbinding()]
 	Param (
@@ -250,7 +250,7 @@ Function Get-GCNetworkLog {
 	End {
 		
 	}
-} #End Get-NetworkLog
+}
 
 
 <#
@@ -289,4 +289,4 @@ Function Get-GCTotalCount {
 		[Int32]$Total = $Subtotal
 		Return $Total
 	}
-} #End Get-TotalCount
+}
