@@ -29,34 +29,38 @@ Param (
 	[Parameter(Mandatory=$true)][System.Array]$IPs,
 	[System.String]$Token
 )
-Begin {
-	#Gets an API token via Get-GCAPIKey if no token was provided
-	If (-Not ($Token)) {
-		$Token = Get-GCAPIKey -Server $Server
+
+#Gets an API token via Get-GCAPIKey if no token was provided
+If (-Not ($Token)) {
+	$Token = Get-GCAPIKey -Server $Server
+}
+
+$Headers = Set-GCHeaders -Token $Token
+$Uri = "https://" + $Server + ".cloud.guardicore.com/api/v3.0/assets?search="
+$Output = @()
+
+foreach ($IP in $IPs) {
+	$TempUri = $Uri + $IP
+	$Json = Invoke-WebRequest -UseBasicParsing -Headers $Headers -Uri $TempUri
+	$JsonParsed = $Json.Content | ConvertFrom-Json
+	$Objects = $JsonParsed.objects
+	
+	foreach ($Object in $Objects) {
+		if ($Object.ip_addresses -eq $IP) {
+			$Name = $Object.name
+		}
 	}
 	
-	$Headers = Set-GCHeaders -Token $Token
-	$Uri = "https://" + $Server + ".cloud.guardicore.com/api/v3.0/assets?search="
-	$Output = @()
-}
-Process {
-	foreach ($IP in $IPs) {
-		$TempUri = $Uri + $IP
-		$Json = Invoke-WebRequest -UseBasicParsing -Headers $Headers -Uri $TempUri
-		$JsonParsed = $Json.Content | ConvertFrom-Json
-		$Name = $JsonParsed.objects.vm_name
-		$LineOut = [PSCustomObject]@{
-			IP = $IP
-			Name = $Name
-		}
-		
-		If (-Not ($LineOut.Name)) {
-			$LineOut.Name = "N/A"
-		}
-		
-		$Output += $LineOut
+	$LineOut = [PSCustomObject]@{
+		IP = $IP
+		Name = $Name
 	}
+	
+	If (-Not ($LineOut.Name)) {
+		$LineOut.Name = "N/A"
+	}
+	
+	$Output += $LineOut
 }
-End {
-	$Output
-}
+
+$Output
