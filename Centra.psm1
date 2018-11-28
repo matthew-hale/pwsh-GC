@@ -130,7 +130,8 @@ Function Get-GCAPIKey {
 		[Parameter(Mandatory=$true,ValueFromPipeline=$true)][System.String]$Server
 	)
 	Begin {
-		$Uri = "https://" + $Server + ".cloud.guardicore.com/api/v3.0/authenticate"
+		$Uri = "https://" + $Server + ".cloud.guardicore.com/api/v3.0/"
+		$TempUri = $Uri + "authenticate"
 		$Credentials = Get-Credential
 		$Body = '{"username": "' + $Credentials.UserName + '", "password": "' + $Credentials.GetNetworkCredential().Password + '"}'
 		
@@ -139,14 +140,20 @@ Function Get-GCAPIKey {
 		$Headers.add("Content-Type","application/json")
 	}
 	Process {
-		$OutRaw = Invoke-WebRequest -UseBasicParsing -Uri $Uri -Method 'Post' -Body $Body -Headers $Headers
+		$OutRaw = Invoke-WebRequest -UseBasicParsing -Uri $TempUri -Method 'Post' -Body $Body -Headers $Headers
 		if ($OutRaw.StatusCode -ne 200) {
-			Return "Something broke"
+			Return $OutRaw
 		}
 		$Output = $OutRaw.Content | ConvertFrom-JSON
 	}
 	End {
-		Return $Output.access_token
+		$Token = $Output.access_token
+		$Key = [PSCustomObject]@{
+			Token = $Token
+			Uri = $Uri
+		}
+		
+		$Key
 	}
 }
 
