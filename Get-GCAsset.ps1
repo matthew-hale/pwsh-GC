@@ -59,6 +59,9 @@ foreach ($IP in $IPs) {
 	}
 	
 	foreach ($Label in $LineObject.labels) {
+		if ($LineOut.Name -eq "N/A") {
+			break
+		}
 		$MatchingLabel = $Labels | Where id -eq $Label
 		
 		$LineOut.Label += $MatchingLabel.key + ": " + $MatchingLabel.value
