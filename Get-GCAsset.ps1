@@ -27,28 +27,41 @@ Param (
 )
 
 $Headers = Set-GCHeaders -Token $Key.Token
-$BaseUri = $Key.Uri + "assets?search="
+$BaseUriAssets = $Key.Uri + "assets?search="
+$BaseUriLabels = $Key.Uri + "visibility/labels"
 $Output = @()
 
+#Grabbing all the labels here
+$TempUri = $BaseUriLabels
+$LabelLimit = Invoke-WebRequest -UseBasicParsing -Headers $Headers -Uri $TempUri | ConvertFrom-Json | Select-Object -ExpandProperty "total_count"
+$TempUri += "?offset=0&limit=" + $LabelLimit
+$Labels = Invoke-WebRequest -UseBasicParsing -Headers $Headers -Uri $TempUri | ConvertFrom-Json | Select-Object -ExpandProperty "objects"
+
 foreach ($IP in $IPs) {
-	$TempUri = $BaseUri + $IP
-	$Json = Invoke-WebRequest -UseBasicParsing -Headers $Headers -Uri $TempUri
-	$JsonParsed = $Json.Content | ConvertFrom-Json
-	$Objects = $JsonParsed.objects
-	
-	foreach ($Object in $Objects) {
-		if ($Object.ip_addresses -eq $IP) {
-			$Name = $Object.name
-		}
-	}
+	$TempUri = $BaseUriAssets + $IP
+	$Assets = Invoke-WebRequest -UseBasicParsing -Headers $Headers -Uri $TempUri | ConvertFrom-Json | Select-Object -ExpandProperty "objects"
 	
 	$LineOut = [PSCustomObject]@{
 		IP = $IP
-		Name = $Name
+		Name = ""
+		Label = @()
 	}
 	
-	If (-Not ($LineOut.Name)) {
+	foreach ($Asset in $Assets) {
+		if ($Asset.ip_addresses -eq $IP) {
+			$LineOut.Name = $Asset.name
+			$LineObject = $Asset
+		}
+	}
+	
+	If ($LineOut.Name -eq "") {
 		$LineOut.Name = "N/A"
+	}
+	
+	foreach ($Label in $LineObject.labels) {
+		$MatchingLabel = $Labels | Where id -eq $Label
+		
+		$LineOut.Label += $MatchingLabel.key + ": " + $MatchingLabel.value
 	}
 	
 	$Output += $LineOut
