@@ -5,14 +5,11 @@
 .DESCRIPTION
 	This script takes one or more IP addresses, and makes a series of API calls that fetch the hostname of the given IP. Requires Centra.psm1.
 
-.PARAMETER Server
-	[System.String] The name of the GuardiCore management server from which to fetch the information, formatted like "cus-5555".
-
 .PARAMETER IP
 	[System.Array] One or more IP addresses.
 
-.PARAMETER Token
-	[System.String] GuardiCore API token. The script will prompt for credentials if no token is provided.
+.PARAMETER Key
+	[PSCustomObject] GuardiCore API key.
 
 .INPUTS
 	None. This script has no pipeline input.
@@ -25,22 +22,16 @@
 
 
 Param (
-	[Parameter(Mandatory=$true)][System.String]$Server,
 	[Parameter(Mandatory=$true)][System.Array]$IPs,
-	[System.String]$Token
+	[Parameter(Mandatory=$true)][PSCustomObject]$Key
 )
 
-#Gets an API token via Get-GCAPIKey if no token was provided
-If (-Not ($Token)) {
-	$Token = Get-GCAPIKey -Server $Server
-}
-
-$Headers = Set-GCHeaders -Token $Token
-$Uri = "https://" + $Server + ".cloud.guardicore.com/api/v3.0/assets?search="
+$Headers = Set-GCHeaders -Token $Key.Token
+$BaseUri = $Key.Uri + "assets?search="
 $Output = @()
 
 foreach ($IP in $IPs) {
-	$TempUri = $Uri + $IP
+	$TempUri = $BaseUri + $IP
 	$Json = Invoke-WebRequest -UseBasicParsing -Headers $Headers -Uri $TempUri
 	$JsonParsed = $Json.Content | ConvertFrom-Json
 	$Objects = $JsonParsed.objects
