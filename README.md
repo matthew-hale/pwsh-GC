@@ -14,6 +14,9 @@ This script takes an array of flows, as formatted from GuardiCore, and returns a
 #### Install-GCAgent.ps1
 This script installs the GuardiCore agent to a local machine. Not yet fully automatic, as the install script from GuardiCore contains interactive elements, but it's getting there. It at least automates the "browse & download" process.
 
+#### Get-GCAsset.ps1
+Given an input of one or more IP addresses, this script performs a series of API calls to determine the IP's hostname (if it exists in GuardiCore) and what labels the IP belongs to, if any.
+
 ## What's Technically Usable?
 #### ConvertFrom-GCUnixTime
 While technically functional, its sister function isn't, so its intended functionality isn't fully realized. You can definitely feed it UTC datetimes though.
