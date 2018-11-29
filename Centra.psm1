@@ -111,23 +111,26 @@ Returns correctly formatted authentication header within a headers object for AP
 .PARAMETER Server
 	[System.String] GuardiCore management server, in the format: "cus-5555".
 
+.PARAMETER Credentials
+	[PSCredential] API user credentials.
+
 .INPUTS
-	System.String
+	PSCredential
 
 .OUTPUTS
-	System.String
+	PSCustomObject
 
 #>
 Function Get-GCAPIKey {
 
 	[cmdletbinding()]
 	Param (
-		[Parameter(Mandatory=$true,ValueFromPipeline=$true)][System.String]$Server
+		[Parameter(Mandatory=$true)][System.String]$Server,
+		[Parameter(Mandatory=$true,ValueFromPipeline=$true)][PSCredential]$Credentials
 	)
 	Begin {
 		$Uri = "https://" + $Server + ".cloud.guardicore.com/api/v3.0/"
 		$TempUri = $Uri + "authenticate"
-		$Credentials = Get-Credential
 		$Body = '{"username": "' + $Credentials.UserName + '", "password": "' + $Credentials.GetNetworkCredential().Password + '"}'
 		
 		#Custom header generation, as this is the only API call that doesn't require a token
