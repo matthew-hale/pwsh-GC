@@ -1,5 +1,5 @@
 # GuardiCoreHelper
-A collection of Powershell modules and scripts for GuardiCore Centra administration and management.
+A collection of Powershell Core modules and scripts for GuardiCore Centra administration and management.
 
 ## What's Actually Useful?
 #### Get-GCAPIKey
