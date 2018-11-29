@@ -5,9 +5,6 @@ A collection of Powershell Core modules and scripts for GuardiCore Centra admini
 #### Get-GCAPIKey
 This function takes a String as an argument, specifying a GuardiCore management server. It then calls Get-Credential and makes an API authentication request to the server specified using the user-provided credentials. To make GuardiCore API calls, an API key must be included in the headers. Thus, this first API call must be made; it returns a token that can be used for further API calls. The token represents a user session, and has the same timeout duration. I try to use it as little as possible; obviously an API key is required for further API calls, but you really only need to run this once per session (the default user timeout is 24 hours). Try to hold on to the API key in some way—store it in a file, or just make sure you hold on to the variable in your current session.
 
-#### Set-GCHeaders
-This one's really simple: it takes the API token returned from Get-GCAPIKey and places it into a "System.Collections.Generic.Dictionary" object to be used as part of a header for Invoke-WebRequest. This function is here because it's used throughout the module, and is critical for each API call.
-
 #### Get-GCAsset
 Given a generic search string, this script performs an API call to get all the assets that match the search. Limit of 100 assets returned for now.
 
