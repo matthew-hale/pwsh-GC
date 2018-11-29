@@ -8,14 +8,17 @@ This function takes a String as an argument, specifying a GuardiCore management 
 #### Set-GCHeaders
 This one's really simple: it takes the API token returned from Get-GCAPIKey and places it into a "System.Collections.Generic.Dictionary" object to be used as part of a header for Invoke-WebRequest. This function is here because it's used throughout the module, and is critical for each API call.
 
+#### Get-GCAsset
+Given a generic search string, this script performs an API call to get all the assets that match the search. Limit of 100 assets returned for now.
+
+#### Set-GCLabel
+Updates/sets a GuardiCore label based on given parameters/assets. Only supports static labels right now.
+
 #### Get-GCFlowInfo.ps1
 This script takes an array of flows, as formatted from GuardiCore, and returns a custom object containing basic, useful information from a set of flows. "Useful information" includes process name, count, source ip, destination ip, etc. sorted by unique where applicable. Basically metadata for a set of flows. Pipeline isn't working fully yet.
 
 #### Install-GCAgent.ps1
 This script installs the GuardiCore agent to a local machine. Not yet fully automatic, as the install script from GuardiCore contains interactive elements, but it's getting there. It at least automates the "browse & download" process.
-
-#### Get-GCAsset
-Given a generic search string, this script performs an API call to get all the assets that match the search. Limit of 100 assets returned for now.
 
 ## What's Technically Usable?
 #### ConvertFrom-GCUnixTime
