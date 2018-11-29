@@ -269,7 +269,7 @@ Function Get-GCTotalCount {
 
 <#
 .SYNOPSIS
-	Gets the GuardiCore asset(s) that matches the given search parameters.
+	Gets the GuardiCore asset(s) that matches the given search parameters. If no search is provided, returns all assets (500 maximum for now).
 
 .DESCRIPTION
 	Searches can be based on hostname, domain name, IP, etc. Note that GuardiCore's search may return more assets than the one with the specific IP. An example of this is a search for "10.0.0.1" returning assets with IPs "10.0.0.12", "10.0.0.100", and "10.0.0.1". Additional parsing may be required.
@@ -290,11 +290,15 @@ Function Get-GCAsset {
 
 	[cmdletbinding()]
 	Param (
-		[Parameter(Mandatory=$true)][System.String]$Search,
+		[Parameter(Mandatory=$false)][System.String]$Search,
 		[Parameter(Mandatory=$true)][PSCustomObject]$Key
 	)
 	Begin {
-		$Uri = $Key.Uri + "assets?search=" + $Search + "&offset=0&limit=100"
+		If (-Not $Search) {
+			$Uri = $Key.Uri + "assets?offset=0&limit=500"
+		} else {
+			$Uri = $Key.Uri + "assets?search=" + $Search + "&offset=0&limit=500"
+		}
 	}
 	Process {
 		$Assets = Invoke-WebRequest -ContentType "application/json" -Authentication Bearer -Token $Key.Token -Uri $Uri -Method "GET" | ConvertFrom-Json | Select-Object -ExpandProperty "objects"
