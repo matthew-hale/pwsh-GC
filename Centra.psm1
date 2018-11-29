@@ -23,10 +23,10 @@ Function ConvertFrom-GCUnixTime {
 	)
 	Process {
 		$Origin = New-Object DateTime 1970, 1, 1, 0, 0, 0, ([DateTimeKind]::Utc)
-		$Converted = $Origin.AddSeconds($UnixDate/1000) #Remember: GuardiCore works with epoch times in milliseconds
+		$Converted = $Origin.AddSeconds([Int]($UnixDate/1000)) #Remember: GuardiCore works with epoch times in milliseconds
 	}
 	End {
-		Return $Converted.ToLocalTime()
+		$Converted.ToLocalTime()
 	}
 }
 
@@ -38,27 +38,28 @@ Function ConvertFrom-GCUnixTime {
 .DESCRIPTION
 	GuardiCore uses Unix time in milliseconds for most timestamps in the API. This funciton, and its sister function ConvertFrom-GCUnixTime, allow conversion to/from timestamps (System.DateTime objects) and Unix timestamps (in milliseconds).
 
-.PARAMETER
-	
+.PARAMETER DateTime
+	[DateTime] The timestamp you wish to convert to Unix time in milliseconds.
 
 .INPUTS
-	
+	DateTime
 
 .OUTPUTS
-	
+	Int64
 
 #>
 Function ConvertTo-GCUnixTime {
 
 	[cmdletbinding()]
 	Param (
-		
+		[Parameter(Mandatory=$true,ValueFromPipeline=$true)][DateTime]$DateTime
 	)
 	Process {
-		
+		$Origin = New-Object DateTime 1970, 1, 1, 0, 0, 0, ([DateTimeKind]::Utc)
+		[Int64]$Converted = ($DateTime.ToUniversalTime()-$Origin).TotalMilliseconds
 	}
 	End {
-		
+		$Converted
 	}
 }
 
@@ -96,7 +97,7 @@ Returns correctly formatted authentication header within a headers object for AP
 		$Headers.add("Content-Type","application/json")
 	}
 	End {
-		Return $Headers
+		$Headers
 	}
 }
 
@@ -158,10 +159,10 @@ Function Get-GCAPIKey {
 
 <#
 .SYNOPSIS
-	Gets a list of raw flows from the management server.
+	Gets an array of raw flows from the management server.
 
 .DESCRIPTION
-	Makes an API call to download a csv file of the network log of a management server (via the API key generated from the Get-APIKey function); note that times are in Unix format, in milliseconds (use the ConvertTo-UnixTime function beforehand).
+	Makes an API call to download a csv file of the network log of a management server (via the API key generated from the Get-APIKey function); note that times are in Unix format, in milliseconds (use the ConvertTo-UnixTime function beforehand, or supply your own).
 
 .PARAMETER StartTime
 	[System.Int64] Defines the start of the window of flows. Unix time in miliseconds.
