@@ -66,44 +66,6 @@ Function ConvertTo-GCUnixTime {
 
 <#
 .SYNOPSIS
-	
-
-.DESCRIPTION
-	
-
-.PARAMETER
-	
-
-.INPUTS
-	
-
-.OUTPUTS
-	
-
-#>
-Function Set-GCHeaders {
-
-<#
-Returns correctly formatted authentication header within a headers object for API requests given an auth token input
-#>
-
-	[cmdletbinding()]
-	Param (
-		[Parameter(Mandatory=$true,ValueFromPipeline=$true)][String]$Token
-	)
-	Process {
-		$Headers = New-Object 'System.Collections.Generic.Dictionary[String,String]'
-		$Headers.add("Authorization","bearer " + $Token)
-		$Headers.add("Content-Type","application/json")
-	}
-	End {
-		$Headers
-	}
-}
-
-
-<#
-.SYNOPSIS
 	Returns an API key from the specified GuardiCore management server using the given credentials.
 
 .DESCRIPTION
@@ -133,20 +95,11 @@ Function Get-GCAPIKey {
 		$Uri = "https://" + $Server + ".cloud.guardicore.com/api/v3.0/"
 		$TempUri = $Uri + "authenticate"
 		$Body = '{"username": "' + $Credentials.UserName + '", "password": "' + $Credentials.GetNetworkCredential().Password + '"}'
-		
-		#Custom header generation, as this is the only API call that doesn't require a token
-		$Headers = New-Object 'System.Collections.Generic.Dictionary[String,String]'
-		$Headers.add("Content-Type","application/json")
 	}
 	Process {
-		$OutRaw = Invoke-WebRequest -UseBasicParsing -Uri $TempUri -Method 'Post' -Body $Body -Headers $Headers
-		if ($OutRaw.StatusCode -ne 200) {
-			Return $OutRaw
-		}
-		$Output = $OutRaw.Content | ConvertFrom-JSON
+		$Token = Invoke-WebRequest -Uri $TempUri -Method 'Post' -Body $Body -ContentType "application/json" | ConvertFrom-JSON | Select-Object -ExpandProperty "access_token" | ConvertTo-SecureString -AsPlainText -Force
 	}
 	End {
-		$Token = $Output.access_token
 		$Key = [PSCustomObject]@{
 			Token = $Token
 			Uri = $Uri
@@ -200,8 +153,6 @@ Function Get-GCNetworkFlows {
 		})][System.IO.FileInfo]$OutPath
 	)
 	Begin {
-		$Headers = Set-GCHeaders -Token $Key.Token
-		
 		#Default values for start and end times are one hour ago, and now
 		If (-Not ($StartTime)) {
 			
@@ -225,7 +176,7 @@ Function Get-GCNetworkFlows {
 		
 		#First, we make a single API call to see how many flows fall within our time frame, for logging purposes
 		$TempUri = $Uri + "&from_time=" + $StartTime + "&to_time=" + $EndTime
-		$TotalCount = Invoke-WebRequest -Uri $Uri -Method "GET" -Headers $Headers -UseBasicParsing | ConvertFrom-Json | Select-Object -ExpandProperty "total_count"
+		$TotalCount = Invoke-WebRequest -Uri $Uri -Method "GET" -ContentType "application/json" -Authentication Bearer -Token $Key.Token | ConvertFrom-Json | Select-Object -ExpandProperty "total_count"
 		
 		#Chunk the time range into hourly chunks, if the range itself is more than 1 hour
 		$HourInMilliseconds = 3600000
@@ -254,7 +205,7 @@ Function Get-GCNetworkFlows {
 			
 			For ($i = 0; $i -lt 50; $i++) { #This loop makes the API calls, 10000 at a time, up to 500000 (hard maximum)
 				$TempUri = $Uri + "&from_time=" + $TempStartTime + "&to_time=" + $TempEndTime+ "&offset=" + $Offset + "&limit=" + $Limit
-				$Output = Invoke-WebRequest -UseBasicParsing -Uri $TempUri -Headers $Headers | ConvertFrom-Json | Select-Object -ExpandProperty "objects"
+				$Output = Invoke-WebRequest -Uri $TempUri -ContentType "application/json" -Authentication Bearer -Token $Key.Token | ConvertFrom-Json | Select-Object -ExpandProperty "objects"
 				
 				If ($Output.total_count -eq 0) { #If the most recent API call is empty, this chunk is done, so break
 					break
@@ -343,11 +294,10 @@ Function Get-GCAsset {
 		[Parameter(Mandatory=$true)][PSCustomObject]$Key
 	)
 	Begin {
-		$Headers = Set-GCHeaders -Token $Key.Token
 		$Uri = $Key.Uri + "assets?search=" + $Search + "&offset=0&limit=100"
 	}
 	Process {
-		$Assets = Invoke-WebRequest -UseBasicParsing -Headers $Headers -Uri $Uri -Method "GET" | ConvertFrom-Json | Select-Object -ExpandProperty "objects"
+		$Assets = Invoke-WebRequest -ContentType "application/json" -Authentication Bearer -Token $Key.Token -Uri $Uri -Method "GET" | ConvertFrom-Json | Select-Object -ExpandProperty "objects"
 	}
 	End {
 		$Assets
@@ -399,8 +349,6 @@ Function Set-GCLabel {
 		[Parameter(Mandatory=$true)][System.String]$LabelValue
 	)
 	Begin {
-		$Headers = Set-GCHeaders -Token $Key.Token
-		
 		If ($Dynamic) {
 			$Method = "PUT"
 			$Uri = $Key.Uri + "visibility/labels/" + $LabelId
@@ -423,7 +371,7 @@ Function Set-GCLabel {
 			$Body = $Body.SubString(0,$Body.Length-1)
 			$Body += ']}'
 			
-			$Return = Invoke-WebRequest -UseBasicParsing -Uri $Uri -Headers $Headers -Body $Body -Method "POST"
+			$Return = Invoke-WebRequest -Uri $Uri -ContentType "application/json" -Authentication Bearer -Token $Key.Token -Body $Body -Method "POST"
 		}
 	}
 	End {
