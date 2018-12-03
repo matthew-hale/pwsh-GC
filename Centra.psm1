@@ -9,10 +9,10 @@
 	[Long] Unix timestamp in milliseconds.
 	
 .INPUTS
-	System.Int64 (Parameter: UnixDate)
+	[Int64] $UnixDate parameter.
 	
 .OUTPUTS
-	System.DateTime
+	[DateTime]
 	
 #>
 Function ConvertFrom-GCUnixTime {
@@ -42,10 +42,10 @@ Function ConvertFrom-GCUnixTime {
 	[DateTime] The timestamp you wish to convert to Unix time in milliseconds.
 
 .INPUTS
-	DateTime
+	[DateTime] $DateTime parameter.
 
 .OUTPUTS
-	Int64
+	[Int64] Unix timestamp in milliseconds.
 
 #>
 Function ConvertTo-GCUnixTime {
@@ -78,13 +78,13 @@ Function ConvertTo-GCUnixTime {
 	[PSCredential] API user credentials.
 
 .INPUTS
-	PSCredential
+	[PSCredential] $Credentials parameter.
 
 .OUTPUTS
-	PSCustomObject
+	[PSCustomObject] Key containing a token and the base Uri for further API calls.
 
 #>
-Function Get-GCAPIKey {
+Function Get-GCApiKey {
 
 	[cmdletbinding()]
 	Param (
@@ -94,136 +94,23 @@ Function Get-GCAPIKey {
 	Begin {
 		$Uri = "https://" + $Server + ".cloud.guardicore.com/api/v3.0/"
 		$TempUri = $Uri + "authenticate"
-		$Body = '{"username": "' + $Credentials.UserName + '", "password": "' + $Credentials.GetNetworkCredential().Password + '"}'
+		$Body = [PSCustomObject]@{
+			"username" = ""
+			"password" = ""
+		}
 	}
 	Process {
-		$Token = Invoke-WebRequest -Uri $TempUri -Method 'Post' -Body $Body -ContentType "application/json" | ConvertFrom-JSON | Select-Object -ExpandProperty "access_token" | ConvertTo-SecureString -AsPlainText -Force
+		$Body.username = $Credentials.UserName
+		$Body.password = $Credentials.GetNetworkCredential().Password
+		$BodyJson = $Body | ConvertTo-Json -Depth 99
+		$Token = Invoke-RestMethod -Uri $TempUri -Method 'Post' -Body $BodyJson -ContentType "application/json" | Select-Object -ExpandProperty "access_token" | ConvertTo-SecureString -AsPlainText -Force
 	}
 	End {
 		$Key = [PSCustomObject]@{
 			Token = $Token
 			Uri = $Uri
 		}
-		
 		$Key
-	}
-}
-
-
-<#
-.SYNOPSIS
-	Gets an array of raw flows from the management server.
-
-.DESCRIPTION
-	Makes an API call to download a csv file of the network log of a management server (via the API key generated from the Get-APIKey function); note that times are in Unix format, in milliseconds (use the ConvertTo-UnixTime function beforehand, or supply your own).
-
-.PARAMETER StartTime
-	[System.Int64] Defines the start of the window of flows. Unix time in miliseconds.
-
-.PARAMETER EndTime
-	[System.Int64] Defines the end of the window of flows. Unix time in miliseconds.
-
-.PARAMETER Key
-	[PSCustomObject] GuardiCore API Key.
-
-.PARAMETER OutPath
-	[System.IO.FileInfo] Destination directory for the generated csv files. Note the potential for many files to be generated.
-
-.INPUTS
-	None. This function takes no pipeline INPUTS
-
-.OUTPUTS
-	CSV file(s)
-
-#>
-Function Get-GCNetworkFlows {
-
-	[cmdletbinding()]
-	Param (
-		[Parameter(Mandatory=$false)][System.Int64]$StartTime,
-		[Parameter(Mandatory=$false)][System.Int64]$EndTime,
-		[Parameter(Mandatory=$true)][PSCustomObject]$Key,
-		[Parameter(Mandatory=$true)][ValidateScript({
-			If (-Not ($_ | Test-Path)) {
-                throw "Specified OutPath does not exist." 
-            }
-			If (-Not ($_ | Test-Path -PathType Container)) {
-				throw "OutPath must be to a folder. Direct file paths are not allowed."
-			}
-		})][System.IO.FileInfo]$OutPath
-	)
-	Begin {
-		#Default values for start and end times are one hour ago, and now
-		If (-Not ($StartTime)) {
-			
-		}
-		
-		If (-Not $EndTime) {
-			
-		}
-		
-		$Uri = "https://" + $Server + ".cloud.guardicore.com/api/v3.0/connections?sort=-slot_start_time"
-		
-		#Ensure the path has a trailing backslash
-		$C = "\"
-		If ($OutPath[-1] -ne $C) {$OutPath += $C}
-		
-		#The API can only index objects up to 500000; after that it just doesn't return anything except a 500 server error
-		#This means our strategy of breaking up larger timeframes into chunks via offset values doesn't work
-		#Instead we need to do it via timestamp changes AND offset values (offset values for timeouts, timestamp changes due to guardicore limitations)
-		#The problem is that we cannot guarantee a new time range is less than 500000 flows without validating mathematically with more API calls
-		#What we CAN do is break up the time range into chunks that are VIRTUALLY guaranteed to contain less than 500000 flows—say, hourly
-		
-		#First, we make a single API call to see how many flows fall within our time frame, for logging purposes
-		$TempUri = $Uri + "&from_time=" + $StartTime + "&to_time=" + $EndTime
-		$TotalCount = Invoke-WebRequest -Uri $Uri -Method "GET" -ContentType "application/json" -Authentication Bearer -Token $Key.Token | ConvertFrom-Json | Select-Object -ExpandProperty "total_count"
-		
-		#Chunk the time range into hourly chunks, if the range itself is more than 1 hour
-		$HourInMilliseconds = 3600000
-		$TimeRange = $EndTime - $StartTime
-		If ($TimeRange -gt $HourInMilliseconds) {
-			$Chunks = [Int32]($TimeRange / $HourInMilliseconds)
-			If ($TimeRange % $HourInMilliseconds -ne 0) { #If there is a remainder, run an extra chunk to get what's left
-				$Chunks++
-			}
-		} else {
-			$Chunks = 1
-		}
-		
-		#Static
-		$Limit = 10000
-		
-		#OutFile counter
-		$Counter = 1
-		
-		$TempStartTime = $StartTime
-		$TempEndTime = $TempStartTime + $HourInMilliseconds - 1
-	}
-	Process {
-		For ($j = 0; $j -lt $Chunks; $j++) { #This loop iterates through chunks of time
-			$Offset = 0
-			
-			For ($i = 0; $i -lt 50; $i++) { #This loop makes the API calls, 10000 at a time, up to 500000 (hard maximum)
-				$TempUri = $Uri + "&from_time=" + $TempStartTime + "&to_time=" + $TempEndTime+ "&offset=" + $Offset + "&limit=" + $Limit
-				$Output = Invoke-WebRequest -Uri $TempUri -ContentType "application/json" -Authentication Bearer -Token $Key.Token | ConvertFrom-Json | Select-Object -ExpandProperty "objects"
-				
-				If ($Output.total_count -eq 0) { #If the most recent API call is empty, this chunk is done, so break
-					break
-				} else { #If it's not empty, export the data and increment offset and counter
-					$TempOutPath = $OutPath + $Counter + ".csv"
-					$Output | Export-CSV -NoTypeInformation -Path $TempOutPath
-					$Offset += 10000
-					$Counter++	
-				}				
-			}
-			
-			#Calculating this chunk's new start and end time
-			$TempStartTime = $TempEndTime + 1
-			$TempEndTime = $TempEndTime + $HourInMilliseconds - 1
-		}
-	}
-	End {
-		
 	}
 }
 
@@ -236,13 +123,13 @@ Function Get-GCNetworkFlows {
 	Each flow has a "count" field that increments whenever an identical flow is recorded. To obtain the true total number of connections for a given set of flow objects, this function sums each individual count field.
 
 .PARAMETER Flows
-	[System.Array] GuardiCore flows.
+	[System.Array] GuardiCore flow objects.
 
 .INPUTS
-	System.Array (Parameter: Flows)
+	[System.Array] $Flows parameter.
 
 .OUTPUTS
-	System.Int32
+	[Int32] Total count.
 
 #>
 Function Get-GCTotalCount {
@@ -256,77 +143,255 @@ Function Get-GCTotalCount {
 		$Subtotal = 0
 	}
 	Process {
-		foreach ($Flow in $Flows) {
-			$Subtotal += $Flow.count
+		$SubTotal += foreach ($Flow in $Flows) {
+			$Flow.Count
 		}
 	}
 	End {
-		[Int32]$Total = $Subtotal
-		Return $Total
+		[Int32]$Subtotal
 	}
 }
 
 
 <#
 .SYNOPSIS
-	Gets the GuardiCore asset(s) that matches the given search parameters. If no search is provided, returns all assets (500 maximum for now).
+	Encapsulates the "GET /assets" API call.
 
 .DESCRIPTION
-	Searches can be based on hostname, domain name, IP, etc. Note that GuardiCore's search may return more assets than the one with the specific IP. An example of this is a search for "10.0.0.1" returning assets with IPs "10.0.0.12", "10.0.0.100", and "10.0.0.1". Additional parsing may be required.
+	Searches can be based on hostname, domain name, IP, etc. Note that if seraching by IP, GuardiCore's search may return more assets than the one with the specific IP given. An example of this is a search for "10.0.0.1" returning assets with IPs "10.0.0.12", "10.0.0.100", and "10.0.0.1". Additional parsing may be required.
 
 .PARAMETER Search
 	[System.String] A generic search string.
+
+.PARAMETER Status
+	[System.String] Status of the asset; accepts "on" or "off".
+
+.PARAMETER Risk
+	[Int32] Risk level, from 0 to 3.
+
+.PARAMETER Limit
+	[Int32] Max number of results returned.
+
+.PARAMETER Offset
+	[Int32] Position of beginning of result range.
 
 .PARAMETER Key
 	[PSCustomObject] GuardiCore API key.
 
 .INPUTS
-	None. This script has no pipeline input.
+	[System.String] $Search parameter
 
 .OUTPUTS
-	System.Array of Asset objects
+	[System.Array] Asset objects
 #>
 Function Get-GCAsset {
 
 	[cmdletbinding()]
 	Param (
-		[Parameter(Mandatory=$false)][System.String]$Search,
-		[Parameter(Mandatory=$true)][PSCustomObject]$Key
+		[Parameter(Mandatory=$true)][PSCustomObject]$Key,
+		[Parameter(Mandatory=$false,ValueFromPipeline=$true)][System.String]$Search,
+		[Parameter(Mandatory=$false)][ValidateSet("on","off")][System.String]$Status,
+		[Parameter(Mandatory=$false)][ValidateRange(0,3)][Int32]$Risk,
+		[Parameter(Mandatory=$false)][ValidateRange(0,500000)][Int32]$Limit,
+		[Parameter(Mandatory=$false)][ValidateRange(0,500000)][Int32]$Offset
 	)
 	Begin {
-		If (-Not $Search) {
-			$Uri = $Key.Uri + "assets?offset=0&limit=500"
-		} else {
-			$Uri = $Key.Uri + "assets?search=" + $Search + "&offset=0&limit=500"
+		$Uri = $Key.Uri + "assets?"
+		
+		#Building the Uri with given parameters
+		If ($Status) {
+			$Uri += "status=" + $Status + "&"
+		}
+		
+		If ($Risk) {
+			$Uri += "risk=" + $Risk + "&"
+		}
+		
+		If ($Limit) {
+			$Uri += "limit=" + $Limit + "&"
+		}
+		
+		If ($Offset) {
+			$Uri += "offset=" + $Offset
 		}
 	}
 	Process {
-		$Assets = Invoke-WebRequest -ContentType "application/json" -Authentication Bearer -Token $Key.Token -Uri $Uri -Method "GET" | ConvertFrom-Json | Select-Object -ExpandProperty "objects"
+		#Building the Uri with given pipeline parameters
+		If ($Search) {
+			$Uri += "&search=" + $Search
+		}
 	}
 	End {
-		$Assets
+		Invoke-RestMethod -Authentication Bearer -Token $Key.Token -Uri $Uri -Method "GET" | Select-Object -ExpandProperty "objects"
 	}
 }
 
 
 <#
 .SYNOPSIS
-	Sets a given label's dynamic or static definition. Default is static.
+	Encapsulates the "GET /agents" API call.
 
 .DESCRIPTION
-	Caution must be used when changing dynamic labels with this function, as it does not append to, but overwrites, the current definition. Static labels require a key and a value, while dynamic labels require a key, a value, and a unique ID.
+	Gets one or more agents based on the given parameters/filters.
 
-.PARAMETER Dynamic
-	[Switch] Specifies that the label to be set is dynamic, and will thus have much different parameters than a static label definition.
+.PARAMETER
+	
+
+.INPUTS
+	None. This function takes no pipeline input.
+
+.OUTPUTS
+	[System.Array] Agent objects.
+
+#>
+Function Get-GCAgent {
+
+	[cmdletbinding()]
+	Param (
+		[Parameter(Mandatory=$true)][PSCustomObject]$Key,
+		[Parameter(Mandatory=$false)][System.String]$Version,
+		[Parameter(Mandatory=$false)][System.String]$Kernel,
+		[Parameter(Mandatory=$false)][ValidateSet("Unknown","Windows","Linux")][System.String]$OS,
+		[Parameter(Mandatory=$false)][System.String]$Labels,
+		[Parameter(Mandatory=$false)][ValidateSet("Online","Offline")][System.String]$Status, # = display_status
+		[Parameter(Mandatory=$false)][ValidateRange(1,14)][Int32]$Flags,
+		[Parameter(Mandatory=$false)][ValidateSet("Active","Not Deployed","Disabled")][System.String]$Enforcement, # = module_status_enforcement
+		[Parameter(Mandatory=$false)][ValidateSet("Active","Not Deployed")][System.String]$Deception, # = module_status_deception
+		[Parameter(Mandatory=$false)][ValidateSet("Active","Not Deployed")][System.String]$Detection, # = module_status_detection
+		[Parameter(Mandatory=$false)][ValidateSet("Active","Not Deployed")][System.String]$Reveal,  # = module_status_reveal
+		[Parameter(Mandatory=$false)][ValidateSet("last_month","last_week","last_12_hours","last_24_hours","not_active")][System.String]$Activity,
+		[Parameter(Mandatory=$false)][System.String]$GcFilter,
+		[Parameter(Mandatory=$false)][ValidateRange(0,500000)][Int32]$Limit,
+		[Parameter(Mandatory=$false)][ValidateRange(0,500000)][Int32]$Offset
+	)
+	Begin {
+		$Uri = $Key.Uri + "agents?"
+		
+		#Building the Uri with given parameters
+		If ($Version) {
+			$Uri += "version=" + $Version + "&"
+		}
+		
+		If ($Kernel) {
+			$Uri += "kernel=" + $Kernel + "&"
+		}
+		
+		If ($OS) {
+			$Uri += "os=" + $OS + "&"
+		}
+		
+		If ($Labels) {
+			$Uri += "labels=" + $Labels + "&"
+		}
+		
+		If ($Status) {
+			$Uri += "display_status="
+			If ($Status -eq "Disabled") {
+				$Uri += "Enforcement disabled from management console&"
+			} else {
+				$Uri += $Status + "&"
+			}
+		}
+		
+		If ($Flags) {
+			$Uri += "status_flags=" + $Flags + "&"
+		}
+		
+		If ($Enforcement) {
+			$Uri += "module_status_enforcement=" + $Enforcement + "&"
+		}
+		
+		If ($Deception) {
+			$Uri += "module_status_deception=" + $Deception + "&"
+		}
+		
+		If ($Detection) {
+			$Uri += "module_status_detection=" + $Detection + "&"
+		}
+		
+		If ($Reveal) {
+			$Uri += "module_status_reveal=" + $Reveal + "&"
+		}
+		
+		If ($Activity) {
+			$Uri += "activity=" + $Activity + "&"
+		}
+		
+		If ($GcFilter) {
+			$Uri += "gc_filter=" + $GcFilter + "&"
+		}
+		
+		If ($Limit) {
+			$Uri += "limit=" + $Limit + "&"
+		}
+		
+		If ($Offset) {
+			$Uri += "offset=" + $Offset
+		}
+	}
+	Process {
+		$Agents = Invoke-RestMethod -Authentication Bearer -Token $Key.Token -Uri $Uri -Method "GET" | Select-Object -ExpandProperty "objects"
+	}
+	End {
+		$Agents
+	}
+}
+
+
+<#
+.SYNOPSIS
+	Encapsulates the "POST /visibility/labels/bulk" API call.
+
+.DESCRIPTION
+	Similar to New-GCStaticLabel, except taking an array of label objects instead of creating a single label.
+
+.PARAMETER
+	
+
+.INPUTS
+	[System.Array] $Labels parameter.
+
+.OUTPUTS
+	application/json
+
+#>
+Function New-GCBulkLabel {
+	Param (
+		[Parameter(Mandatory=$true)][PSCustomObject]$Key,
+		[Parameter(Mandatory=$false,ValueFromPipeline=$true)][System.Array]$Labels
+	)
+	Begin {
+		$Uri = $Key.Uri + "visibility/labels/bulk"
+		
+		$Body = [PSCustomObject]@{
+			"action" = "add"
+			"labels" = @()
+		}
+	}
+	Process {
+		$Body.labels += foreach ($Label in $Labels) {
+			$Label
+		}
+	}
+	End {
+		$BodyJson = $Body | ConvertTo-Json -Depth 99
+		Invoke-RestMethod -Authentication Bearer -Token $Key.Token -Uri $Uri -Method "POST" -Body $BodyJson -ContentType "application/json"
+	}
+}
+
+
+<#
+.SYNOPSIS
+	Encapsulates the "POST /assets/labels/{key}/{value}" API call.
+
+.DESCRIPTION
+	Creates a static label with given VMs, specified by unique ID. If the given Key/Value pair already exists, the new VMs are appended to the existing label.
 
 .PARAMETER Key
 	[PSCustomObject] GuardiCore api key.
 
 .PARAMETER Assets
 	[System.Array] Array of GuardiCore asset IDs. Used for static label definitions.
-
-.PARAMETER LabelId
-	[System.String] ID of the dynamic label to be updated.
 
 .PARAMETER LabelKey
 	[System.String] Key of the label to be updated. Required for both dynamic and static labels.
@@ -335,50 +400,34 @@ Function Get-GCAsset {
 	[System.String] Value of the label to be updated. Required for both dynamic and static labels.
 
 .INPUTS
-	None. This function takes no pipeline input.
+	[System.Array] $Assets parameter.
 
 .OUTPUTS
-	
+	application/json
 
 #>
-Function Set-GCLabel {
+Function New-GCStaticLabel {
 
 	[cmdletbinding()]
 	Param (
-		[Parameter(Mandatory=$false)][Switch]$Dynamic,
 		[Parameter(Mandatory=$true)][PSCustomObject]$Key,
-		[Parameter(Mandatory=$false)][System.Array]$Assets,
-		[Parameter(Mandatory=$false)][System.String]$LabelId,
+		[Parameter(Mandatory=$false,ValueFromPipeline=$true)][System.Array]$Assets,
 		[Parameter(Mandatory=$true)][System.String]$LabelKey,
 		[Parameter(Mandatory=$true)][System.String]$LabelValue
 	)
 	Begin {
-		If ($Dynamic) {
-			$Method = "PUT"
-			$Uri = $Key.Uri + "visibility/labels/" + $LabelId
-			$Body = ''
-		} else {
-			$Method = "POST"
-			$Uri = $Key.Uri + "assets/labels/" + $LabelKey + "/" + $LabelValue
-			$Body = '{"vms": ['
+		$Uri = $Key.Uri + "assets/labels/" + $LabelKey + "/" + $LabelValue
+		$Body = [PSCustomObject]@{
+			"vms" = @()
 		}
-		
 	}
 	Process {
-		If ($Dynamic) {
-			
-		} else {
-			foreach ($Asset in $Assets) {
-				$Body += '"' + $Asset.Id + '",'
-			}
-			
-			$Body = $Body.SubString(0,$Body.Length-1)
-			$Body += ']}'
-			
-			$Return = Invoke-WebRequest -Uri $Uri -ContentType "application/json" -Authentication Bearer -Token $Key.Token -Body $Body -Method "POST"
+		$Body.vms += foreach ($Asset in $Assets) {
+			$Asset
 		}
 	}
 	End {
-		$Return
+		$BodyJson = $Body | ConvertTo-Json -Depth 99
+		Invoke-RestMethod -Uri $Uri -ContentType "application/json" -Authentication Bearer -Token $Key.Token -Body $BodyJson -Method "POST"
 	}
 }
