@@ -200,23 +200,23 @@ function Get-GCAsset {
 		
 		#Building the Uri with given parameters
 		if ($Search) {
-			$Uri += "&search=" + $Search
+			$Uri += "search=" + $Search
 		}
 		
 		if ($Status) {
-			$Uri += "status=" + $Status + "&"
+			$Uri += "&status=" + $Status
 		}
 		
 		if ($Risk) {
-			$Uri += "risk=" + $Risk + "&"
+			$Uri += "&risk=" + $Risk
 		}
 		
 		if ($Limit) {
-			$Uri += "limit=" + $Limit + "&"
+			$Uri += "&limit=" + $Limit
 		}
 		
 		if ($Offset) {
-			$Uri += "offset=" + $Offset
+			$Uri += "&offset=" + $Offset
 		}
 	}
 	end {
