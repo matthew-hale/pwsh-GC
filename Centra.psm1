@@ -132,7 +132,7 @@ function Get-GCApiKey {
 	[Int32] Total count.
 
 #>
-function Get-GCTotalCount {
+function Get-GCConnectionCount {
 
 	[cmdletbinding()]
 	param (
@@ -360,20 +360,20 @@ function New-GCBulkStaticLabel {
 	)
 	begin {
 		$Uri = $Key.Uri + "visibility/labels/bulk"
-		
-		$Body = [PSCustomObject]@{
-			"action" = "add"
-			"labels" = @()
-		}
 	}
 	process {
-		$Body.labels += foreach ($Label in $Labels) {
+		[System.Array]$LabelList += foreach ($Label in $Labels) {
 			$Label
+		}
+		$Body = [PSCustomObject]@{
+			"action" = "add"
+			"labels" = $LabelList
 		}
 	}
 	end {
-		$BodyJson = $Body | ConvertTo-Json -Depth 99
-		Invoke-RestMethod -Uri $Uri -ContentType "application/json" -Authentication Bearer -Token $Key.Token -Body $BodyJson -Method "POST"
+		#$BodyJson = $Body | ConvertTo-Json -Depth 99
+		#Invoke-RestMethod -Uri $Uri -ContentType "application/json" -Authentication Bearer -Token $Key.Token -Body $BodyJson -Method "POST"
+		$Body
 	}
 }
 
