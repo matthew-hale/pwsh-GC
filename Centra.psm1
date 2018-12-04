@@ -15,17 +15,17 @@
 	[DateTime]
 	
 #>
-Function ConvertFrom-GCUnixTime {
+function ConvertFrom-GCUnixTime {
 
 	[cmdletbinding()]
-	Param (
+	param (
 		[Parameter(Mandatory=$true,ValueFromPipeline=$true)][Int64]$UnixDate
 	)
-	Process {
+	process {
 		$Origin = New-Object DateTime 1970, 1, 1, 0, 0, 0, ([DateTimeKind]::Utc)
 		$Converted = $Origin.AddSeconds([Int]($UnixDate/1000)) #Remember: GuardiCore works with epoch times in milliseconds
 	}
-	End {
+	end {
 		$Converted.ToLocalTime()
 	}
 }
@@ -48,17 +48,17 @@ Function ConvertFrom-GCUnixTime {
 	[Int64] Unix timestamp in milliseconds.
 
 #>
-Function ConvertTo-GCUnixTime {
+function ConvertTo-GCUnixTime {
 
 	[cmdletbinding()]
-	Param (
+	param (
 		[Parameter(Mandatory=$true,ValueFromPipeline=$true)][DateTime]$DateTime
 	)
-	Process {
+	process {
 		$Origin = New-Object DateTime 1970, 1, 1, 0, 0, 0, ([DateTimeKind]::Utc)
 		[Int64]$Converted = ($DateTime.ToUniversalTime()-$Origin).TotalMilliseconds
 	}
-	End {
+	end {
 		$Converted
 	}
 }
@@ -84,14 +84,14 @@ Function ConvertTo-GCUnixTime {
 	[PSCustomObject] Key containing a token and the base Uri for further API calls.
 
 #>
-Function Get-GCApiKey {
+function Get-GCApiKey {
 
 	[cmdletbinding()]
-	Param (
+	param (
 		[Parameter(Mandatory=$true)][System.String]$Server,
 		[Parameter(Mandatory=$true,ValueFromPipeline=$true)][PSCredential]$Credentials
 	)
-	Begin {
+	begin {
 		$Uri = "https://" + $Server + ".cloud.guardicore.com/api/v3.0/"
 		$TempUri = $Uri + "authenticate"
 		$Body = [PSCustomObject]@{
@@ -99,13 +99,13 @@ Function Get-GCApiKey {
 			"password" = ""
 		}
 	}
-	Process {
+	process {
 		$Body.username = $Credentials.UserName
 		$Body.password = $Credentials.GetNetworkCredential().Password
 		$BodyJson = $Body | ConvertTo-Json -Depth 99
-		$Token = Invoke-RestMethod -Uri $TempUri -Method 'Post' -Body $BodyJson -ContentType "application/json" | Select-Object -ExpandProperty "access_token" | ConvertTo-SecureString -AsPlainText -Force
+		$Token = Invoke-RestMethod -Uri $TempUri -Method "POST" -Body $BodyJson -ContentType "application/json" | Select-Object -ExpandProperty "access_token" | ConvertTo-SecureString -AsPlainText -Force
 	}
-	End {
+	end {
 		$Key = [PSCustomObject]@{
 			Token = $Token
 			Uri = $Uri
@@ -132,22 +132,22 @@ Function Get-GCApiKey {
 	[Int32] Total count.
 
 #>
-Function Get-GCTotalCount {
+function Get-GCTotalCount {
 
 	[cmdletbinding()]
-	Param (
+	param (
 		[Parameter(Mandatory=$true,ValueFromPipeline=$true)][System.Array]$Flows
 	)
 	
-	Begin {
+	begin {
 		$Subtotal = 0
 	}
-	Process {
+	process {
 		$SubTotal += foreach ($Flow in $Flows) {
 			$Flow.Count
 		}
 	}
-	End {
+	end {
 		[Int32]$Subtotal
 	}
 }
@@ -184,10 +184,10 @@ Function Get-GCTotalCount {
 .OUTPUTS
 	[System.Array] Asset objects
 #>
-Function Get-GCAsset {
+function Get-GCAsset {
 
 	[cmdletbinding()]
-	Param (
+	param (
 		[Parameter(Mandatory=$true)][PSCustomObject]$Key,
 		[Parameter(Mandatory=$false,ValueFromPipeline=$true)][System.String]$Search,
 		[Parameter(Mandatory=$false)][ValidateSet("on","off")][System.String]$Status,
@@ -195,34 +195,32 @@ Function Get-GCAsset {
 		[Parameter(Mandatory=$false)][ValidateRange(0,500000)][Int32]$Limit,
 		[Parameter(Mandatory=$false)][ValidateRange(0,500000)][Int32]$Offset
 	)
-	Begin {
+	process {
 		$Uri = $Key.Uri + "assets?"
 		
 		#Building the Uri with given parameters
-		If ($Status) {
+		if ($Search) {
+			$Uri += "&search=" + $Search
+		}
+		
+		if ($Status) {
 			$Uri += "status=" + $Status + "&"
 		}
 		
-		If ($Risk) {
+		if ($Risk) {
 			$Uri += "risk=" + $Risk + "&"
 		}
 		
-		If ($Limit) {
+		if ($Limit) {
 			$Uri += "limit=" + $Limit + "&"
 		}
 		
-		If ($Offset) {
+		if ($Offset) {
 			$Uri += "offset=" + $Offset
 		}
 	}
-	Process {
-		#Building the Uri with given pipeline parameters
-		If ($Search) {
-			$Uri += "&search=" + $Search
-		}
-	}
-	End {
-		Invoke-RestMethod -Authentication Bearer -Token $Key.Token -Uri $Uri -Method "GET" | Select-Object -ExpandProperty "objects"
+	end {
+		Invoke-RestMethod -Uri $Uri -Authentication Bearer -Token $Key.Token -Method "GET" | Select-Object -ExpandProperty "objects"
 	}
 }
 
@@ -244,10 +242,10 @@ Function Get-GCAsset {
 	[System.Array] Agent objects.
 
 #>
-Function Get-GCAgent {
+function Get-GCAgent {
 
 	[cmdletbinding()]
-	Param (
+	param (
 		[Parameter(Mandatory=$true)][PSCustomObject]$Key,
 		[Parameter(Mandatory=$false)][System.String]$Version,
 		[Parameter(Mandatory=$false)][System.String]$Kernel,
@@ -264,75 +262,75 @@ Function Get-GCAgent {
 		[Parameter(Mandatory=$false)][ValidateRange(0,500000)][Int32]$Limit,
 		[Parameter(Mandatory=$false)][ValidateRange(0,500000)][Int32]$Offset
 	)
-	Begin {
+	begin {
 		$Uri = $Key.Uri + "agents?"
 		
 		#Building the Uri with given parameters
-		If ($Version) {
-			$Uri += "version=" + $Version + "&"
+		if ($Version) {
+			$Uri += "&version=" + $Version
 		}
 		
-		If ($Kernel) {
-			$Uri += "kernel=" + $Kernel + "&"
+		if ($Kernel) {
+			$Uri += "&kernel=" + $Kernel
 		}
 		
-		If ($OS) {
-			$Uri += "os=" + $OS + "&"
+		if ($OS) {
+			$Uri += "&os=" + $OS
 		}
 		
-		If ($Labels) {
-			$Uri += "labels=" + $Labels + "&"
+		if ($Labels) {
+			$Uri += "&labels=" + $Labels
 		}
 		
-		If ($Status) {
-			$Uri += "display_status="
-			If ($Status -eq "Disabled") {
-				$Uri += "Enforcement disabled from management console&"
+		if ($Status) {
+			$Uri += "&display_status="
+			if ($Status -eq "Disabled") {
+				$Uri += "Enforcement disabled from management console"
 			} else {
-				$Uri += $Status + "&"
+				$Uri += $Status
 			}
 		}
 		
-		If ($Flags) {
-			$Uri += "status_flags=" + $Flags + "&"
+		if ($Flags) {
+			$Uri += "&status_flags=" + $Flags
 		}
 		
-		If ($Enforcement) {
-			$Uri += "module_status_enforcement=" + $Enforcement + "&"
+		if ($Enforcement) {
+			$Uri += "&module_status_enforcement=" + $Enforcement
 		}
 		
-		If ($Deception) {
-			$Uri += "module_status_deception=" + $Deception + "&"
+		if ($Deception) {
+			$Uri += "&module_status_deception=" + $Deception
 		}
 		
-		If ($Detection) {
-			$Uri += "module_status_detection=" + $Detection + "&"
+		if ($Detection) {
+			$Uri += "&module_status_detection=" + $Detection
 		}
 		
-		If ($Reveal) {
-			$Uri += "module_status_reveal=" + $Reveal + "&"
+		if ($Reveal) {
+			$Uri += "&module_status_reveal=" + $Reveal
 		}
 		
-		If ($Activity) {
-			$Uri += "activity=" + $Activity + "&"
+		if ($Activity) {
+			$Uri += "&activity=" + $Activity
 		}
 		
-		If ($GcFilter) {
-			$Uri += "gc_filter=" + $GcFilter + "&"
+		if ($GcFilter) {
+			$Uri += "&gc_filter=" + $GcFilter
 		}
 		
-		If ($Limit) {
-			$Uri += "limit=" + $Limit + "&"
+		if ($Limit) {
+			$Uri += "&limit=" + $Limit
 		}
 		
-		If ($Offset) {
-			$Uri += "offset=" + $Offset
+		if ($Offset) {
+			$Uri += "&offset=" + $Offset
 		}
 	}
-	Process {
-		$Agents = Invoke-RestMethod -Authentication Bearer -Token $Key.Token -Uri $Uri -Method "GET" | Select-Object -ExpandProperty "objects"
+	process {
+		$Agents = Invoke-RestMethod -Uri $Uri -Authentication Bearer -Token $Key.Token -Method "GET" | Select-Object -ExpandProperty "objects"
 	}
-	End {
+	end {
 		$Agents
 	}
 }
@@ -349,18 +347,18 @@ Function Get-GCAgent {
 	
 
 .INPUTS
-	[System.Array] $Labels parameter.
+	None. This function takes no pipeline input.
 
 .OUTPUTS
 	application/json
 
 #>
-Function New-GCBulkLabel {
-	Param (
+function New-GCBulkStaticLabel {
+	param (
 		[Parameter(Mandatory=$true)][PSCustomObject]$Key,
-		[Parameter(Mandatory=$false,ValueFromPipeline=$true)][System.Array]$Labels
+		[Parameter(Mandatory=$false,ValueFromPipeline=$true)][System.Object[]]$Labels
 	)
-	Begin {
+	begin {
 		$Uri = $Key.Uri + "visibility/labels/bulk"
 		
 		$Body = [PSCustomObject]@{
@@ -368,14 +366,14 @@ Function New-GCBulkLabel {
 			"labels" = @()
 		}
 	}
-	Process {
+	process {
 		$Body.labels += foreach ($Label in $Labels) {
 			$Label
 		}
 	}
-	End {
+	end {
 		$BodyJson = $Body | ConvertTo-Json -Depth 99
-		Invoke-RestMethod -Authentication Bearer -Token $Key.Token -Uri $Uri -Method "POST" -Body $BodyJson -ContentType "application/json"
+		Invoke-RestMethod -Uri $Uri -ContentType "application/json" -Authentication Bearer -Token $Key.Token -Body $BodyJson -Method "POST"
 	}
 }
 
@@ -385,7 +383,7 @@ Function New-GCBulkLabel {
 	Encapsulates the "POST /assets/labels/{key}/{value}" API call.
 
 .DESCRIPTION
-	Creates a static label with given VMs, specified by unique ID. If the given Key/Value pair already exists, the new VMs are appended to the existing label.
+	Creates a static label with given VMs, specified by unique ID. if the given Key/Value pair already exists, the new VMs are appended to the existing label.
 
 .PARAMETER Key
 	[PSCustomObject] GuardiCore api key.
@@ -406,28 +404,88 @@ Function New-GCBulkLabel {
 	application/json
 
 #>
-Function New-GCStaticLabel {
+function New-GCStaticLabel {
 
 	[cmdletbinding()]
-	Param (
+	param (
 		[Parameter(Mandatory=$true)][PSCustomObject]$Key,
-		[Parameter(Mandatory=$false,ValueFromPipeline=$true)][System.Array]$Assets,
+		[Parameter(Mandatory=$false,ValueFromPipeline=$true)][System.Array]$AssetIds,
 		[Parameter(Mandatory=$true)][System.String]$LabelKey,
 		[Parameter(Mandatory=$true)][System.String]$LabelValue
 	)
-	Begin {
+	begin {
 		$Uri = $Key.Uri + "assets/labels/" + $LabelKey + "/" + $LabelValue
 		$Body = [PSCustomObject]@{
 			"vms" = @()
 		}
 	}
-	Process {
-		$Body.vms += foreach ($Asset in $Assets) {
+	process {
+		$Body.vms += foreach ($Asset in $AssetIds) {
 			$Asset
 		}
 	}
-	End {
+	end {
 		$BodyJson = $Body | ConvertTo-Json -Depth 99
 		Invoke-RestMethod -Uri $Uri -ContentType "application/json" -Authentication Bearer -Token $Key.Token -Body $BodyJson -Method "POST"
+	}
+}
+
+
+<#
+.SYNOPSIS
+	Encapsulates the "GET /visibility/labels" API call.
+
+.DESCRIPTION
+	Retrieves labels that fit the parameters given. Additionally includes member assets if find_matches is set.
+
+.PARAMETER
+	
+
+.INPUTS
+	
+
+.OUTPUTS
+	
+
+#>
+function Get-GCLabel {
+	
+	[cmdletbinding()]
+	param (
+		[Parameter(Mandatory=$true)][PSCustomObject]$Key,
+		[Parameter(Mandatory=$false)][Switch]$FindMatches,
+		[Parameter(Mandatory=$false)][System.String]$LabelKey,
+		[Parameter(Mandatory=$false)][System.String]$LabelValue,
+		[Parameter(Mandatory=$false)][Int32]$Limit,
+		[Parameter(Mandatory=$false)][Int32]$Offset
+	)
+	process {
+		$Uri = $Key.Uri + "visibility/labels?"
+		
+		#Building the Uri with given parameters
+		if ($FindMatches) {
+			$Uri += "find_matches=true"
+		} else {
+			$Uri += "find_matches=false"
+		}
+		
+		if ($LabelKey) {
+			$Uri += "&key=" + $LabelKey
+		}
+		
+		if ($LabelValue) {
+			$Uri += "&value=" + $LabelValue
+		}
+		
+		if ($Limit) {
+			$Uri += "&limit=" + $Limit
+		}
+		
+		if ($Offset) {
+			$Uri += "&offset=" + $Offset
+		}
+	}
+	end {
+		Invoke-RestMethod -Uri $Uri -Authentication Bearer -Token $Key.Token -Method "GET" | Select-Object -ExpandProperty "objects"
 	}
 }
