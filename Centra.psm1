@@ -371,9 +371,8 @@ function New-GCBulkStaticLabel {
 		}
 	}
 	end {
-		#$BodyJson = $Body | ConvertTo-Json -Depth 99
-		#Invoke-RestMethod -Uri $Uri -ContentType "application/json" -Authentication Bearer -Token $Key.Token -Body $BodyJson -Method "POST"
-		$Body
+		$BodyJson = $Body | ConvertTo-Json -Depth 99
+		Invoke-RestMethod -Uri $Uri -ContentType "application/json" -Authentication Bearer -Token $Key.Token -Body $BodyJson -Method "POST"
 	}
 }
 
