@@ -1,11 +1,11 @@
 param (
 	[Parameter(Mandatory=$true)][PSCustomObject]$Key,
 	[Parameter(Mandatory=$true)][ValidateScript({
-		If (-Not ($_ | Test-Path)) {
-			Throw "File or folder does not exist."
+		if (-not ($_ | Test-Path)) {
+			throw "File or folder does not exist."
 		}
-		If (-Not ($_ | Test-Path -PathType Leaf)) {
-			Throw "Target must be a file. Folders are not allowed."
+		if (-not ($_ | Test-Path -PathType Leaf)) {
+			throw "Target must be a file. Folders are not allowed."
 		}
 		$true
 	})][System.IO.FileInfo]$Path

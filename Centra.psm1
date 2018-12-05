@@ -132,7 +132,7 @@ function Get-GCApiKey {
 	[Int32] Total count.
 
 #>
-function Get-GCConnectionCount {
+function Get-GCFlowTotal {
 
 	[cmdletbinding()]
 	param (
