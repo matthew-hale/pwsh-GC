@@ -9,64 +9,33 @@ param (
 #Supports AND filtering of multiple labels, specified by an array of Key="", Value="" pscustomobjects
 
 #Querying flows:
-$Dataset = Get-ChildItem "./Data/Labels" -Filter *.xml
+$Labels = Get-Content "./Data/Labels/labels.json" | ConvertFrom-Json
+
+$FlowPath = Get-ChildItem "./Data/Flows" -Filter *.json
+$Flows = foreach ($File in $FlowPath) {
+	Get-Content $File | ConvertFrom-Json
+}
 
 if ($Pairs) {
 	$LabelIDs = @()
-	
 	foreach ($Pair in $Pairs) {
-		$Pkey = $Pair.Key
-		$PValue = $Pair.Value
-		
-		$LabelResult = foreach ($File in $Dataset) {
-			$XPath = "//child::Label[key='$PKey' and value='$PValue']"
-			[Xml]$Xml = Get-Content $File
-			$Xml | Select-Xml -XPath $XPath | Select-Object -ExpandProperty Node
+		$Label = $Labels | where {($_.key -eq $Pair.Key) -and ($_.value -eq $Pair.Value)}
+		$Matches = $Label.matching_assets._id
+		$Added = $Label.added_assets._id
+		$TempIDs = $Matches + $Added
+		if (-not ($IDs)) {
+			$IDs = $TempIDs
 		}
-		
-		$TempIDs = @()
-		
-		if ($LabelResult.matching_assets._id) {
-		$TempIDs += $LabelResult.matching_assets._id.split(" ")
-		}
-
-		if ($LabelResult.added_assets._id) {
-		$TempIDs += $LabelResult.added_assets._id.split(" ")
-		}
-		
-		if (-not ($LabelIDs)) {
-			$LabelIDs = $TempIDs
-		}
-		
-		$LabelIDs = $LabelIDs | where {$TempIDs -contains $_}
+		$IDs = $IDs | where {$TempIDs -contains $_}
 	}
 } else {
-	$LabelResult = foreach ($File in $Dataset) {
-		$XPath = "//child::Label[key='$Key' and value='$Value']"
-		[Xml]$Xml = Get-Content $File
-		$Xml | Select-Xml -XPath $XPath | Select-Object -ExpandProperty Node
-	}
-
-	$LabelIDs = @()
-
-	if ($LabelResult.matching_assets._id) {
-	$LabelIDs += $LabelResult.matching_assets._id.split(" ")
-	}
-
-	if ($LabelResult.added_assets._id) {
-	$LabelIDs += $LabelResult.added_assets._id.split(" ")
-	}
+	$Label = $Labels | where {($_.key -eq $Key) -and ($_.value -eq $Value)}
+	$Matches = $Label.matching_assets._id
+	$Added = $Label.added_assets._id
+	$LabelIDs = $Matches + $Added
 }
 
-
-$Dataset = Get-ChildItem "./Data/Flows" -Filter *.xml
-$FlowResult = foreach ($File in $Dataset) {
-	$XPath = "//Flow[contains('$LabelIDs',destination_node_id)]"
-	[Xml]$Xml = Get-Content $File
-	$Xml | Select-Xml -XPath $XPath | Select-Object -ExpandProperty Node
-}
-
-$DestinationProcesses = $FlowResult | select -Property destination_process,destination_process_name,destination_port | foreach {$_.destination_process + "\" + $_.destination_process_name + "\" + $_.destination_port} | sort -Unique
+$DestinationProcesses = $Flows | where {$LabelIDs -contains $_.destination_node_id} | select -property destination_process,destination_process_name,destination_port | foreach {$_.destination_process + "\" + $_.destination_process_name + "\" + $_.destination_port} | sort -Unique
 
 $Result = foreach ($P in $DestinationProcesses) {
 	$Split = $P.split("\")
