@@ -15,7 +15,7 @@ function New-GCBulkStaticLabel {
 	)
 
 	#Getting all the active assets
-	$Assets = Get-GCAsset -Key $Key
+	$Assets = Get-GCAsset -Key $Key -Limit 100
 
 	$Sheet = Import-CSV $Path | Sort
 

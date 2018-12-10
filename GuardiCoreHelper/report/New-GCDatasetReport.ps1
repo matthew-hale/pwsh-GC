@@ -14,15 +14,21 @@ param (
 )
 
 if ($Pairs) {
-	$SourceProcessTable = ./Query-GCSourceProcess.ps1 -Pairs $Pairs -DatasetPath $DatasetPath | ConvertTo-Html -Fragment
+	$ClientProcessTable = ./Query-GCClientProcess.ps1 -Pairs $Pairs -DatasetPath $DatasetPath | ConvertTo-Html -Fragment
 } else {
-	$SourceProcessTable = ./Query-GCSourceProcess.ps1 -Key $Key -Value $Value -DatasetPath $DatasetPath | ConvertTo-Html -Fragment
+	$ClientProcessTable = ./Query-GCClientProcess.ps1 -Key $Key -Value $Value -DatasetPath $DatasetPath | ConvertTo-Html -Fragment
 }
 
 if ($Pairs) {
-	$DestinationProcessTable = ./Query-GCDestinationProcess.ps1 -Pairs $Pairs -DatasetPath $DatasetPath | ConvertTo-Html -Fragment
+	$ListeningProcessTable = ./Query-GCListeningProcess.ps1 -Pairs $Pairs -DatasetPath $DatasetPath | ConvertTo-Html -Fragment
 } else {
-	$DestinationProcessTable = ./Query-GCDestinationProcess.ps1 -Key $Key -Value $Value -DatasetPath $DatasetPath | ConvertTo-Html -Fragment
+	$ListeningProcessTable = ./Query-GCListeningProcess.ps1 -Key $Key -Value $Value -DatasetPath $DatasetPath | ConvertTo-Html -Fragment
+}
+
+if ($Pairs) {
+	$ListeningSourceTable = ./Query-GCListeningSource.ps1 -Pairs $Pairs -DatasetPath $DatasetPath | ConvertTo-Html -Fragment
+} else {
+	$ListeningSourceTable = ./Query-GCListeningSource.ps1 -Key $Key -Value $Value -DatasetPath $DatasetPath | ConvertTo-Html -Fragment
 }
 
 $Style = 
@@ -53,14 +59,20 @@ $Writer.WriteStartElement("html")
 			$Writer.WriteRaw($Style)
 		$Writer.WriteEndElement()
 	$Writer.WriteEndElement()
-	$Writer.WriteStartElement("h2")
-		$Writer.WriteRaw("Source Processes")
+	$Writer.WriteStartElement("body")
+		$Writer.WriteStartElement("h2")
+			$Writer.WriteRaw("Client Processes")
+		$Writer.WriteEndElement()
+		$Writer.WriteRaw($ClientProcessTable)
+		$Writer.WriteStartElement("h2")
+			$Writer.WriteRaw("Server Processes")
+		$Writer.WriteEndElement()
+		$Writer.WriteRaw($ListeningProcessTable)
+		$Writer.WriteStartElement("h2")
+			$Writer.WriteRaw("Server Sources")
+		$Writer.WriteEndElement()
+		$Writer.WriteRaw($ListeningSourceTable)
 	$Writer.WriteEndElement()
-	$Writer.WriteRaw($SourceProcessTable)
-	$Writer.WriteStartElement("h2")
-		$Writer.WriteRaw("Destination Processes")
-	$Writer.WriteEndElement()
-	$Writer.WriteRaw($DestinationProcessTable)
 $Writer.WriteEndElement()
 $Writer.WriteEndDocument()
 $Writer.Flush()
