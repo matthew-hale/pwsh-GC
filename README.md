@@ -10,4 +10,4 @@ https://github.com/powershell/powershell \
 Then download/clone my repository, and Import-Module ./GuardiCoreHelper.psm1.
 
 ## Use
-Either use/write scripts that utilize the functions, or use them directly from the command line. The scripts in the repository all assume that the module file is in the same directory, and that you haven't renamed it.
+Either use/write scripts that utilize the functions, or use them directly from the command line.
