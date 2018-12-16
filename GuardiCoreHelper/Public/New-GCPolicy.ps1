@@ -11,6 +11,24 @@ function New-GCPolicy {
 		[Parameter(Mandatory=$false)][System.Array]$PortRanges,
 		[Parameter(Mandatory=$false)][System.Array]$SourceLabelIDs,
 		[Parameter(Mandatory=$false)][System.Array]$DestinationLabelIDs,
+		[Parameter(Mandatory=$true)][ValidateScript({
+			if (-not ($_ | Test-Path)) {
+				throw "Path does not exist."
+			}
+			if (-not ($_ | Test-Path -PathType Leaf)) {
+				throw "Target must be a file."
+			}
+			$true
+		})][String[]]$SourceLabelFile,
+		[Parameter(Mandatory=$true)][ValidateScript({
+			if (-not ($_ | Test-Path)) {
+				throw "Path does not exist."
+			}
+			if (-not ($_ | Test-Path -PathType Leaf)) {
+				throw "Target must be a file."
+			}
+			$true
+		})][String[]]$DestinationLabelFile,
 		[Parameter(Mandatory=$false)][System.Array]$SourceProcesses,
 		[Parameter(Mandatory=$false)][System.Array]$DestinationProcesses,
 		[Parameter(Mandatory=$false)][System.Array]$SourceAssetIDs,
@@ -20,6 +38,14 @@ function New-GCPolicy {
 		[Parameter(Mandatory=$false)][Switch]$SourceInternet,
 		[Parameter(Mandatory=$false)][Switch]$DestinationInternet
 	)
+	
+	if ($SourceLabelFile) {
+		$SourceLabelIDs = Get-GCLabelIDFromFilePrivate -File $SourceLabelFile
+	}
+	
+	if ($DestinationLabelFile) {
+		$DestinationLabelIDs = Get-GCLabelIDFromFilePrivate -File $DestinationLabelFile
+	}
 	
 	$Uri = $Key.Uri + "visibility/policy/sections/" + $Action + "/rules"
 	
