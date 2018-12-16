@@ -2,6 +2,7 @@ param (
 	[Parameter(Mandatory=$true)][PSCustomObject]$Key,
 	[Parameter(Mandatory=$true)][DateTime]$StartTime,
 	[Parameter(Mandatory=$true)][DateTime]$EndTime,
+	[Parameter(Mandatory=$false)][String]$Search,
 	[Parameter(Mandatory=$true)][ValidateScript({
 		if (-not ($_ | Test-Path)) {
 			throw "Path does not exist."
@@ -29,7 +30,7 @@ mkdir "$DataPath/Labels" > $null
 mkdir "$DataPath/Flows" > $null
 
 Write-Host -NoNewLine Getting assets...
-$Assets = Get-GCAsset -Key $Key -Offset 0 -Limit 1000
+$Assets = Get-GCAsset -Key $Key -Offset 0 -Limit 1000 -Status on -Search $Search
 Write-Host done
 
 Write-Host -NoNewLine Generating asset dataset...

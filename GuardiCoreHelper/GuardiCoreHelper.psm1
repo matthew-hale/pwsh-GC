@@ -1,4 +1,4 @@
-#using module .\GuardiCoreHelper\Class\GuardiCoreHelper.Class1.psm1
+#using module $PSScriptRoot\GuardiCoreHelper\Class\GuardiCoreHelper.Class1.psm1
 #Above needs to remain the first line to import Classes
 #Remove the comment when using classes
 
