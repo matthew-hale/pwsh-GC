@@ -11,7 +11,7 @@ function New-GCPolicy {
 		[Parameter(Mandatory=$false)][System.Array]$PortRanges,
 		[Parameter(Mandatory=$false)][System.Array]$SourceLabelIDs,
 		[Parameter(Mandatory=$false)][System.Array]$DestinationLabelIDs,
-		[Parameter(Mandatory=$true)][ValidateScript({
+		[Parameter(Mandatory=$false)][ValidateScript({
 			if (-not ($_ | Test-Path)) {
 				throw "Path does not exist."
 			}
@@ -20,7 +20,7 @@ function New-GCPolicy {
 			}
 			$true
 		})][String[]]$SourceLabelFile,
-		[Parameter(Mandatory=$true)][ValidateScript({
+		[Parameter(Mandatory=$false)][ValidateScript({
 			if (-not ($_ | Test-Path)) {
 				throw "Path does not exist."
 			}
@@ -33,6 +33,8 @@ function New-GCPolicy {
 		[Parameter(Mandatory=$false)][System.Array]$DestinationProcesses,
 		[Parameter(Mandatory=$false)][System.Array]$SourceAssetIDs,
 		[Parameter(Mandatory=$false)][System.Array]$DestinationAssetIDs,
+		[Parameter(Mandatory=$false)][System.String]$SourceSubnet,
+		[Parameter(Mandatory=$false)][System.String]$DestinationSubnet,
 		[Parameter(Mandatory=$false)][System.String]$Ruleset,
 		[Parameter(Mandatory=$false)][System.String]$Comments,
 		[Parameter(Mandatory=$false)][Switch]$SourceInternet,
@@ -145,6 +147,14 @@ function New-GCPolicy {
 	
 	if ($DestinationAssetIDs) {
 		$Body.rule.destination | Add-Member -MemberType NoteProperty -Name asset_ids -Value $DestinationAssetIDs
+	}
+	
+	if ($SourceSubnet) {
+		$Body.rule.source | Add-Member -MemberType NoteProperty -Name subnet -Value $SourceSubnet
+	}
+	
+	if ($DestinationSubnet) {
+		$Body.rule.destination | Add-Member -MemberType NoteProperty -Name subnet -Value $DestinationSubnet
 	}
 	
 	if ($PSBoundParameters.ContainsKey("SourceInternet")) { #checks for the existence of the parameter
