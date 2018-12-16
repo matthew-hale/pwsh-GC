@@ -2,7 +2,7 @@
 A collection of Powershell Core modules and scripts for GuardiCore Centra administration and management.
 
 ## What is this?
-The Centra.psm1 module is a wrapper for GuardiCore's management server API. It also contains functions that help in using the API, such as ConvertTo/ConvertFrom-GCUnixTime, Get-GCConnectionCount, etc. The other scripts are used when working with data from the API. The module is written in PowerShell Core (PS 6.x).
+The Centra.psm1 module is a wrapper for GuardiCore's management server API. It also contains functions that help in using the API, such as ConvertTo/ConvertFrom-GCUnixTime, Get-GCFlowTotal, etc. The other scripts are used when working with data from the API. The module is written in PowerShell Core (PS 6.x).
 
 ## Installation
 Install PowerShell Core from the PowerShell github repository, here:\
