@@ -4,10 +4,10 @@ function Remove-GCLabel {
 	
 	[cmdletbinding()]
 	param (
-		[Parameter(Mandatory=$true)][PSCustomObject]$Key,
 		[Parameter(Mandatory=$false,ValueFromPipeline=$true)][PSCustomObject]$Label
 	)
 	begin {
+		$Key = $global:GCApiKey
 		$Result = @()
 	}
 	process {

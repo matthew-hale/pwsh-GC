@@ -40,10 +40,9 @@ function Get-GCApiKey {
 		$Token = Invoke-RestMethod -Uri $TempUri -Method "POST" -Body $BodyJson -ContentType "application/json" | Select-Object -ExpandProperty "access_token" | ConvertTo-SecureString -AsPlainText -Force
 	}
 	end {
-		$Key = [PSCustomObject]@{
+		$global:GCApiKey = [PSCustomObject]@{ #Saves the object in a global (session scope) variable called GCApiKey, so other functions don't need a key input.
 			Token = $Token
 			Uri = $Uri
 		}
-		$Key
 	}
 }

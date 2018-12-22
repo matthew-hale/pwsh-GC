@@ -4,7 +4,6 @@ function Get-GCPolicy {
 
 	[cmdletbinding()]
 	param (
-		[Parameter(Mandatory=$true)][PSCustomObject]$Key,
 		[Parameter(Mandatory=$false)][ValidateSet("TCP","UDP")][System.Array]$Protocols = @("TCP","UDP"),
 		[Parameter(Mandatory=$true)][ValidateSet("allow","alert","block","block_and_alert")][System.String]$Action,
 		[Parameter(Mandatory=$false)][ValidateRange(1,65535)][System.Array]$Ports,
@@ -53,6 +52,8 @@ function Get-GCPolicy {
 		[Parameter(Mandatory=$false)][Switch]$DestinationInternet,
 		[Parameter(Mandatory=$false)][Switch]$AnySideInternet
 	)
+	
+	$Key = $global:GCApiKey
 	
 	if ($SourceLabelFile) {
 		$SourceLabelIDs = Get-GCLabelIDFromFilePrivate -File $SourceLabelFile

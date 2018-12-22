@@ -5,9 +5,6 @@
 .DESCRIPTION
 	Creates a static label with given VMs, specified by unique ID. if the given Key/Value pair already exists, the new VMs are appended to the existing label.
 
-.PARAMETER Key
-	[PSCustomObject] GuardiCore api key.
-
 .PARAMETER Assets
 	[System.Array] Array of GuardiCore asset IDs. Used for static label definitions.
 
@@ -28,12 +25,13 @@ function New-GCStaticLabel {
 
 	[cmdletbinding()]
 	param (
-		[Parameter(Mandatory=$true)][PSCustomObject]$Key,
 		[Parameter(Mandatory=$false,ValueFromPipeline=$true)][System.Array]$AssetIds,
 		[Parameter(Mandatory=$true)][System.String]$LabelKey,
 		[Parameter(Mandatory=$true)][System.String]$LabelValue
 	)
 	begin {
+		$Key = $global:GCApiKey
+		
 		$Uri = $Key.Uri + "assets/labels/" + $LabelKey + "/" + $LabelValue
 		$Body = [PSCustomObject]@{
 			"vms" = @()

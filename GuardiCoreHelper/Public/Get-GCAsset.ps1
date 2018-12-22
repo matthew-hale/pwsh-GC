@@ -33,7 +33,6 @@ function Get-GCAsset {
 
 	[cmdletbinding()]
 	param (
-		[Parameter(Mandatory=$true)][PSCustomObject]$Key,
 		[Parameter(Mandatory=$false,ValueFromPipeline=$true)][System.String]$Search,
 		[Parameter(Mandatory=$false)][ValidateSet("on","off")][System.String]$Status,
 		[Parameter(Mandatory=$false)][ValidateRange(0,3)][Int32]$Risk,
@@ -41,6 +40,7 @@ function Get-GCAsset {
 		[Parameter(Mandatory=$false)][ValidateRange(0,500000)][Int32]$Offset
 	)
 	process {
+		$Key = $global:GCApiKey
 		$Uri = $Key.Uri + "assets?"
 		
 		#Building the Uri with given parameters

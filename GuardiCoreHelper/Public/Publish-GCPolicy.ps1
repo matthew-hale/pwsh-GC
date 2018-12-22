@@ -4,9 +4,9 @@ function Publish-GCPolicy {
 	
 	[cmdletbinding()]
 	param(
-		[Parameter(Mandatory=$true)][PSCustomObject]$Key,
 		[Parameter(Mandatory=$true)][System.String]$Comments
 	)
+	$Key = $global:GCApiKey
 	
 	$Uri = $Key.Uri + "visibility/policy/revisions"
 	

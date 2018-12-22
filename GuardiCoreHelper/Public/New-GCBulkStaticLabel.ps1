@@ -2,7 +2,6 @@ function New-GCBulkStaticLabel {
 
 	[cmdletbinding()]
 	param (
-		[Parameter(Mandatory=$true)][PSCustomObject]$Key,
 		[Parameter(Mandatory=$true)][ValidateScript({
 			if (-not ($_ | Test-Path)) {
 				throw "File or folder does not exist."
@@ -13,9 +12,9 @@ function New-GCBulkStaticLabel {
 			$true
 		})][System.IO.FileInfo]$Path
 	)
-
+	$Key = $global:GCApiKey
 	#Getting all the active assets
-	$Assets = Get-GCAsset -Key $Key -Limit 100
+	$Assets = Get-GCAsset -Limit 100
 
 	$Sheet = Import-CSV $Path | Sort
 
@@ -47,5 +46,5 @@ function New-GCBulkStaticLabel {
 	}
 
 	#Now we can make the API call
-	$Labels | New-GCBulkStaticLabelPrivate -Key $Key
+	$Labels | New-GCBulkStaticLabelPrivate
 }

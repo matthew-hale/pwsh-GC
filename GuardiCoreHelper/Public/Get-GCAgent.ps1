@@ -19,7 +19,6 @@ function Get-GCAgent {
 
 	[cmdletbinding()]
 	param (
-		[Parameter(Mandatory=$true)][PSCustomObject]$Key,
 		[Parameter(Mandatory=$false)][System.String]$Version,
 		[Parameter(Mandatory=$false)][System.String]$Kernel,
 		[Parameter(Mandatory=$false)][ValidateSet("Unknown","Windows","Linux")][System.String]$OS,
@@ -36,6 +35,7 @@ function Get-GCAgent {
 		[Parameter(Mandatory=$false)][ValidateRange(0,500000)][Int32]$Offset
 	)
 	begin {
+		$Key = $global:GCApiKey
 		$Uri = $Key.Uri + "agents?"
 		
 		#Building the Uri with given parameters

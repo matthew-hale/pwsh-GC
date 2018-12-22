@@ -1,6 +1,5 @@
 function New-GCDynamicLabel {
 	param (
-		[Parameter(Mandatory=$true)][PSCustomObject]$Key,
 		[Parameter(Mandatory=$false)][System.String]$LabelKey,
 		[Parameter(Mandatory=$false)][System.String]$LabelValue,
 		[Parameter(Mandatory=$false)][System.String]$Argument,
@@ -8,8 +7,9 @@ function New-GCDynamicLabel {
 		[Parameter(Mandatory=$false)][ValidateSet("STARTSWITH","ENDSWITH","EQUALS","CONTAINS","SUBNET","WILDCARDS")][System.String]$Operation,
 		[Parameter(Mandatory=$false,ValueFromPipeline = $true)][PSCustomObject]$Criteria
 	)
-	
 	begin {
+		$Key = $global:GCApiKey
+		
 		$Uri = $Key.Uri + "visibility/labels"
 		
 		$Body = [PSCustomObject]@{
