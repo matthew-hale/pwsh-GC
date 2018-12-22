@@ -3,7 +3,7 @@
 function Remove-GCPolicy {
 	
 	[cmdletbinding()]
-	param(
+	param (
 		[Parameter(Mandatory=$true)][PSCustomObject]$Key,
 		[Parameter(Mandatory=$false)][System.String]$PolicyID
 	)
