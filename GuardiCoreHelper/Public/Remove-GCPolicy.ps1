@@ -4,9 +4,9 @@ function Remove-GCPolicy {
 	
 	[cmdletbinding()]
 	param (
-		[Parameter(Mandatory=$true)][PSCustomObject]$Key,
 		[Parameter(Mandatory=$false)][System.String]$PolicyID
 	)
+	$Key = $global:GCApiKey
 	
 	$Uri = $Key.Uri + "visibility/policy/rules/" + $PolicyID
 	

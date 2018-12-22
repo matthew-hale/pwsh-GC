@@ -19,12 +19,14 @@ function Get-GCFlowPrivate {
 	
 	[cmdletbinding()]
 	param (
-		[Parameter(Mandatory=$true)][PSCustomObject]$Key,
 		[Parameter(Mandatory=$false)][Int64]$FromTime,
 		[Parameter(Mandatory=$false)][Int64]$ToTime,
 		[Parameter(Mandatory=$false)][Int32]$Limit,
 		[Parameter(Mandatory=$false)][Int32]$Offset
 	)
+	begin {
+		$Key = $global:GCApiKey
+	}
 	process {
 		$Uri = $Key.Uri + "connections?sort=-slot_start_time"
 		

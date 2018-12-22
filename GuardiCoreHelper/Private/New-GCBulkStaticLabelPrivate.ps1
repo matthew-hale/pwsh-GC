@@ -17,10 +17,11 @@
 #>
 function New-GCBulkStaticLabelPrivate {
 	param (
-		[Parameter(Mandatory=$true)][PSCustomObject]$Key,
 		[Parameter(Mandatory=$false,ValueFromPipeline=$true)][System.Object[]]$Labels
 	)
 	begin {
+		$Key = $global:GCApiKey
+		
 		$Uri = $Key.Uri + "visibility/labels/bulk"
 	}
 	process {

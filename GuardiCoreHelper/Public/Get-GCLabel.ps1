@@ -19,13 +19,15 @@ function Get-GCLabel {
 	
 	[cmdletbinding()]
 	param (
-		[Parameter(Mandatory=$true)][PSCustomObject]$Key,
 		[Parameter(Mandatory=$false)][Switch]$FindMatches,
 		[Parameter(Mandatory=$false)][System.String]$LabelKey,
 		[Parameter(Mandatory=$false)][System.String]$LabelValue,
 		[Parameter(Mandatory=$false)][Int32]$Limit,
 		[Parameter(Mandatory=$false)][Int32]$Offset
 	)
+	begin {
+		$Key = $global:GCApiKey
+	}
 	process {
 		$Uri = $Key.Uri + "visibility/labels?"
 		
