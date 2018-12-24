@@ -4,7 +4,8 @@ function Publish-GCPolicy {
 	
 	[cmdletbinding()]
 	param(
-		[Parameter(Mandatory=$true)][System.String]$Comments
+		[Parameter(Mandatory=$true)][System.String]$Comments,
+		[Switch]$Audit
 	)
 	$Key = $global:GCApiKey
 	
@@ -13,6 +14,10 @@ function Publish-GCPolicy {
 	$Body = [PSCustomObject]@{
 		action = "publish"
 		comments = $Comments
+	}
+	
+	if ($Audit) {
+		$Body.comments += "`nPublished via PowerShell at: " + $(Get-Date) + " from: " + $([System.Net.Dns]::GetHostName())
 	}
 	
 	$BodyJson = $Body | ConvertTo-Json -Depth 99

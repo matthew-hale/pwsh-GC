@@ -20,9 +20,6 @@
 .PARAMETER Offset
 	[Int32] Position of beginning of result range.
 
-.PARAMETER Key
-	[PSCustomObject] GuardiCore API key.
-
 .INPUTS
 	[System.String] $Search parameter
 
@@ -33,10 +30,12 @@ function Get-GCAsset {
 
 	[cmdletbinding()]
 	param (
-		[Parameter(Mandatory=$false,ValueFromPipeline=$true)][System.String]$Search,
+		[Parameter(Mandatory=$false)][System.String]$Search,
 		[Parameter(Mandatory=$false)][ValidateSet("on","off")][System.String]$Status,
 		[Parameter(Mandatory=$false)][ValidateRange(0,3)][Int32]$Risk,
-		[Parameter(Mandatory=$false)][ValidateRange(0,500000)][Int32]$Limit,
+		[Parameter(Mandatory=$false)][ValidateRange(0,500000)][Int32]$Limit = 20,
+		[Parameter(Mandatory=$false)][System.Array]$Label,
+		[Parameter(Mandatory=$false)][System.Array]$Asset,
 		[Parameter(Mandatory=$false)][ValidateRange(0,500000)][Int32]$Offset
 	)
 	process {
@@ -44,8 +43,10 @@ function Get-GCAsset {
 		$Uri = $Key.Uri + "assets?"
 		
 		#Building the Uri with given parameters
+		$Uri += "limit=" + $Limit
+		
 		if ($Search) {
-			$Uri += "search=" + $Search
+			$TempUri += "&search=" + $Search
 		}
 		
 		if ($Status) {
@@ -56,8 +57,16 @@ function Get-GCAsset {
 			$Uri += "&risk=" + $Risk
 		}
 		
-		if ($Limit) {
-			$Uri += "&limit=" + $Limit
+		if ($Label) {
+			$Uri += "&labels="
+			$Uri += foreach ($ID in $Label) {$ID.id}
+			$Uri = $Uri.Replace(" ",",")
+		}
+		
+		if ($Asset) {
+			$Uri += "&asset="
+			$Uri += foreach ($ID in $Asset) {"vm:" + $ID.id}
+			$Uri = $Uri.Replace(" ",",")
 		}
 		
 		if ($Offset) {

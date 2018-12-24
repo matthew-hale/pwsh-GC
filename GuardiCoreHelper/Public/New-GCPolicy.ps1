@@ -106,7 +106,7 @@ function New-GCPolicy {
 		
 		foreach ($Group in $SourceLabelIDs) {
 			$and_labels = [PSCustomObject]@{
-				and_labels = $Group
+				and_labels = ,$Group
 			}
 			
 			$or_labels += $and_labels
@@ -124,7 +124,7 @@ function New-GCPolicy {
 		
 		foreach ($Group in $DestinationLabelIDs) {
 			$and_labels = [PSCustomObject]@{
-				and_labels = $Group
+				and_labels = ,$Group
 			}
 			
 			$or_labels += $and_labels
@@ -183,4 +183,5 @@ function New-GCPolicy {
 	
 	$BodyJson = $Body | ConvertTo-Json -Depth 99
 	Invoke-RestMethod -Uri $Uri -ContentType "application/json" -Authentication Bearer -Token $Key.Token -Body $BodyJson -Method "POST"
+	#$BodyJson
 }
