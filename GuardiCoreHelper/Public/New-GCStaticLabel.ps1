@@ -6,7 +6,7 @@
 	Creates a static label with given VMs, specified by unique ID. if the given Key/Value pair already exists, the new VMs are appended to the existing label.
 
 .PARAMETER Assets
-	[System.Array] Array of GuardiCore asset IDs. Used for static label definitions.
+	[System.Array] One or more GuardiCore asset objects. Used for static label definitions.
 
 .PARAMETER LabelKey
 	[System.String] Key of the label to be updated. Required for both dynamic and static labels.
@@ -25,7 +25,7 @@ function New-GCStaticLabel {
 
 	[cmdletbinding()]
 	param (
-		[Parameter(Mandatory=$false,ValueFromPipeline=$true)][System.Array]$AssetIds,
+		[Parameter(Mandatory=$false,ValueFromPipeline=$true)][System.Array]$Asset,
 		[Parameter(Mandatory=$true)][System.String]$LabelKey,
 		[Parameter(Mandatory=$true)][System.String]$LabelValue
 	)
@@ -38,8 +38,8 @@ function New-GCStaticLabel {
 		}
 	}
 	process {
-		$Body.vms += foreach ($Asset in $AssetIds) {
-			$Asset
+		$Body.vms += foreach ($A in $Asset) {
+			$A.id
 		}
 	}
 	end {

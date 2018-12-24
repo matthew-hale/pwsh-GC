@@ -5,7 +5,7 @@ function Get-GCPolicy {
 	[cmdletbinding()]
 	param (
 		[Parameter(Mandatory=$false)][ValidateSet("TCP","UDP")][System.Array]$Protocols = @("TCP","UDP"),
-		[Parameter(Mandatory=$true)][ValidateSet("allow","alert","block","block_and_alert")][System.String]$Action,
+		[Parameter(Mandatory=$false)][ValidateSet("allow","alert","block","block_and_alert")][System.String]$Action = "allow",
 		[Parameter(Mandatory=$false)][ValidateRange(1,65535)][System.Array]$Ports,
 		[Parameter(Mandatory=$false)][System.Array]$SourceLabelIDs,
 		[Parameter(Mandatory=$false)][System.Array]$DestinationLabelIDs,
@@ -69,9 +69,16 @@ function Get-GCPolicy {
 	
 	$Uri = $Key.Uri + "visibility/policy/sections/" + $Action + "/rules?"
 	
+	#Protocols has a default value, so we can just add it without checks
+	$Uri += "protocols="
+	foreach ($Protocol in $Protocols) {
+		$Uri += $Protocol + ","
+	}
+	$Uri = $Uri.SubString(0,$Uri.length-1) #Remove trailing ","
+	
 	##### SOURCES #####
 	
-	$Uri += "source="
+	$Uri += "&source="
 	
 	if ($SourceLabelIDs) {
 		$Uri += "labels:"
@@ -102,7 +109,7 @@ function Get-GCPolicy {
 	}
 	
 	if ($SourceAssetIDs) {
-		$Uri += "vm:"
+		$Uri += "assets:"
 		foreach ($Asset in $SourceAssetIDs) {
 			$Uri += $Asset + "|"
 		}
@@ -128,7 +135,7 @@ function Get-GCPolicy {
 	if ($Uri.SubString($Uri.length-1) -eq ",") {
 		$Uri = $Uri.SubString(0,$Uri.length-1)
 	} else {
-		$Uri = $Uri.SubString(0,$Uri.length-7)
+		$Uri = $Uri.SubString(0,$Uri.length-8)
 	}
 	
 	###################
@@ -166,7 +173,7 @@ function Get-GCPolicy {
 	}
 	
 	if ($DestinationAssetIDs) {
-		$Uri += "vm:"
+		$Uri += "assets:"
 		foreach ($Asset in $DestinationAssetIDs) {
 			$Uri += $Asset + "|"
 		}
@@ -230,7 +237,7 @@ function Get-GCPolicy {
 	}
 	
 	if ($AnySideAssetIDs) {
-		$Uri += "vm:"
+		$Uri += "assets:"
 		foreach ($Asset in $AnySideAssetIDs) {
 			$Uri += $Asset + "|"
 		}
@@ -294,12 +301,5 @@ function Get-GCPolicy {
 		$Uri += "&offset=" + $Offset
 	}
 	
-	#Protocols has a default value, so we can just add it without checks
-	$Uri += "&protocols="
-	foreach ($Protocol in $Protocols) {
-		$Uri += $Protocol + ","
-	}
-	$Uri = $Uri.SubString(0,$Uri.length-1) #Remove trailing ","
-	
-	Invoke-RestMethod -Uri $Uri -Authentication Bearer -Token $Key.Token -Method "GET"
+	Invoke-RestMethod -Uri $Uri -Authentication Bearer -Token $Key.Token -Method "GET" | Select-Object -ExpandProperty "objects"
 }

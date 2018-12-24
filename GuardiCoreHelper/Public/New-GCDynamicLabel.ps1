@@ -16,7 +16,7 @@ function New-GCDynamicLabel {
 			id = $null
 			key = $LabelKey
 			value = $LabelValue
-			criteria = @()
+			criteria = @() #This is an array of "criteria objects" that can be specified by an array of these objects from the pipeline, via the $Criteria parameter. You can also create a rule with just a single criteria by directly specifying Argument, Field, and Operation.
 		}
 	}
 	process {
