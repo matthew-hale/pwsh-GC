@@ -1,9 +1,9 @@
 <#
 .SYNOPSIS
-	Returns an API key from the specified GuardiCore management server using the given credentials.
+	Authenticates with the given management server, and stores a key in a global variable called "GCApiKey"
 
 .DESCRIPTION
-	To make GuardiCore API calls, an API key must be included in the headers. Thus, this first API call must be made; it returns a token that can be used for further API calls. The token represents a user session, and has the same timeout duration.
+	To make GuardiCore API calls, an API token must be included in the headers. Thus, this first API call must be made; it returns a token that can be used for further API calls. The token represents a user session, and has the same timeout duration. The GCApiKey variable includes this token, plus the Uri of the management server that it's authenticated with. All functions in the module that use this token are able to get the Uri and the token from this variable without further user input.
 
 .PARAMETER Server
 	[System.String] GuardiCore management server, in the format: "cus-5555".
@@ -15,12 +15,12 @@
 	[PSCredential] $Credentials parameter.
 
 .OUTPUTS
-	[PSCustomObject] Key containing a token and the base Uri for further API calls.
+	None. This function has no pipeline output.
 
 #>
 function Get-GCApiKey {
 
-	[cmdletbinding()]
+	[CmdletBinding()]
 	param (
 		[Parameter(Mandatory=$true)][System.String]$Server,
 		[Parameter(Mandatory=$true,ValueFromPipeline=$true)][PSCredential]$Credentials
@@ -40,7 +40,8 @@ function Get-GCApiKey {
 		$Token = Invoke-RestMethod -Uri $TempUri -Method "POST" -Body $BodyJson -ContentType "application/json" | Select-Object -ExpandProperty "access_token" | ConvertTo-SecureString -AsPlainText -Force
 	}
 	end {
-		$global:GCApiKey = [PSCustomObject]@{ #Saves the object in a global (session scope) variable called GCApiKey, so other functions don't need a key input.
+		$Global:GCApiKey = [PSCustomObject]@{ #Saves the object in a global (session scope) variable called GCApiKey, so other functions don't need a key input.
+			PSTypeName = "GCApiKey"
 			Token = $Token
 			Uri = $Uri
 		}

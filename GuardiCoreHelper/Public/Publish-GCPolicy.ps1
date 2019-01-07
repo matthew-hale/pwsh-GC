@@ -2,7 +2,7 @@
 
 function Publish-GCPolicy {
 	
-	[cmdletbinding()]
+	[CmdletBinding()]
 	param(
 		[Parameter(Mandatory=$true)][System.String]$Comments,
 		[Switch]$Audit

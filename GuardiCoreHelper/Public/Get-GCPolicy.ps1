@@ -2,8 +2,9 @@
 
 function Get-GCPolicy {
 
-	[cmdletbinding()]
+	[CmdletBinding()]
 	param (
+		[Parameter(Mandatory=$false)][System.String]$Search,
 		[Parameter(Mandatory=$false)][ValidateSet("TCP","UDP")][System.Array]$Protocols = @("TCP","UDP"),
 		[Parameter(Mandatory=$false)][ValidateSet("allow","alert","block","block_and_alert")][System.String]$Action = "allow",
 		[Parameter(Mandatory=$false)][ValidateRange(1,65535)][System.Array]$Ports,
@@ -50,7 +51,9 @@ function Get-GCPolicy {
 		[Parameter(Mandatory=$false)][System.String]$Comments,
 		[Parameter(Mandatory=$false)][Switch]$SourceInternet,
 		[Parameter(Mandatory=$false)][Switch]$DestinationInternet,
-		[Parameter(Mandatory=$false)][Switch]$AnySideInternet
+		[Parameter(Mandatory=$false)][Switch]$AnySideInternet,
+		[Parameter(Mandatory=$false)][ValidateRange(0,500000)][Int32]$Limit,
+		[Parameter(Mandatory=$false)][ValidateRange(0,500000)][Int32]$Offset
 	)
 	
 	$Key = $global:GCApiKey
@@ -64,7 +67,7 @@ function Get-GCPolicy {
 	}
 	
 	if ($AnySideLabelFile) {
-		$AnySideLabelFile = Get-GCLabelIDFromFilePrivate -File $AnySideLabelFile
+		$AnySideLabelIDs = Get-GCLabelIDFromFilePrivate -File $AnySideLabelFile
 	}
 	
 	$Uri = $Key.Uri + "visibility/policy/sections/" + $Action + "/rules?"
@@ -75,6 +78,18 @@ function Get-GCPolicy {
 		$Uri += $Protocol + ","
 	}
 	$Uri = $Uri.SubString(0,$Uri.length-1) #Remove trailing ","
+	
+	if ($Limit) {
+		$Uri += "&limit=" + $Limit
+	}
+	
+	if ($Offset) {
+		$Uri += "&offset=" + $Offset
+	}
+	
+	if ($Search) {
+		$Uri += "&search=" + $Search
+	}
 	
 	##### SOURCES #####
 	

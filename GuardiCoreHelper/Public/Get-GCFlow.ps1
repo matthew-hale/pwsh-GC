@@ -1,6 +1,6 @@
 function Get-GCFlow {
 	
-	[cmdletbinding()]
+	[CmdletBinding()]
 	param (
 		[Parameter(Mandatory=$true)][DateTime]$StartTime,
 		[Parameter(Mandatory=$true)][DateTime]$EndTime,

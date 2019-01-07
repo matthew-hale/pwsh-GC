@@ -2,7 +2,7 @@
 
 function Remove-GCLabel {
 	
-	[cmdletbinding()]
+	[CmdletBinding()]
 	param (
 		[Parameter(Mandatory=$false,ValueFromPipeline=$true)][PSCustomObject]$Label
 	)

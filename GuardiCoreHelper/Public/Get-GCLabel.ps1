@@ -17,7 +17,7 @@
 #>
 function Get-GCLabel {
 	
-	[cmdletbinding()]
+	[CmdletBinding()]
 	param (
 		[Parameter(Mandatory=$false)][Switch]$FindMatches,
 		[Parameter(Mandatory=$false)][System.String]$LabelKey,
@@ -26,7 +26,7 @@ function Get-GCLabel {
 		[Parameter(Mandatory=$false)][Int32]$Offset
 	)
 	begin {
-		$Key = $global:GCApiKey
+		$Key = $Global:GCApiKey
 	}
 	process {
 		$Uri = $Key.Uri + "visibility/labels?"
@@ -55,6 +55,8 @@ function Get-GCLabel {
 		}
 	}
 	end {
-		Invoke-RestMethod -Uri $Uri -Authentication Bearer -Token $Key.Token -Method "GET" | Select-Object -ExpandProperty "objects"
+		$Result = $(Invoke-RestMethod -Uri $Uri -Authentication Bearer -Token $Key.Token -Method "GET" | Select-Object -ExpandProperty "objects") | foreach {$_.PSTypeNames.Clear(); $_.PSTypeNames.Add("GCLabel"); $_}
+		
+		$Result
 	}
 }

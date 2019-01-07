@@ -30,7 +30,7 @@
 #>
 function Get-GCFlowInfo {
 	
-	[cmdletbinding()]
+	[CmdletBinding()]
 	param (
 		#An array of flows, as formatted from GuardiCore (converted from JSON).
 		[Parameter(Mandatory=$true)][System.Array]$Flows,
