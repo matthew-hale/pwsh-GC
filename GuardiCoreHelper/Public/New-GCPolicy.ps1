@@ -2,14 +2,14 @@
 
 function New-GCPolicy {
 
-	[cmdletbinding()]
+	[CmdletBinding()]
 	param (
 		[Parameter(Mandatory=$false)][ValidateSet("TCP","UDP")][System.Array]$Protocols = @("TCP","UDP"),
 		[Parameter(Mandatory=$true)][ValidateSet("allow","alert","block","block_and_alert")][System.String]$Action,
 		[Parameter(Mandatory=$false)][ValidateRange(1,65535)][System.Array]$Ports,
 		[Parameter(Mandatory=$false)][System.Array]$PortRanges,
-		[Parameter(Mandatory=$false)][System.Array]$SourceLabelIDs,
-		[Parameter(Mandatory=$false)][System.Array]$DestinationLabelIDs,
+		[Parameter(Mandatory=$false)][System.Array]$SourceLabel,
+		[Parameter(Mandatory=$false)][System.Array]$DestinationLabel,
 		[Parameter(Mandatory=$false)][ValidateScript({
 			if (-not ($_ | Test-Path)) {
 				throw "Path does not exist."
@@ -30,8 +30,8 @@ function New-GCPolicy {
 		})][String[]]$DestinationLabelFile,
 		[Parameter(Mandatory=$false)][System.Array]$SourceProcesses,
 		[Parameter(Mandatory=$false)][System.Array]$DestinationProcesses,
-		[Parameter(Mandatory=$false)][System.Array]$SourceAssetIDs,
-		[Parameter(Mandatory=$false)][System.Array]$DestinationAssetIDs,
+		[Parameter(Mandatory=$false)][System.Array]$SourceAsset,
+		[Parameter(Mandatory=$false)][System.Array]$DestinationAsset,
 		[Parameter(Mandatory=$false)][System.String]$SourceSubnet,
 		[Parameter(Mandatory=$false)][System.String]$DestinationSubnet,
 		[Parameter(Mandatory=$false)][System.String]$Ruleset,
@@ -97,16 +97,20 @@ function New-GCPolicy {
 		}
 	}
 	
-	if ($SourceLabelIDs) {
+	if ($SourceLabel) {
 		$temp = [PSCustomObject]@{}
 		$Body.rule.source | Add-Member -MemberType NoteProperty -Name labels -Value $temp
 		$Body.rule.source.labels | Add-Member -MemberType NoteProperty -Name or_labels -Value @()
 		
 		$or_labels = @()
 		
-		foreach ($Group in $SourceLabelIDs) {
+		foreach ($Group in $SourceLabel) {
 			$and_labels = [PSCustomObject]@{
-				and_labels = ,$Group
+				and_labels = @()
+			}
+		
+			foreach ($Item in $Group) {
+				$and_labels.and_labels += $Item.id
 			}
 			
 			$or_labels += $and_labels
@@ -115,16 +119,20 @@ function New-GCPolicy {
 		$Body.rule.source.labels.or_labels = $or_labels
 	}
 	
-	if ($DestinationLabelIDs) {
+	if ($DestinationLabel) {
 		$temp = [PSCustomObject]@{}
 		$Body.rule.destination | Add-Member -MemberType NoteProperty -Name labels -Value $temp
 		$Body.rule.destination.labels | Add-Member -MemberType NoteProperty -Name or_labels -Value @()
 		
 		$or_labels = @()
 		
-		foreach ($Group in $DestinationLabelIDs) {
+		foreach ($Group in $DestinationLabel) {
 			$and_labels = [PSCustomObject]@{
-				and_labels = ,$Group
+				and_labels = @()
+			}
+		
+			foreach ($Item in $Group) {
+				$and_labels.and_labels += $Item.id
 			}
 			
 			$or_labels += $and_labels
@@ -141,12 +149,12 @@ function New-GCPolicy {
 		$Body.rule.destination | Add-Member -MemberType NoteProperty -Name processes -Value $DestinationProcesses
 	}
 	
-	if ($SourceAssetIDs) {
-		$Body.rule.source | Add-Member -MemberType NoteProperty -Name asset_ids -Value $SourceAssetIDs
+	if ($SourceAsset) {
+		$Body.rule.source | Add-Member -MemberType NoteProperty -Name asset_ids -Value @($SourceAsset.id)
 	}
 	
-	if ($DestinationAssetIDs) {
-		$Body.rule.destination | Add-Member -MemberType NoteProperty -Name asset_ids -Value $DestinationAssetIDs
+	if ($DestinationAsset) {
+		$Body.rule.destination | Add-Member -MemberType NoteProperty -Name asset_ids -Value @($DestinationAsset.id)
 	}
 	
 	if ($SourceSubnet) {

@@ -2,7 +2,7 @@
 
 function Set-GCPolicy {
 	
-	[cmdletbinding()]
+	[CmdletBinding()]
 	param (
 		[Parameter(Mandatory=$false,ValueFromPipeline=$true)]$Policy #One or more policy objects as returned from GuardiCore, but with updated values. Accepts the PS object, not JSON data. This allows you to grab a policy, change it via powershell methods, and pass it into this function to update it.
 	)

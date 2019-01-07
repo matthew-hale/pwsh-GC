@@ -17,7 +17,7 @@
 #>
 function Get-GCFlowTotal {
 
-	[cmdletbinding()]
+	[CmdletBinding()]
 	param (
 		[Parameter(Mandatory=$true,ValueFromPipeline=$true)][System.Array]$Flows
 	)

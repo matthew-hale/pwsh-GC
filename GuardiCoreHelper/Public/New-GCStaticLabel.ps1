@@ -5,8 +5,8 @@
 .DESCRIPTION
 	Creates a static label with given VMs, specified by unique ID. if the given Key/Value pair already exists, the new VMs are appended to the existing label.
 
-.PARAMETER Assets
-	[System.Array] One or more GuardiCore asset objects. Used for static label definitions.
+.PARAMETER Asset
+	[PSTypeName("GCAsset")] One or more GuardiCore asset objects. Used for static label definitions.
 
 .PARAMETER LabelKey
 	[System.String] Key of the label to be updated. Required for both dynamic and static labels.
@@ -15,17 +15,17 @@
 	[System.String] Value of the label to be updated. Required for both dynamic and static labels.
 
 .INPUTS
-	[System.Array] $Assets parameter.
+	[PSTypeName("GCAsset")] $Asset parameter; one or more GCAsset objects, as returned by Get-GCAsset.
 
 .OUTPUTS
-	application/json
+	[PSCustomObject] application/json data returned from the API request
 
 #>
 function New-GCStaticLabel {
 
-	[cmdletbinding()]
+	[CmdletBinding()]
 	param (
-		[Parameter(Mandatory=$false,ValueFromPipeline=$true)][System.Array]$Asset,
+		[Parameter(Mandatory=$false,ValueFromPipeline=$true)][PSCustomObject]$Asset,
 		[Parameter(Mandatory=$true)][System.String]$LabelKey,
 		[Parameter(Mandatory=$true)][System.String]$LabelValue
 	)
@@ -45,5 +45,6 @@ function New-GCStaticLabel {
 	end {
 		$BodyJson = $Body | ConvertTo-Json -Depth 99
 		Invoke-RestMethod -Uri $Uri -ContentType "application/json" -Authentication Bearer -Token $Key.Token -Body $BodyJson -Method "POST"
+		#$BodyJson
 	}
 }

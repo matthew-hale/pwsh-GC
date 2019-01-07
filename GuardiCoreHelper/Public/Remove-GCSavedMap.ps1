@@ -1,10 +1,10 @@
-#Encapsulates the "POST visibility/policy/rules/{ruleID}" API call (for deletion)
+#Encapsulates the "POST /visibility/saved-maps/{mapID}" API call (for deletion)
 
-function Remove-GCPolicy {
+function Remove-GCSavedMap {
 	
 	[CmdletBinding()]
 	param (
-		[Parameter(Mandatory=$false,ValueFromPipeline=$true)][System.Array]$Policy
+		[Parameter(Mandatory=$false,ValueFromPipeline=$true)][System.Array]$Map
 	)
 	begin {
 		$Key = $Global:GCApiKey
@@ -18,8 +18,8 @@ function Remove-GCPolicy {
 		$Result = @()
 	}
 	process {
-		foreach ($P in $Policy) {
-			$Uri = $Key.Uri + "visibility/policy/rules/" + $P.id
+		foreach ($M in $Map) {
+			$Uri = $Key.Uri + "visibility/saved-maps/" + $M.id
 			
 			$Result += Invoke-RestMethod -Uri $Uri -ContentType "application/json" -Authentication Bearer -Token $Key.Token -Body $BodyJson -Method "POST"
 		}

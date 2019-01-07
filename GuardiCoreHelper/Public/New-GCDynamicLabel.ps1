@@ -1,4 +1,6 @@
 function New-GCDynamicLabel {
+
+	[CmdletBinding()]
 	param (
 		[Parameter(Mandatory=$false)][System.String]$LabelKey,
 		[Parameter(Mandatory=$false)][System.String]$LabelValue,

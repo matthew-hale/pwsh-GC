@@ -1,6 +1,6 @@
 function Import-GCApiKey {
 	
-	[cmdletbinding()]
+	[CmdletBinding()]
 	param (
 		[Parameter(Mandatory=$true)]$AES, #Path to AES Key
 		[Parameter(Mandatory=$true)]$Key #Path to exported API key
