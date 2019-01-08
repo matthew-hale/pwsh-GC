@@ -132,8 +132,12 @@ function Get-GCIncident{
 		}
 	}
 	process {
-		#$Result = $Uri
-		$Result = $(Invoke-RestMethod -Uri $Uri -Authentication Bearer -Token $Key.Token -Method "GET" | Select-Object -ExpandProperty "objects") | foreach {$_.PSTypeNames.Clear(); $_.PSTypeNames.Add("GCIncident"); $_}
+		try {
+			$Result = $(Invoke-RestMethod -Uri $Uri -Authentication Bearer -Token $Key.Token -Method "GET" | Select-Object -ExpandProperty "objects") | foreach {$_.PSTypeNames.Clear(); $_.PSTypeNames.Add("GCIncident"); $_}
+		}
+		catch {
+			throw $_.Exception
+		}
 	}
 	end {
 		$Result

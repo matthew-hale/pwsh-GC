@@ -75,6 +75,9 @@ function Get-GCAsset {
 		$TempLabelUri = "&labels="
 	}
 	process {
+		#This is to handle labels being piped in to this function, as opposed to delivered via parameter.
+		#It checks to see if labels were already added to the uri. 
+		#If they weren't, but there are labels in the $Labels variable, it iterates through them.
 		if (-not ($Uri -match "&labels=") -and $Label) {
 			$TempLabelUri += $Label.id + ","
 		}
@@ -85,7 +88,12 @@ function Get-GCAsset {
 			$Uri += $TempLabelUri
 		}
 		
-		$Result = $(Invoke-RestMethod -Uri $Uri -Authentication Bearer -Token $Key.Token -Method "GET" | Select-Object -ExpandProperty "objects") | foreach {$_.PSTypeNames.Clear(); $_.PSTypeNames.Add("GCAsset"); $_}
+		try {
+			$Result = $(Invoke-RestMethod -Uri $Uri -Authentication Bearer -Token $Key.Token -Method "GET" | Select-Object -ExpandProperty "objects") | foreach {$_.PSTypeNames.Clear(); $_.PSTypeNames.Add("GCAsset"); $_}
+		}
+		catch {
+			throw $_.Exception
+		}
 		
 		$Result
 	}

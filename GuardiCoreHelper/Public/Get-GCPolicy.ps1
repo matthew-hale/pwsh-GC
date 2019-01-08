@@ -56,7 +56,7 @@ function Get-GCPolicy {
 		[Parameter(Mandatory=$false)][ValidateRange(0,500000)][Int32]$Offset
 	)
 	
-	$Key = $global:GCApiKey
+	$Key = $Global:GCApiKey
 	
 	if ($SourceLabelFile) {
 		$SourceLabelIDs = Get-GCLabelIDFromFilePrivate -File $SourceLabelFile
@@ -316,5 +316,12 @@ function Get-GCPolicy {
 		$Uri += "&offset=" + $Offset
 	}
 	
-	Invoke-RestMethod -Uri $Uri -Authentication Bearer -Token $Key.Token -Method "GET" | Select-Object -ExpandProperty "objects"
+	try {
+		$Result = Invoke-RestMethod -Uri $Uri -Authentication Bearer -Token $Key.Token -Method "GET" | Select-Object -ExpandProperty "objects"
+	}
+	catch {
+		throw $_.Exception
+	}
+	
+	$Result
 }

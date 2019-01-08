@@ -37,7 +37,12 @@ function Get-GCApiKey {
 		$Body.username = $Credentials.UserName
 		$Body.password = $Credentials.GetNetworkCredential().Password
 		$BodyJson = $Body | ConvertTo-Json -Depth 99
-		$Token = Invoke-RestMethod -Uri $TempUri -Method "POST" -Body $BodyJson -ContentType "application/json" | Select-Object -ExpandProperty "access_token" | ConvertTo-SecureString -AsPlainText -Force
+		try {
+			$Token = Invoke-RestMethod -Uri $TempUri -Method "POST" -Body $BodyJson -ContentType "application/json" | Select-Object -ExpandProperty "access_token" | ConvertTo-SecureString -AsPlainText -Force
+		}
+		catch {
+			throw $_.Exception
+		}
 	}
 	end {
 		$Global:GCApiKey = [PSCustomObject]@{ #Saves the object in a global (session scope) variable called GCApiKey, so other functions don't need a key input.
