@@ -58,17 +58,17 @@ function Get-GCAgent {
 
 	[CmdletBinding()]
 	param (
-		[Parameter(Mandatory=$false)][System.String]$Version,
-		[Parameter(Mandatory=$false)][System.String]$Kernel,
-		[Parameter(Mandatory=$false)][ValidateSet("Unknown","Windows","Linux")][System.String]$OS,
+		[Parameter(Mandatory=$false)][System.Array]$Version,
+		[Parameter(Mandatory=$false)][System.Array]$Kernel,
+		[Parameter(Mandatory=$false)][ValidateSet("Unknown","Windows","Linux")][System.Array]$OS,
 		[Parameter(Mandatory=$false)][PSTypeName("GCLabel")]$Label,
-		[Parameter(Mandatory=$false)][ValidateSet("Online","Offline")][System.String]$Status, # = display_status
+		[Parameter(Mandatory=$false)][ValidateSet("Online","Offline")][System.Array]$Status, # = display_status
 		[Parameter(Mandatory=$false)][ValidateRange(1,14)][Int32]$Flag,
-		[Parameter(Mandatory=$false)][ValidateSet("Active","Not Deployed","Disabled")][System.String]$Enforcement, # = module_status_enforcement
-		[Parameter(Mandatory=$false)][ValidateSet("Active","Not Deployed")][System.String]$Deception, # = module_status_deception
-		[Parameter(Mandatory=$false)][ValidateSet("Active","Not Deployed")][System.String]$Detection, # = module_status_detection
-		[Parameter(Mandatory=$false)][ValidateSet("Active","Not Deployed")][System.String]$Reveal,  # = module_status_reveal
-		[Parameter(Mandatory=$false)][ValidateSet("last_month","last_week","last_12_hours","last_24_hours","not_active")][System.String]$Activity,
+		[Parameter(Mandatory=$false)][ValidateSet("Active","Not Deployed","Disabled")][System.Array]$Enforcement, # = module_status_enforcement
+		[Parameter(Mandatory=$false)][ValidateSet("Active","Not Deployed")][System.Array]$Deception, # = module_status_deception
+		[Parameter(Mandatory=$false)][ValidateSet("Active","Not Deployed")][System.Array]$Detection, # = module_status_detection
+		[Parameter(Mandatory=$false)][ValidateSet("Active","Not Deployed")][System.Array]$Reveal,  # = module_status_reveal
+		[Parameter(Mandatory=$false)][ValidateSet("last_month","last_week","last_12_hours","last_24_hours","not_active")][System.Array]$Activity,
 		[Parameter(Mandatory=$false)][System.String]$GCFilter,
 		[Parameter(Mandatory=$false)][ValidateRange(0,500000)][Int32]$Limit,
 		[Parameter(Mandatory=$false)][ValidateRange(0,500000)][Int32]$Offset
@@ -181,7 +181,7 @@ function Get-GCAgent {
 		}
 		
 		if ($GCFilter) {
-			$Uri += "&gc_filter=" + $GcFilter
+			$Uri += "&gc_filter=" + $GCFilter
 		}
 		
 		if ($Limit) {
