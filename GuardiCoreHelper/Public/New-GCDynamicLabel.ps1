@@ -1,3 +1,41 @@
+<#
+.SYNOPSIS
+	Encapsulates the "POST /visibility/labels" API request.
+
+.DESCRIPTION
+
+.PARAMETER LabelKey
+	The key of the new label.
+
+.PARAMETER LabelValue
+	The value of the new label.
+
+.PARAMETER Argument
+	The argument of the dynamic label definition (e.g. "Demo").
+
+.PARAMETER Field
+	The field of the dynamic label definition; accepts "name","numeric_ip_addresses"
+
+.PARAMETER Operation
+	The operation of the dynamic label definition; accepts "STARTSWITH","ENDSWITH","EQUALS","CONTAINS","SUBNET","WILDCARDS"
+
+.PARAMETER Criteria
+	One or more custom objects similar to the above parameters in structure.
+	Example:
+
+	[PSCustomObject]@{
+		field = "name"
+		op = "STARTSWITH"
+		argument = "example"
+	}
+
+.INPUTS
+	[PSCustomObject] One or more criteria objects.
+
+.OUTPUTS
+	application/json data
+
+#>
 function New-GCDynamicLabel {
 
 	[CmdletBinding()]

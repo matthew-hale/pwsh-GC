@@ -1,13 +1,56 @@
-#Encapsulates the "POST /visibility/policy/sections/{section_name}/rules" API call
+<#
+.SYNOPSIS
+	Encapsulates the "POST /visibility/policy/sections/{section_name}/rules" API call
 
+.DESCRIPTION
+	Creates a new segmentation policy according to the given parameters.
+
+.PARAMETER Action
+	Policy section; accepts "allow","alert","block","override"
+
+.PARAMETER Protocol 
+	TCP and/or UDP protocols.
+
+.PARAMETER Port
+	One or more ports.
+
+.PARAMETER PortRange
+
+.PARAMETER
+
+.PARAMETER
+
+.PARAMETER
+
+.PARAMETER
+
+.PARAMETER
+
+.PARAMETER
+
+.PARAMETER
+
+.PARAMETER
+
+.PARAMETER
+
+.PARAMETER
+
+.PARAMETER
+
+.PARAMETER
+
+.PARAMETER
+
+#>
 function New-GCPolicy {
 
 	[CmdletBinding()]
 	param (
-		[Parameter(Mandatory=$false)][ValidateSet("TCP","UDP")][System.Array]$Protocols = @("TCP","UDP"),
-		[Parameter(Mandatory=$true)][ValidateSet("allow","alert","block","block_and_alert")][System.String]$Action,
-		[Parameter(Mandatory=$false)][ValidateRange(1,65535)][System.Array]$Ports,
-		[Parameter(Mandatory=$false)][System.Array]$PortRanges,
+		[Parameter(Mandatory=$true)][ValidateSet("allow","alert","block","override")][System.String]$Action,
+		[Parameter(Mandatory=$false)][ValidateSet("TCP","UDP")][System.Array]$Protocol = @("TCP","UDP"),
+		[Parameter(Mandatory=$false)][ValidateRange(1,65535)][System.Array]$Port,
+		[Parameter(Mandatory=$false)][System.Array]$PortRange,
 		[Parameter(Mandatory=$false)][System.Array]$SourceLabel,
 		[Parameter(Mandatory=$false)][System.Array]$DestinationLabel,
 		[Parameter(Mandatory=$false)][ValidateScript({
@@ -62,35 +105,35 @@ function New-GCPolicy {
 			ports = @()
 			source = [PSCustomObject]@{}
 			destination = [PSCustomObject]@{}
-			ip_protocols = $Protocols
+			ip_protocols = $Protocol
 			action = $Action
 		}
 	}
 	
-	if ($Ports) {
-		$Body.rule.ports = $Ports
+	if ($Port) {
+		$Body.rule.ports = $Port
 	}
 	
-	if ($PortRanges) {
+	if ($PortRange) {
 		#The validation doesn't work in ValidateScript for some reason, so I'm just doing it here
-		foreach ($PortRange in $PortRanges) {
-			if ($PortRange.length -ne 2) {
-				throw "Parameter PortRanges: Each range must consist of starting and ending port"
+		foreach ($P in $PortRange) {
+			if ($P.length -ne 2) {
+				throw "Parameter PortRange: Each range must consist of starting and ending port"
 			}
 			
-			foreach ($Port in $PortRange) {
+			foreach ($Port in $P) {
 				if (-not (($Port -is [int]) -and ($Port -gt 0) -and ($Port -lt 65536))) {
-					throw "Parameter PortRanges: Ports may only be integers from 1 to 65535"
+					throw "Parameter PortRange: Ports may only be integers from 1 to 65535"
 				}
 			}
 			
-			if ($PortRange[1] -le $PortRange[0]) {
-				throw "Parameter PortRanges: Each range's end value must be greater than its start value"
+			if ($P[1] -le $P[0]) {
+				throw "Parameter PortRange: Each range's end value must be greater than its start value"
 			}
 			
 			$port_range = [PSCustomObject]@{
-				start = $PortRange[0]
-				end = $PortRange[1]
+				start = $P[0]
+				end = $P[1]
 			}
 			
 			$Body.rule.port_ranges += $port_range

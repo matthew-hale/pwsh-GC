@@ -1,15 +1,55 @@
-#Encapsulates the "GET /visibility/saved-maps" api request
+
+<#
+.SYNOPSIS
+	Encapsulates the "GET /visibility/saved-maps" api request
+
+.DESCRIPTION
+
+.PARAMETER Search
+	A generic search string; use this to search for maps by name.
+
+.PARAMETER AuthorID
+	ID of the map author.
+
+.PARAMETER State
+	Current state of the map; accepts "READY","IN_PROGRESS","QUEUED","CANCELLED","FAILED","EMPTY"
+
+.PARAMETER Features
+	Map features; accepts "include_processes","time_resolution"
+
+.PARAMETER Asset
+	One or more GCAsset objects.
+
+.PARAMETER Label
+	One or more GCLabel objects.
+
+.PARAMETER TimeRange
+	Array containing a start and end time, as DateTime objects.
+
+.PARAMETER Limit
+	The maximum number of results to return.
+
+.PARAMETER Offset
+	The index of the first result to return.
+
+.INPUTS
+	None. This function accepts no pipeline inputs.
+
+.OUTPUTS
+	PSTypeName="GCSavedMap"
+
+#>
 function Get-GCSavedMap {
 	
 	[CmdletBinding()]
 	param (
-		[Parameter(Mandatory=$false)][System.String]$AuthorID,
+		[Parameter(Mandatory=$false)][System.String]$Search,
 		[Parameter(Mandatory=$false)][ValidateSet("READY","IN_PROGRESS","QUEUED","CANCELLED","FAILED","EMPTY")][System.String]$State,
 		[Parameter(Mandatory=$false)][ValidateSet("include_processes","time_resolution")]$Features,
 		[Parameter(Mandatory=$false)][PSTypeName("GCAsset")]$Asset,
 		[Parameter(Mandatory=$false)][PSTypeName("GCLabel")]$Label,
 		[Parameter(Mandatory=$false)][DateTime[]]$TimeRange,
-		[Parameter(Mandatory=$false)][System.String]$Search,
+		[Parameter(Mandatory=$false)][System.String]$AuthorID,
 		[Parameter(Mandatory=$false)][Int32]$Limit,
 		[Parameter(Mandatory=$false)][Int32]$Offset
 	)
