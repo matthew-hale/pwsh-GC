@@ -5,14 +5,26 @@
 .DESCRIPTION
 	Retrieves labels that fit the parameters given. Additionally includes member assets if find_matches is set.
 
-.PARAMETER
-	
+.PARAMETER FindMatches
+	Switch - if set, request returns the assets that match the label's definition.
+
+.PARAMETER LabelKey
+	The key of the label.
+
+.PARAMETER LabelValue
+	The value of the label.
+
+.PARAMETER Limit
+	The maximum number of results to return.
+
+.PARAMETER Offset
+	The index of the first result to return.
 
 .INPUTS
-	
+	None. This function accepts no pipeline inputs.
 
 .OUTPUTS
-	
+	PSTypeName="GCLabel"
 
 #>
 function Get-GCLabel {

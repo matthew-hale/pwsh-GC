@@ -18,48 +18,67 @@
 	One or more ports that are included in the policy.
 	
 .PARAMETER SourceLabel
+	One or more GCLabel objects in the source of the policy.
 
 .PARAMETER DestinationLabel
+	One or more GCLabel objects in the destination of the policy.
 
 .PARAMETER AnySideLabel
+	One or more GCLabel objects in the source or the destination of the policy.
 
 .PARAMETER SourceProcess
+	One or more processes in the source of the policy.
 
 .PARAMETER DestinationProcess
+	One or more processes in the destination of the policy.
 
-.PARAMETER AnySideProcess
+.PARAMETER AnySideProcess 
+	One or more processes in the source or the destination of the policy.
 
 .PARAMETER SourceAsset
+	One or more GCAsset objects in the source of the policy.
 
 .PARAMETER DestinationAsset
+	One or more GCAsset objects in the destination of the policy.
 
 .PARAMETER AnySideAsset
+	One or more GCAsset objects in the source or the destination of the policy.
 
 .PARAMETER SourceSubnet
+	One or more subnets in the source of the policy.
 
 .PARAMETER DestinationSubnet
+	One or more subnets in the destination of the policy.
 
 .PARAMETER AnySideSubnet
+	One or more subnets in the source or the destination of the policy.
 
 .PARAMETER Ruleset
+	The ruleset that the policy belongs to.
 
 .PARAMETER Comments
+	The comments in the policy.
 
 .PARAMETER SourceInternet
+	Switch - if the source is an internet address.
 
 .PARAMETER DestinationInternet
+	Switch - if the destination is an internet address.
 
 .PARAMETER AnySideInternet
+	Switch - if the source or the destination is an internet address.
 
 .PARAMETER Limit
+	The maximum number of results to return.
 
 .PARAMETER Offset
+	The index of the first result to return.
 
 .INPUTS
-	
+	None. This function takes no pipeline input.
 
 .OUTPUTS
-	
+	PSTypeName="GCPolicy"
 
 #>
 function Get-GCPolicy {
@@ -74,7 +93,7 @@ function Get-GCPolicy {
 		[Parameter(Mandatory=$false)][PSTypeName("GCLabel")]$DestinationLabel,
 		[Parameter(Mandatory=$false)][PSTypeName("GCLabel")]$AnySideLabel,
 		[Parameter(Mandatory=$false)][System.Array]$SourceProcess,
-		[Parameter(Mandatory=$false)][System.Array]$DestinationProcesse
+		[Parameter(Mandatory=$false)][System.Array]$DestinationProcess,
 		[Parameter(Mandatory=$false)][System.Array]$AnySideProcess,
 		[Parameter(Mandatory=$false)][PSTypeName("GCAsset")]$SourceAsset,
 		[Parameter(Mandatory=$false)][PSTypeName("GCAsset")]$DestinationAsset,
