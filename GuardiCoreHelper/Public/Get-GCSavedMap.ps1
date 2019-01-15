@@ -90,7 +90,7 @@ function Get-GCSavedMap {
 			$Result = $(Invoke-RestMethod -Uri $Uri -Authentication Bearer -Token $Key.Token -Method "GET" | Select-Object -ExpandProperty "objects") | foreach {$_.PSTypeNames.Clear(); $_.PSTypeNames.Add("GCSavedMap"); $_}
 		}
 		catch {
-			thwor $_.Exception
+			throw $_.Exception
 		}
 	}
 	end {
