@@ -109,7 +109,17 @@ function Get-GCIncident{
 			
 			$Uri = $Uri.SubString(0,$Uri.Length-1) #Remove trailing ","
 		}
+
+		if ($IncludeTag) {
+			$Tags = $IncludeTag -Join ","
+			$Uri += "&tag=" + $Tags
+		}
 		
+		if ($ExcludeTag) {
+			$Tags = $ExcludeTag -Join ","
+			$Uri += "&tags__not=" + $Tags
+		}
+
 		### SOURCE ###
 		
 		$Uri += "&source="
