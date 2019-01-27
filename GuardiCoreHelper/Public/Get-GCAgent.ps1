@@ -70,7 +70,7 @@ function Get-GCAgent {
 		[Parameter(Mandatory=$false)][ValidateSet("Active","Not Deployed")][System.Array]$Reveal,  # = module_status_reveal
 		[Parameter(Mandatory=$false)][ValidateSet("last_month","last_week","last_12_hours","last_24_hours","not_active")][System.Array]$Activity,
 		[Parameter(Mandatory=$false)][System.String]$GCFilter,
-		[Parameter(Mandatory=$false)][ValidateRange(0,500000)][Int32]$Limit,
+		[Parameter(Mandatory=$false)][ValidateRange(0,1000)][Int32]$Limit,
 		[Parameter(Mandatory=$false)][ValidateRange(0,500000)][Int32]$Offset
 	)
 	begin {

@@ -3,6 +3,7 @@
 	Encapsulates the GET /incidents API request.
 
 .DESCRIPTION
+	Requests incidents that are generated on a management server, filtered by given parameters.
 
 .PARAMETER StartTime
 	The start of the time range.
@@ -69,9 +70,9 @@ function Get-GCIncident{
 		[Parameter(Mandatory=$false)][PSTypeName("GCLabel")]$SourceLabel,
 		[Parameter(Mandatory=$false)][PSTypeName("GCLabel")]$DestinationLabel,
 		[Parameter(Mandatory=$false)][PSTypeName("GCLabel")]$AnySideLabel,
-		[Parameter(Mandatory=$false)]$IncludeTag,
-		[Parameter(Mandatory=$false)]$ExcludeTag,
-		[Parameter(Mandatory=$false)][ValidateRange(0,500000)]$Limit = 20,
+		[Parameter(Mandatory=$false)][System.Array]$IncludeTag,
+		[Parameter(Mandatory=$false)][System.Array]$ExcludeTag,
+		[Parameter(Mandatory=$false)][ValidateRange(0,1000)]$Limit = 20,
 		[Parameter(Mandatory=$false)][ValidateRange(0,500000)][Int32]$Offset = 0
 	)
 	begin {

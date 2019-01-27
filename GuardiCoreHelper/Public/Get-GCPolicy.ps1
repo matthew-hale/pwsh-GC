@@ -78,7 +78,7 @@
 	None. This function takes no pipeline input.
 
 .OUTPUTS
-	PSTypeName="GCPolicy"
+	[PSTypeName="GCPolicy"] One or more GCPolicy objects.
 
 #>
 function Get-GCPolicy {
@@ -98,15 +98,39 @@ function Get-GCPolicy {
 		[Parameter(Mandatory=$false)][PSTypeName("GCAsset")]$SourceAsset,
 		[Parameter(Mandatory=$false)][PSTypeName("GCAsset")]$DestinationAsset,
 		[Parameter(Mandatory=$false)][PSTypeName("GCAsset")]$AnySideAsset,
-		[Parameter(Mandatory=$false)][System.String]$SourceSubnet,
-		[Parameter(Mandatory=$false)][System.String]$DestinationSubnet,
-		[Parameter(Mandatory=$false)][System.String]$AnySideSubnet,
+		[Parameter(Mandatory=$false)][ValidateScript({
+			foreach ($Subnet in $_) {
+				if (-not ($Subnet -match "[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\/([1-9]|[1-2][0-9]|[3][0-2])")) {
+					throw "The subnet provided is not a valid subnet. Please provide a subnet in 0.0.0.0/0 format."
+				}
+
+				$true
+			}
+		})][System.Array]$SourceSubnet,
+		[Parameter(Mandatory=$false)][ValidateScript({
+			foreach ($Subnet in $_) {
+				if (-not ($Subnet -match "[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\/([1-9]|[1-2][0-9]|[3][0-2])")) {
+					throw "The subnet provided is not a valid subnet. Please provide a subnet in 0.0.0.0/0 format."
+				}
+
+				$true
+			}
+		})][System.String]$DestinationSubnet,
+		[Parameter(Mandatory=$false)][ValidateScript({
+			foreach ($Subnet in $_) {
+				if (-not ($Subnet -match "[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\/([1-9]|[1-2][0-9]|[3][0-2])")) {
+					throw "The subnet provided is not a valid subnet. Please provide a subnet in 0.0.0.0/0 format."
+				}
+
+				$true
+			}
+		})][System.String]$AnySideSubnet,
 		[Parameter(Mandatory=$false)][System.String]$Ruleset,
 		[Parameter(Mandatory=$false)][System.String]$Comments,
 		[Parameter(Mandatory=$false)][Switch]$SourceInternet,
 		[Parameter(Mandatory=$false)][Switch]$DestinationInternet,
 		[Parameter(Mandatory=$false)][Switch]$AnySideInternet,
-		[Parameter(Mandatory=$false)][ValidateRange(0,500000)][Int32]$Limit,
+		[Parameter(Mandatory=$false)][ValidateRange(0,1000)][Int32]$Limit,
 		[Parameter(Mandatory=$false)][ValidateRange(0,500000)][Int32]$Offset
 	)
 	

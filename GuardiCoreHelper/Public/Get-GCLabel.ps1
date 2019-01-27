@@ -6,7 +6,7 @@
 	Retrieves labels that fit the parameters given. Additionally includes member assets if find_matches is set.
 
 .PARAMETER FindMatches
-	Switch - if set, request returns the assets that match the label's definition.
+	Switch - if set to true, request returns the assets that match the label's definition.
 
 .PARAMETER LabelKey
 	The key of the label.
@@ -15,7 +15,7 @@
 	The value of the label.
 
 .PARAMETER Limit
-	The maximum number of results to return.
+	The maximum number of labels to return.
 
 .PARAMETER Offset
 	The index of the first result to return.
@@ -24,7 +24,7 @@
 	None. This function accepts no pipeline inputs.
 
 .OUTPUTS
-	PSTypeName="GCLabel"
+	[PSTypeName="GCLabel"] One or more GCLabel objects.
 
 #>
 function Get-GCLabel {
@@ -34,13 +34,12 @@ function Get-GCLabel {
 		[Parameter(Mandatory=$false)][Switch]$FindMatches,
 		[Parameter(Mandatory=$false)][System.String]$LabelKey,
 		[Parameter(Mandatory=$false)][System.String]$LabelValue,
-		[Parameter(Mandatory=$false)][Int32]$Limit,
-		[Parameter(Mandatory=$false)][Int32]$Offset
+		[Parameter(Mandatory=$false)][ValidateRange(0,1000)][Int32]$Limit,
+		[Parameter(Mandatory=$false)][ValidateRange(0,500000)][Int32]$Offset
 	)
 	begin {
 		$Key = $Global:GCApiKey
-	}
-	process {
+
 		$Uri = $Key.Uri + "visibility/labels?"
 		
 		#Building the Uri with given parameters
@@ -66,14 +65,15 @@ function Get-GCLabel {
 			$Uri += "&offset=" + $Offset
 		}
 	}
-	end {
+	process {
 		try {
 			$Result = $(Invoke-RestMethod -Uri $Uri -Authentication Bearer -Token $Key.Token -Method "GET" | Select-Object -ExpandProperty "objects") | foreach {$_.PSTypeNames.Clear(); $_.PSTypeNames.Add("GCLabel"); $_}
 		}
 		catch {
 			throw $_.Exception
 		}
-		
+	}
+	end {
 		$Result
 	}
 }

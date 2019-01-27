@@ -35,7 +35,7 @@ function Get-GCAsset {
 		[Parameter(Mandatory=$false)][ValidateRange(0,3)][Int32]$Risk,
 		[Parameter(Mandatory=$false,ValueFromPipeline=$true)][PSTypeName("GCLabel")]$Label,
 		[Parameter(Mandatory=$false)][PSTypeName("GCAsset")]$Asset,
-		[Parameter(Mandatory=$false)][ValidateRange(0,500000)][Int32]$Limit = 20,
+		[Parameter(Mandatory=$false)][ValidateRange(0,1000)][Int32]$Limit = 20,
 		[Parameter(Mandatory=$false)][ValidateRange(0,500000)][Int32]$Offset
 	)
 	begin {
