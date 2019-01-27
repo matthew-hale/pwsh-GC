@@ -9,16 +9,16 @@
 @{
 
 # Script module or binary module file associated with this manifest.
-# RootModule = ''
+RootModule = 'GuardiCoreHelper.psm1'
 
 # Version number of this module.
-ModuleVersion = '0.0.0.0'
+ModuleVersion = '0.0.1'
 
 # Supported PSEditions
 # CompatiblePSEditions = @()
 
 # ID used to uniquely identify this module
-GUID = 'e5c007bb-8938-44ff-b949-6e93174c313f'
+GUID = '5c5affd2-6a11-4bfd-ab2e-43f457ffb60a'
 
 # Author of this module
 Author = 'Matthew Hale'
@@ -30,7 +30,7 @@ CompanyName = 'Unknown'
 Copyright = '(c) Matthew Hale. All rights reserved.'
 
 # Description of the functionality provided by this module
-Description = 'A PowerShell Core module for interacting with the GuardiCore management server API.'
+Description = 'A collection of Powershell Core modules and scripts for GuardiCore Centra administration and management.'
 
 # Minimum version of the PowerShell engine required by this module
 PowerShellVersion = '6.1'
@@ -69,16 +69,16 @@ PowerShellVersion = '6.1'
 # NestedModules = @()
 
 # Functions to export from this module, for best performance, do not use wildcards and do not delete the entry, use an empty array if there are no functions to export.
-FunctionsToExport = @()
+FunctionsToExport = '*'
 
 # Cmdlets to export from this module, for best performance, do not use wildcards and do not delete the entry, use an empty array if there are no cmdlets to export.
-CmdletsToExport = @()
+CmdletsToExport = '*'
 
 # Variables to export from this module
 VariablesToExport = '*'
 
 # Aliases to export from this module, for best performance, do not use wildcards and do not delete the entry, use an empty array if there are no aliases to export.
-AliasesToExport = @()
+AliasesToExport = '*'
 
 # DSC resources to export from this module
 # DscResourcesToExport = @()
