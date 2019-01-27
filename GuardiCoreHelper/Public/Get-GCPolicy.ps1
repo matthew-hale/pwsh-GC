@@ -1,49 +1,103 @@
-#Encapsulates the "GET /visibility/policy/sections/{section_name}/rules" API call
+<#
+.SYNOPSIS
+	Encapsulates the "GET /visibility/policy/sections/{section_name}/rules" API call
 
+.DESCRIPTION
+	Returns one or more policy objects based on given parameters.
+
+.PARAMETER Search
+	Generic search string; searches comments, rulesets, sources & destinations.
+
+.PARAMETER Protocol
+	Accepts TCP and/or UDP.
+	
+.PARAMETER Action
+	The section that the policy resides; accepts allow, alert, block, override.
+	
+.PARAMETER Port
+	One or more ports that are included in the policy.
+	
+.PARAMETER SourceLabel
+	One or more GCLabel objects in the source of the policy.
+
+.PARAMETER DestinationLabel
+	One or more GCLabel objects in the destination of the policy.
+
+.PARAMETER AnySideLabel
+	One or more GCLabel objects in the source or the destination of the policy.
+
+.PARAMETER SourceProcess
+	One or more processes in the source of the policy.
+
+.PARAMETER DestinationProcess
+	One or more processes in the destination of the policy.
+
+.PARAMETER AnySideProcess 
+	One or more processes in the source or the destination of the policy.
+
+.PARAMETER SourceAsset
+	One or more GCAsset objects in the source of the policy.
+
+.PARAMETER DestinationAsset
+	One or more GCAsset objects in the destination of the policy.
+
+.PARAMETER AnySideAsset
+	One or more GCAsset objects in the source or the destination of the policy.
+
+.PARAMETER SourceSubnet
+	One or more subnets in the source of the policy.
+
+.PARAMETER DestinationSubnet
+	One or more subnets in the destination of the policy.
+
+.PARAMETER AnySideSubnet
+	One or more subnets in the source or the destination of the policy.
+
+.PARAMETER Ruleset
+	The ruleset that the policy belongs to.
+
+.PARAMETER Comments
+	The comments in the policy.
+
+.PARAMETER SourceInternet
+	Switch - if the source is an internet address.
+
+.PARAMETER DestinationInternet
+	Switch - if the destination is an internet address.
+
+.PARAMETER AnySideInternet
+	Switch - if the source or the destination is an internet address.
+
+.PARAMETER Limit
+	The maximum number of results to return.
+
+.PARAMETER Offset
+	The index of the first result to return.
+
+.INPUTS
+	None. This function takes no pipeline input.
+
+.OUTPUTS
+	PSTypeName="GCPolicy"
+
+#>
 function Get-GCPolicy {
 
 	[CmdletBinding()]
 	param (
 		[Parameter(Mandatory=$false)][System.String]$Search,
-		[Parameter(Mandatory=$false)][ValidateSet("TCP","UDP")][System.Array]$Protocols = @("TCP","UDP"),
-		[Parameter(Mandatory=$false)][ValidateSet("allow","alert","block","block_and_alert")][System.String]$Action = "allow",
-		[Parameter(Mandatory=$false)][ValidateRange(1,65535)][System.Array]$Ports,
-		[Parameter(Mandatory=$false)][System.Array]$SourceLabelIDs,
-		[Parameter(Mandatory=$false)][System.Array]$DestinationLabelIDs,
-		[Parameter(Mandatory=$false)][System.Array]$AnySideLabelIDs,
-		[Parameter(Mandatory=$false)][ValidateScript({
-			if (-not ($_ | Test-Path)) {
-				throw "Path does not exist."
-			}
-			if (-not ($_ | Test-Path -PathType Leaf)) {
-				throw "Target must be a file."
-			}
-			$true
-		})][String[]]$SourceLabelFile,
-		[Parameter(Mandatory=$false)][ValidateScript({
-			if (-not ($_ | Test-Path)) {
-				throw "Path does not exist."
-			}
-			if (-not ($_ | Test-Path -PathType Leaf)) {
-				throw "Target must be a file."
-			}
-			$true
-		})][String[]]$DestinationLabelFile,
-		[Parameter(Mandatory=$false)][ValidateScript({
-			if (-not ($_ | Test-Path)) {
-				throw "Path does not exist."
-			}
-			if (-not ($_ | Test-Path -PathType Leaf)) {
-				throw "Target must be a file."
-			}
-			$true
-		})][String[]]$AnySideLabelFile,
-		[Parameter(Mandatory=$false)][System.Array]$SourceProcesses,
-		[Parameter(Mandatory=$false)][System.Array]$DestinationProcesses,
-		[Parameter(Mandatory=$false)][System.Array]$AnySideProcesses,
-		[Parameter(Mandatory=$false)][System.Array]$SourceAssetIDs,
-		[Parameter(Mandatory=$false)][System.Array]$DestinationAssetIDs,
-		[Parameter(Mandatory=$false)][System.Array]$AnySideAssetIDs,
+		[Parameter(Mandatory=$false)][ValidateSet("TCP","UDP")][System.Array]$Protocol = @("TCP","UDP"),
+		[Parameter(Mandatory=$false)][ValidateSet("allow","alert","block","override")][System.String]$Action = "allow",
+		[Parameter(Mandatory=$false)][ValidateRange(1,65535)][System.Array]$Port,
+		[Parameter(Mandatory=$false)][PSTypeName("GCLabel")]$SourceLabel,
+		[Parameter(Mandatory=$false)][PSTypeName("GCLabel")]$DestinationLabel,
+		[Parameter(Mandatory=$false)][PSTypeName("GCLabel")]$AnySideLabel,
+		[Parameter(Mandatory=$false)][System.Array]$SourceProcess,
+		[Parameter(Mandatory=$false)][System.Array]$DestinationProcess,
+		[Parameter(Mandatory=$false)][System.Array]$AnySideProcess,
+		[Parameter(Mandatory=$false)][PSTypeName("GCAsset")]$SourceAsset,
+		[Parameter(Mandatory=$false)][PSTypeName("GCAsset")]$DestinationAsset,
+		[Parameter(Mandatory=$false)][PSTypeName("GCAsset")]$AnySideAsset,
 		[Parameter(Mandatory=$false)][System.String]$SourceSubnet,
 		[Parameter(Mandatory=$false)][System.String]$DestinationSubnet,
 		[Parameter(Mandatory=$false)][System.String]$AnySideSubnet,
@@ -58,24 +112,12 @@ function Get-GCPolicy {
 	
 	$Key = $Global:GCApiKey
 	
-	if ($SourceLabelFile) {
-		$SourceLabelIDs = Get-GCLabelIDFromFilePrivate -File $SourceLabelFile
-	}
-	
-	if ($DestinationLabelFile) {
-		$DestinationLabelIDs = Get-GCLabelIDFromFilePrivate -File $DestinationLabelFile
-	}
-	
-	if ($AnySideLabelFile) {
-		$AnySideLabelIDs = Get-GCLabelIDFromFilePrivate -File $AnySideLabelFile
-	}
-	
 	$Uri = $Key.Uri + "visibility/policy/sections/" + $Action + "/rules?"
 	
 	#Protocols has a default value, so we can just add it without checks
 	$Uri += "protocols="
-	foreach ($Protocol in $Protocols) {
-		$Uri += $Protocol + ","
+	foreach ($P in $Protocol) {
+		$Uri += $P + ","
 	}
 	$Uri = $Uri.SubString(0,$Uri.length-1) #Remove trailing ","
 	
@@ -95,11 +137,11 @@ function Get-GCPolicy {
 	
 	$Uri += "&source="
 	
-	if ($SourceLabelIDs) {
+	if ($SourceLabel) {
 		$Uri += "labels:"
-		foreach ($Group in $SourceLabelIDs) {
-			foreach ($ID in $Group) {
-				$Uri += $ID + ">"
+		foreach ($Group in $SourceLabel) {
+			foreach ($Label in $Group) {
+				$Uri += $Label.id + ">"
 			}
 			
 			$Uri = $Uri.SubString(0,$Uri.length-1) #Remove trailing ">"
@@ -112,7 +154,7 @@ function Get-GCPolicy {
 		$Uri += ","
 	}
 	
-	if ($SourceProcesses) {
+	if ($SourceProcess) {
 		$Uri += "processes:"
 		foreach ($Process in $SourceProcesses) {
 			$Uri += $Process + "|"
@@ -123,10 +165,10 @@ function Get-GCPolicy {
 		$Uri += ","
 	}
 	
-	if ($SourceAssetIDs) {
+	if ($SourceAsset) {
 		$Uri += "assets:"
-		foreach ($Asset in $SourceAssetIDs) {
-			$Uri += $Asset + "|"
+		foreach ($Asset in $SourceAsset) {
+			$Uri += $Asset.id + "|"
 		}
 		
 		$Uri = $Uri.SubString(0,$Uri.length-1) #Remove trailing "|"
@@ -159,11 +201,11 @@ function Get-GCPolicy {
 	
 	$Uri += "&destination="
 	
-	if ($DestinationLabelIDs) {
+	if ($DestinationLabel) {
 		$Uri += "labels:"
-		foreach ($Group in $DestinationLabelIDs) {
-			foreach ($ID in $Group) {
-				$Uri += "$ID" + ">"
+		foreach ($Group in $DestinationLabel) {
+			foreach ($Label in $Group) {
+				$Uri += $Label.id + ">"
 			}
 			
 			$Uri = $Uri.SubString(0,$Uri.length-1) #Remove trailing ">"
@@ -291,10 +333,10 @@ function Get-GCPolicy {
 		$Uri += "&ruleset=" + $Ruleset
 	}
 	
-	if ($Ports) {
+	if ($Port) {
 		$Uri += "&port="
-		foreach ($Port in $Ports) {
-			$Uri += $Port + ","
+		foreach ($P in $Port) {
+			$Uri += $P + ","
 		}
 		
 		$Uri = $Uri.SubString(0,$Uri.length-1) #Remove trailing ","
@@ -317,7 +359,7 @@ function Get-GCPolicy {
 	}
 	
 	try {
-		$Result = Invoke-RestMethod -Uri $Uri -Authentication Bearer -Token $Key.Token -Method "GET" | Select-Object -ExpandProperty "objects"
+		$Result = $(Invoke-RestMethod -Uri $Uri -Authentication Bearer -Token $Key.Token -Method "GET" | Select-Object -ExpandProperty "objects") | foreach {$_.PSTypeNames.Clear(); $_.PSTypeNames.Add("GCPolicy"); $_}
 	}
 	catch {
 		throw $_.Exception

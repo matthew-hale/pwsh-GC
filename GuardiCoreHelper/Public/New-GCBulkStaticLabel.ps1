@@ -1,3 +1,20 @@
+<#
+.SYNOPSIS
+	Encapsulates the "POST /visibility/labels/bulk" API request.
+
+.DESCRIPTION
+	Creates one or more static labels, based on a CSV file as input. This uses a different API request than a simple loop of New-GCStaticLabel calls would.
+
+.PARAMETER Path
+	The path to the CSV file used as input.
+
+.INPUT
+	None. This function accepts no pipeline input.
+
+.OUTPUT
+	application/json data
+
+#>
 function New-GCBulkStaticLabel {
 
 	[CmdletBinding()]

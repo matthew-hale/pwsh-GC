@@ -1,3 +1,59 @@
+<#
+.SYNOPSIS
+	Encapsulates the GET /incidents API request.
+
+.DESCRIPTION
+
+.PARAMETER StartTime
+	The start of the time range.
+
+.PARAMETER EndTime
+	The end of the time range.
+
+.PARAMETER Severity
+	The severity of the incident; accepts "Low","Medium","High"
+
+.PARAMETER IncidentGroup
+
+.PARAMETER IncidentType
+
+.PARAMETER SourceLabel
+	One or more GCLabel objects in the source of the policy.
+
+.PARAMETER DestinationLabel
+	One or more GCLabel objects in the destination of the policy.
+
+.PARAMETER AnySideLabel
+	One or more GCLabel objects in the source or the destination of the policy.
+
+.PARAMETER SourceAsset
+	One or more GCAsset objects in the source of the policy.
+
+.PARAMETER DestinationAsset
+	One or more GCAsset objects in the destination of the policy.
+
+.PARAMETER AnySideAsset
+	One or more GCAsset objects in the source or the destination of the policy.
+
+.PARAMETER IncludeTag
+	One or more tags to include in the request.
+
+.PARAMETER ExcludeTag
+	One or more tags to exclude in the request.
+
+.PARAMETER Limit
+	The maximum number of results to return.
+
+.PARAMETER Offset
+	The index of the first result to return.
+
+.INPUTS
+	None. This function accepts no pipeline input.
+
+.OUTPUTS
+	PSTypeName="GCIncident"
+
+#>
 function Get-GCIncident{
 	
 	[CmdletBinding()]
@@ -53,7 +109,17 @@ function Get-GCIncident{
 			
 			$Uri = $Uri.SubString(0,$Uri.Length-1) #Remove trailing ","
 		}
+
+		if ($IncludeTag) {
+			$Tags = $IncludeTag -Join ","
+			$Uri += "&tag=" + $Tags
+		}
 		
+		if ($ExcludeTag) {
+			$Tags = $ExcludeTag -Join ","
+			$Uri += "&tags__not=" + $Tags
+		}
+
 		### SOURCE ###
 		
 		$Uri += "&source="
