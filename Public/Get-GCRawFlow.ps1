@@ -31,22 +31,19 @@ function Get-GCRawFlow {
 		})][System.IO.FileInfo]$OutPath
 	)
 	
-	#Ensure the out path has no trailing slash, if it exists
+	# Ensure the out path has no trailing slash, if it exists
 	if ($OutPath) {
 		if (($OutPath[$OutPath.length-1] -eq "/") -or ($OutPath[$OutPath.length-1] -eq "\")) {
 			$OutPath = $OutPath.SubString(0,$OutPath.length-1)
 		}
 	}
-	
-	$FromTime = ConvertTo-GCUnixTime -DateTime $StartTime
-	$ToTime = ConvertTo-GCUnixTime -DateTime $EndTime
 
 	$Offset = 0
 
 	# We only want to evaluate the variable once.
 	if ($OutPath) {
 		do {
-			$TempFlows = Get-GCRawFlowPrivate -Offset $Offset -Limit 1000 -FromTime $FromTime -ToTime $ToTime
+			$TempFlows = Get-GCRawFlowPrivate -Offset $Offset -Limit 1000 -FromTime $StartTime -ToTime $EndTime
 			$Offset += 1000
 
 			$Uid = Get-Date | ConvertTo-GCUnixTime

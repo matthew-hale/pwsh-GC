@@ -19,10 +19,19 @@ function Get-GCRawFlowPrivate {
 	
 	[cmdletbinding()]
 	param (
-		[Parameter(Mandatory=$false)][Int64]$FromTime,
-		[Parameter(Mandatory=$false)][Int64]$ToTime,
-		[Parameter(Mandatory=$false)][Int32]$Limit,
-		[Parameter(Mandatory=$false)][Int32]$Offset
+		[DateTime]$FromTime,
+		[DateTime]$ToTime,
+		[System.Array]$SourceProcess,
+		[System.Array]$DestinationProcess,
+		[System.Array]$AnySideProcess,
+		[System.Array]$SourceAsset,
+		[System.Array]$DestinationAsset,
+		[System.Array]$AnySideAsset,
+		[System.Array]$SourceLabel,
+		[System.Array]$DestinationLabel,
+		[System.Array]$AnySideLabel,
+		[Int32]$Limit,
+		[Int32]$Offset
 	)
 	begin {
 		$Key = $global:GCApiKey
@@ -32,11 +41,13 @@ function Get-GCRawFlowPrivate {
 		
 		#Building the Uri with given parameters
 		if ($FromTime) {
-			$Uri += "&from_time=" + $FromTime
+			$StartTime = ConvertTo-GCUnixTime $FromTime
+			$Uri += "&from_time=" + $StartTime
 		}
 
 		if ($ToTime) {
-			$Uri += "&to_time=" + $ToTime
+			$EndTime = ConvertTo-GCUnixTime $ToTime
+			$Uri += "&to_time=" + $EndTime
 		}
 
 		if ($Limit) {
@@ -46,8 +57,85 @@ function Get-GCRawFlowPrivate {
 		if ($Offset) {
 			$Uri += "&offset=" + $Offset
 		}
+
+		### Source ###
+
+		if ($SourceProcess -or $SourceAsset -or $SourceLabel) {
+			$Uri += "&source="
+		}
+
+		if ($SourceProcess) {
+			$Uri += "processes:"
+			$Uri += $SourceProcess -Join ","
+		}
+
+		if ($SourceAsset) {
+			$Uri += "assets:"
+			$Uri += $SourceAsset.id -Join ","
+		}
+
+		if ($SourceLabel) { #2D array; outer group is OR, inner groups are AND
+			$Uri += "labels:"
+			foreach ($Group in $SourceLabel) {
+				$Uri += $Group.id -Join ">"
+				$Uri += "|"
+			}
+
+			$Uri = $Uri.SubString(0,$Uri.Length-1) #Removing last "|"
+		}
+
+		### Destination ###
+
+		if ($DestinationProcess -or $DestinationAsset -or $DestinationLabel) {
+			$Uri += "&destination="
+		}
+
+		if ($DestinationProcess) {
+			$Uri += "processes:"
+			$Uri += $DestinationProcess -Join ","
+		}
+
+		if ($DestinationAsset) {
+			$Uri += "assets:"
+			$Uri += $DestinationAsset.id -Join ","
+		}
+
+		if ($DestinationLabel) {
+			$Uri += "labels:"
+			foreach ($Group in $DestinationLabel) {
+				$Uri += $Group.id -Join ">"
+				$Uri += "|"
+			}
+
+			$Uri = $Uri.SubString(0,$Uri.Length-1) #Removing last "|"
+		}
+
+		### Any Side ###
+
+		if ($AnySideProcess -or $AnySideAsset -or $AnySideLabel) {
+			$Uri += "&any_side="
+		}
+
+		if ($AnySideProcess) {
+			$Uri += "processes:"
+			$Uri += $AnySideProcess -Join ","
+		}
+
+		if ($AnySideAsset) {
+			$Uri += "assets:"
+			$Uri += $AnySideAsset.id -Join ","
+		}
+
+		if ($AnySideLabel) {
+			$Uri += "labels:"
+			foreach ($Group in $AnySideLabel) {
+				$Uri += $Group.id -Join ">"
+				$Uri += "|"
+			}
+			$Uri = $Uri.SubString(0,$Uri.Length-1) #Removing last "|"
+		}
 	}
 	end {
-		Invoke-RestMethod -Authentication Bearer -Token $Key.Token -Uri $Uri -Method "GET" | Select-Object -ExpandProperty "objects"
+		$(Invoke-RestMethod -Authentication Bearer -Token $Key.Token -Uri $Uri -Method "GET" | Select-Object -ExpandProperty "objects") | foreach {$_.PSTypeNames.Clear(); $_.PSTypeNames.Add("GCRawFlow"); $_}
 	}
 }
