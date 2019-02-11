@@ -1,64 +1,141 @@
 <#
 .SYNOPSIS
-	Encapsulates the "GET /connections" API request.
+	Encapsulates the "GET /connections" API call.
 
 .DESCRIPTION
-	Returns a set of raw network flows within a given time range, and optionally exports the result to a given path.
+	
 
 .PARAMETER
+	
 
 .INPUTS
+	
 
 .OUTPUTS
+	
 
 #>
 function Get-GCRawFlow {
 	
-	[CmdletBinding()]
+	[cmdletbinding()]
 	param (
-		[Parameter(Mandatory=$true)][DateTime]$StartTime,
-		[Parameter(Mandatory=$true)][DateTime]$EndTime,
-		[Parameter(Mandatory=$false)][ValidateScript({
-			if (-not ($_ | Test-Path)) {
-				throw "Path does not exist."
-			}
-
-			if (-not ($_ | Test-Path -PathType Container)) {
-				throw "Target must be a directory. Direct file paths not allowed."
-			}
-
-			$true
-		})][System.IO.FileInfo]$OutPath
+		[DateTime]$StartTime,
+		[DateTime]$EndTime,
+		[System.Array]$SourceProcess,
+		[System.Array]$DestinationProcess,
+		[System.Array]$AnySideProcess,
+		[System.Array]$SourceAsset,
+		[System.Array]$DestinationAsset,
+		[System.Array]$AnySideAsset,
+		[System.Array]$SourceLabel,
+		[System.Array]$DestinationLabel,
+		[System.Array]$AnySideLabel,
+		[Int32]$Limit,
+		[Int32]$Offset
 	)
-	
-	# Ensure the out path has no trailing slash, if it exists
-	if ($OutPath) {
-		if (($OutPath[$OutPath.length-1] -eq "/") -or ($OutPath[$OutPath.length-1] -eq "\")) {
-			$OutPath = $OutPath.SubString(0,$OutPath.length-1)
+	begin {
+		$Key = $global:GCApiKey
+	}
+	process {
+		$Uri = $Key.Uri + "connections?sort=-slot_start_time"
+		
+		#Building the Uri with given parameters
+		if ($StartTime) {
+			$FromTime = ConvertTo-GCUnixTime $StartTime
+			$Uri += "&from_time=" + $FromTime
+		}
+
+		if ($EndTime) {
+			$ToTime = ConvertTo-GCUnixTime $EndTime
+			$Uri += "&to_time=" + $ToTime
+		}
+
+		if ($Limit) {
+			$Uri += "&limit=" + $Limit
+		}
+
+		if ($Offset) {
+			$Uri += "&offset=" + $Offset
+		}
+
+		### Source ###
+
+		if ($SourceProcess -or $SourceAsset -or $SourceLabel) {
+			$Uri += "&source="
+		}
+
+		if ($SourceProcess) {
+			$Uri += "processes:"
+			$Uri += $SourceProcess -Join ","
+		}
+
+		if ($SourceAsset) {
+			$Uri += "assets:"
+			$Uri += $SourceAsset.id -Join ","
+		}
+
+		if ($SourceLabel) { #2D array; outer group is OR, inner groups are AND
+			$Uri += "labels:"
+			foreach ($Group in $SourceLabel) {
+				$Uri += $Group.id -Join ">"
+				$Uri += "|"
+			}
+
+			$Uri = $Uri.SubString(0,$Uri.Length-1) #Removing last "|"
+		}
+
+		### Destination ###
+
+		if ($DestinationProcess -or $DestinationAsset -or $DestinationLabel) {
+			$Uri += "&destination="
+		}
+
+		if ($DestinationProcess) {
+			$Uri += "processes:"
+			$Uri += $DestinationProcess -Join ","
+		}
+
+		if ($DestinationAsset) {
+			$Uri += "assets:"
+			$Uri += $DestinationAsset.id -Join ","
+		}
+
+		if ($DestinationLabel) {
+			$Uri += "labels:"
+			foreach ($Group in $DestinationLabel) {
+				$Uri += $Group.id -Join ">"
+				$Uri += "|"
+			}
+
+			$Uri = $Uri.SubString(0,$Uri.Length-1) #Removing last "|"
+		}
+
+		### Any Side ###
+
+		if ($AnySideProcess -or $AnySideAsset -or $AnySideLabel) {
+			$Uri += "&any_side="
+		}
+
+		if ($AnySideProcess) {
+			$Uri += "processes:"
+			$Uri += $AnySideProcess -Join ","
+		}
+
+		if ($AnySideAsset) {
+			$Uri += "assets:"
+			$Uri += $AnySideAsset.id -Join ","
+		}
+
+		if ($AnySideLabel) {
+			$Uri += "labels:"
+			foreach ($Group in $AnySideLabel) {
+				$Uri += $Group.id -Join ">"
+				$Uri += "|"
+			}
+			$Uri = $Uri.SubString(0,$Uri.Length-1) #Removing last "|"
 		}
 	}
-
-	$Offset = 0
-
-	# We only want to evaluate the variable once.
-	if ($OutPath) {
-		do {
-			$TempFlows = Get-GCRawFlowPrivate -Offset $Offset -Limit 1000 -FromTime $StartTime -ToTime $EndTime
-			$Offset += 1000
-
-			$Uid = Get-Date | ConvertTo-GCUnixTime
-			$TempFlows | Export-CSV "$OutPath/flow_$Uid.csv"
-		} while (($TempFlows.Count -eq 1000) -and ($Offset -le 499000))
-	} else {
-		$Flows = [System.Collections.Generic.List[object]]::new()
-
-		do {
-			$TempFlows = Get-GCRawFlowPrivate -Offset $Offset -Limit 1000 -FromTime $FromTime -ToTime $ToTime
-			$Offset += 1000
-	
-			$Flows.AddRange($TempFlows)
-		} while (($TempFlows.Count -eq 1000) -and ($Offset -le 499000))
-
-		$Flows
+	end {
+		$(Invoke-RestMethod -Authentication Bearer -Token $Key.Token -Uri $Uri -Method "GET" | Select-Object -ExpandProperty "objects") | foreach {$_.PSTypeNames.Clear(); $_.PSTypeNames.Add("GCRawFlow"); $_}
 	}
 }
