@@ -14,6 +14,9 @@
 .PARAMETER Risk
 	[Int32] Risk level. Allows: (0..3)
 
+.PARAMETER Label
+	[PSTypeName("GCLabel")] One or more GCLabel objects.
+
 .PARAMETER Limit
 	[Int32] Max number of returned assets.
 	

@@ -3,8 +3,8 @@
 # Remove the comment when using classes
 
 # Get public and private function definition files.
-$Public = Get-ChildItem -Path "$PSScriptRoot/Public/*.ps1" -Recurse -ErrorAction SilentlyContinue
-$Private = Get-ChildItem -Path "$PSScriptRoot/Private/*.ps1" -Recurse -ErrorAction SilentlyContinue
+[array]$Public = Get-ChildItem -Path "$PSScriptRoot/Public/*.ps1" -Recurse -ErrorAction SilentlyContinue
+[array]$Private = Get-ChildItem -Path "$PSScriptRoot/Private/*.ps1" -Recurse -ErrorAction SilentlyContinue
 
 # Dot source the files
 Foreach ($Import in @($Public + $Private)) {

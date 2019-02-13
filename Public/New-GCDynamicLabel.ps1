@@ -43,9 +43,9 @@ function New-GCDynamicLabel {
 		[Parameter(Mandatory=$false)][System.String]$LabelKey,
 		[Parameter(Mandatory=$false)][System.String]$LabelValue,
 		[Parameter(Mandatory=$false)][System.String]$Argument,
-		[Parameter(Mandatory=$false)][ValidateSet("name","numeric_ip_addresses")][System.String]$Field,
+		[Parameter(Mandatory=$false)][ValidateSet("name","numeric_ip_addresses","id")][System.String]$Field,
 		[Parameter(Mandatory=$false)][ValidateSet("STARTSWITH","ENDSWITH","EQUALS","CONTAINS","SUBNET","WILDCARDS")][System.String]$Operation,
-		[Parameter(Mandatory=$false,ValueFromPipeline = $true)][PSCustomObject]$Criteria
+		[Parameter(Mandatory=$false,ValueFromPipeline=$true)][Array]$Criteria
 	)
 	begin {
 		$Key = $global:GCApiKey
