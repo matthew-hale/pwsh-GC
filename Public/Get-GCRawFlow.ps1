@@ -68,7 +68,7 @@ function Get-GCRawFlow {
 
 		if ($SourceInternet -eq $true) {
 			$Uri += "address_classification:Internet"
-		} elseif ($SourceInternet -eq $false) {
+		} elseif ($PSBoundParameters.ContainsKey("SourceInternet") -and ($SourceInternet -eq $false) ) {
 			$Uri += "address_classification:Private"
 		}
 
@@ -100,7 +100,7 @@ function Get-GCRawFlow {
 
 		if ($DestinationInternet -eq $true) {
 			$Uri += "address_classification:Internet"
-		} elseif ($DestinationInternet -eq $false) {
+		} elseif ($PSBoundParameters.ContainsKey("DestinationInternet") -and ($DestinationInternet -eq $false) ) {
 			$Uri += "address_classification:Private"
 		}
 
