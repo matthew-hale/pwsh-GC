@@ -38,13 +38,14 @@ function New-GCStaticLabel {
 		}
 	}
 	process {
-		$Body.vms += foreach ($A in $Asset) {
-			$A.id
+		if ($Asset) {
+			$Body.vms += foreach ($A in $Asset) {
+				$A.id
+			}
 		}
 	}
 	end {
 		$BodyJson = $Body | ConvertTo-Json -Depth 99
 		Invoke-RestMethod -Uri $Uri -ContentType "application/json" -Authentication Bearer -Token $Key.Token -Body $BodyJson -Method "POST"
-		#$BodyJson
 	}
 }
