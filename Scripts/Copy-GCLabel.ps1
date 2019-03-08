@@ -9,13 +9,17 @@ begin {
 	New-GCBlankLabel -LabelKey $LabelKey -LabelValue $LabelValue
 }
 process {
-	$Criteria = $Label.criteria | Select-Object -ExcludeProperty label_id,source
+	$Criteria = $Label.criteria | Select-Object -ExcludeProperty "label_id","source"
 	$AddedAssets = $Label.added_assets
 }
 end {
 	$NewLabel = Get-GCLabel -FindMatches -LabelKey $LabelKey -LabelValue $LabelValue
-	$NewLabel.criteria = $Criteria
-	$NewLabel.added_assets = $AddedAssets
+	if ($Criteria) {
+		$NewLabel.criteria += $Criteria
+	}
+	if ($AddedAssets) {
+		$NewLabel.added_assets = $AddedAssets
+	}
 
-	Set-GCLabel $NewLabel
+	$NewLabel | Set-GCLabel
 }
