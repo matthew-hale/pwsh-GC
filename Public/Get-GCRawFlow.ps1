@@ -33,13 +33,14 @@ function Get-GCRawFlow {
 		[Switch]$SourceInternet,
 		[Switch]$DestinationInternet,
 		[Int32]$Limit,
-		[Int32]$Offset
+		[Int32]$Offset,
+		[Switch]$Raw
 	)
 	begin {
 		$Key = $global:GCApiKey
 	}
 	process {
-		$Uri = $Key.Uri + "connections?sort=-slot_start_time"
+		$Uri = $Key.Uri + "connections?sort=slot_start_time"
 		
 		#Building the Uri with given parameters
 		if ($StartTime) {
@@ -150,6 +151,10 @@ function Get-GCRawFlow {
 		}
 	}
 	end {
-		$(Invoke-RestMethod -Authentication Bearer -Token $Key.Token -Uri $Uri -Method "GET" | Select-Object -ExpandProperty "objects") | foreach {$_.PSTypeNames.Clear(); $_.PSTypeNames.Add("GCRawFlow"); $_}
+		if ($Raw) {
+			Invoke-RestMethod -Authentication Bearer -Token $Key.Token -Uri $Uri -Method "GET"
+		} else {
+			$(Invoke-RestMethod -Authentication Bearer -Token $Key.Token -Uri $Uri -Method "GET" | Select-Object -ExpandProperty "objects") | foreach {$_.PSTypeNames.Clear(); $_.PSTypeNames.Add("GCRawFlow"); $_}
+		}
 	}
 }
