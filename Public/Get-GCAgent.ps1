@@ -21,7 +21,7 @@
 	[System.String] Status of the agent. Allows: "Online","Offline"
 	
 .PARAMETER Flags
-	[Int32] Status flags. Allows: (1..14)
+	[String] Status flags. Allows: (1..14,"undefined")
 	
 .PARAMETER Enforcement
 	[System.String] Status of the enforcement module. Allows: "Active","Not Deployed","Disabled"
@@ -63,7 +63,7 @@ function Get-GCAgent {
 		[Parameter(Mandatory=$false)][ValidateSet("Unknown","Windows","Linux")][System.Array]$OS,
 		[Parameter(Mandatory=$false)][PSTypeName("GCLabel")]$Label,
 		[Parameter(Mandatory=$false)][ValidateSet("Online","Offline")][System.Array]$Status, # = display_status
-		[Parameter(Mandatory=$false)][ValidateRange(1,14)][Int32]$Flag,
+		[Parameter(Mandatory=$false)][ValidateSet("undefined",1,2,3,4,5,6,7,8,9,10,11,12,13,14)]$Flag,
 		[Parameter(Mandatory=$false)][ValidateSet("Active","Not Deployed","Disabled")][System.Array]$Enforcement, # = module_status_enforcement
 		[Parameter(Mandatory=$false)][ValidateSet("Active","Not Deployed")][System.Array]$Deception, # = module_status_deception
 		[Parameter(Mandatory=$false)][ValidateSet("Active","Not Deployed")][System.Array]$Detection, # = module_status_detection
@@ -123,10 +123,10 @@ function Get-GCAgent {
 			$Uri = $Uri.SubString(0,$Uri.length-1) #Remove trailing ","
 		}
 		
-		if ($Flags) {
+		if ($Flag) {
 			$Uri += "&status_flags="
 			foreach ($F in $Flag) {
-				$Uri += $F + ","
+				$Uri += [String]$F + ","
 			}
 			
 			$Uri = $Uri.SubString(0,$Uri.length-1) #Remove trailing ","

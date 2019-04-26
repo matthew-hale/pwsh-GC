@@ -30,14 +30,17 @@ function Get-GCRawFlow {
 		[System.Array]$SourceLabel,
 		[System.Array]$DestinationLabel,
 		[System.Array]$AnySideLabel,
+		[Switch]$SourceInternet,
+		[Switch]$DestinationInternet,
 		[Int32]$Limit,
-		[Int32]$Offset
+		[Int32]$Offset,
+		[Switch]$Raw
 	)
 	begin {
 		$Key = $global:GCApiKey
 	}
 	process {
-		$Uri = $Key.Uri + "connections?sort=-slot_start_time"
+		$Uri = $Key.Uri + "connections?sort=slot_start_time"
 		
 		#Building the Uri with given parameters
 		if ($StartTime) {
@@ -60,8 +63,14 @@ function Get-GCRawFlow {
 
 		### Source ###
 
-		if ($SourceProcess -or $SourceAsset -or $SourceLabel) {
+		if ($SourceProcess -or $SourceAsset -or $SourceLabel -or $PSBoundParameters.ContainsKey("SourceInternat")) {
 			$Uri += "&source="
+		}
+
+		if ($SourceInternet -eq $true) {
+			$Uri += "address_classification:Internet"
+		} elseif ($PSBoundParameters.ContainsKey("SourceInternet") -and ($SourceInternet -eq $false) ) {
+			$Uri += "address_classification:Private"
 		}
 
 		if ($SourceProcess) {
@@ -86,8 +95,14 @@ function Get-GCRawFlow {
 
 		### Destination ###
 
-		if ($DestinationProcess -or $DestinationAsset -or $DestinationLabel) {
+		if ($DestinationProcess -or $DestinationAsset -or $DestinationLabel -or $PSBoundParameters.ContainsKey("DestinationInternet")) {
 			$Uri += "&destination="
+		}
+
+		if ($DestinationInternet -eq $true) {
+			$Uri += "address_classification:Internet"
+		} elseif ($PSBoundParameters.ContainsKey("DestinationInternet") -and ($DestinationInternet -eq $false) ) {
+			$Uri += "address_classification:Private"
 		}
 
 		if ($DestinationProcess) {
@@ -136,6 +151,10 @@ function Get-GCRawFlow {
 		}
 	}
 	end {
-		$(Invoke-RestMethod -Authentication Bearer -Token $Key.Token -Uri $Uri -Method "GET" | Select-Object -ExpandProperty "objects") | foreach {$_.PSTypeNames.Clear(); $_.PSTypeNames.Add("GCRawFlow"); $_}
+		if ($Raw) {
+			Invoke-RestMethod -Authentication Bearer -Token $Key.Token -Uri $Uri -Method "GET"
+		} else {
+			$(Invoke-RestMethod -Authentication Bearer -Token $Key.Token -Uri $Uri -Method "GET" | Select-Object -ExpandProperty "objects") | foreach {$_.PSTypeNames.Clear(); $_.PSTypeNames.Add("GCRawFlow"); $_}
+		}
 	}
 }
