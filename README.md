@@ -1,15 +1,15 @@
-# GuardiCoreHelper
+# pwsh-GC
 A collection of Powershell Core modules and scripts for GuardiCore Centra administration and management.
 
 ## What is this?
-The GuardiCoreHelper module is a wrapper for GuardiCore's management server API. It also contains functions that help in using the API, such as ConvertTo/ConvertFrom-GCUnixTime, Get-GCFlowTotal, etc. The other scripts in this repository are used when working with data from the API. The module is written in PowerShell Core (PS 6.x); you will need to install PowerShell Core in order to use this module.
+The pwsh-GC module is essentially a wrapper for GuardiCore's management server API. It also contains functions that help in using the API, such as ConvertTo/ConvertFrom-GCUnixTime, Get-GCFlowTotal, etc. The other scripts in this repository are used when working with data from the API. The module is written in PowerShell Core (PS 6.x); you will need to install PowerShell Core in order to use this module.
 
 ## Installation
 Install PowerShell Core from the PowerShell github repository, here:\
 https://github.com/powershell/powershell \
 Then download/clone the repository, and import the module:
 ```PowerShell
-Import-Module ./GuardiCoreHelper.psm1.
+Import-Module ./pwsh-GC.psd1.
 ```
 
 ## Use
