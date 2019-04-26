@@ -9,7 +9,7 @@ Install PowerShell Core from the PowerShell github repository, here:\
 https://github.com/powershell/powershell \
 Then download/clone the repository, and import the module:
 ```PowerShell
-Import-Module ./GuardiCoreHelper.psm1.
+Import-Module ./GuardiCoreHelper.psd1.
 ```
 
 ## Use
