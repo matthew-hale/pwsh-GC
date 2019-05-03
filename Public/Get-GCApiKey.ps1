@@ -23,7 +23,8 @@ function Get-GCApiKey {
 	[CmdletBinding()]
 	param (
 		[Parameter(Mandatory=$true)][System.String]$Server,
-		[Parameter(Mandatory=$true,ValueFromPipeline=$true)][PSCredential]$Credentials
+		[Parameter(Mandatory=$true,ValueFromPipeline=$true)]
+		[Alias('Credentials','Cred')][PSCredential]$Credential
 	)
 	begin {
 		$Uri = "https://" + $Server + ".cloud.guardicore.com/api/v3.0/"
@@ -34,11 +35,11 @@ function Get-GCApiKey {
 		}
 	}
 	process {
-		$Body.username = $Credentials.UserName
-		$Body.password = $Credentials.GetNetworkCredential().Password
+		$Body.username = $Credential.UserName
+		$Body.password = $Credential.GetNetworkCredential().Password
 		$BodyJson = $Body | ConvertTo-Json -Depth 99
 		try {
-			$Token = Invoke-RestMethod -Uri $TempUri -Method "POST" -Body $BodyJson -ContentType "application/json" | Select-Object -ExpandProperty "access_token" | ConvertTo-SecureString -AsPlainText -Force
+			$Token = Invoke-RestMethod -Uri $TempUri -Method "Post" -Body $BodyJson -ContentType "application/json" | Select-Object -ExpandProperty "access_token" | ConvertTo-SecureString -AsPlainText -Force
 		}
 		catch {
 			throw $_.Exception
