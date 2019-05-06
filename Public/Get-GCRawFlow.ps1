@@ -34,10 +34,17 @@ function Get-GCRawFlow {
 		[Switch]$DestinationInternet,
 		[Int32]$Limit,
 		[Int32]$Offset,
-		[Switch]$Raw
+		[Switch]$Raw,
+		[PSTypeName("GCApiKey")]$Key
 	)
 	begin {
-		$Key = $global:GCApiKey
+		if ($global:GCApiKey) {
+			$K = $global:GCApiKey
+		} elseif ($Key) {
+			$K = $Key
+		} else {
+			throw "No authentication token present."
+		}
 	}
 	process {
 		$Uri = $Key.Uri + "connections?sort=slot_start_time"
@@ -154,7 +161,7 @@ function Get-GCRawFlow {
 		if ($Raw) {
 			Invoke-RestMethod -Authentication Bearer -Token $Key.Token -Uri $Uri -Method "GET"
 		} else {
-			$(Invoke-RestMethod -Authentication Bearer -Token $Key.Token -Uri $Uri -Method "GET" | Select-Object -ExpandProperty "objects") | foreach {$_.PSTypeNames.Clear(); $_.PSTypeNames.Add("GCRawFlow"); $_}
+			$(Invoke-RestMethod -Authentication Bearer -Token $K.Token -Uri $Uri -Method "GET" | Select-Object -ExpandProperty "objects") | foreach {$_.PSTypeNames.Clear(); $_.PSTypeNames.Add("GCRawFlow"); $_}
 		}
 	}
 }
