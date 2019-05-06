@@ -59,26 +59,64 @@ function Get-GCIncident{
 	
 	[CmdletBinding()]
 	param (
-		[Parameter(Mandatory=$false)][DateTime]$StartTime,
-		[Parameter(Mandatory=$false)][DateTime]$EndTime,
-		[Parameter(Mandatory=$false)][ValidateSet("Low","Medium","High")][System.String[]]$Severity,
-		[Parameter(Mandatory=$false)]$IncidentGroup,
-		[Parameter(Mandatory=$false)][ValidateSet("Incident","Deception","Network Scan","Reveal","Experimental")]$IncidentType,
-		[Parameter(Mandatory=$false)][PSTypeName("GCAsset")]$SourceAsset,
-		[Parameter(Mandatory=$false)][PSTypeName("GCAsset")]$DestinationAsset,
-		[Parameter(Mandatory=$false)][PSTypeName("GCAsset")]$AnySideAsset,
-		[Parameter(Mandatory=$false)][PSTypeName("GCLabel")]$SourceLabel,
-		[Parameter(Mandatory=$false)][PSTypeName("GCLabel")]$DestinationLabel,
-		[Parameter(Mandatory=$false)][PSTypeName("GCLabel")]$AnySideLabel,
-		[Parameter(Mandatory=$false)][System.Array]$IncludeTag,
-		[Parameter(Mandatory=$false)][System.Array]$ExcludeTag,
-		[Parameter(Mandatory=$false)][ValidateRange(0,1000)]$Limit = 20,
-		[Parameter(Mandatory=$false)][ValidateRange(0,500000)][Int32]$Offset = 0
+		[Parameter(Mandatory=$false)]
+		[DateTime]$StartTime,
+
+		[Parameter(Mandatory=$false)]
+		[DateTime]$EndTime,
+
+		[Parameter(Mandatory=$false)]
+		[ValidateSet("Low","Medium","High")][System.String[]]$Severity,
+
+		[Parameter(Mandatory=$false)]
+		$IncidentGroup,
+
+		[Parameter(Mandatory=$false)]
+		[ValidateSet("Incident","Deception","Network Scan","Reveal","Experimental")]$IncidentType,
+
+		[Parameter(Mandatory=$false)]
+		[PSTypeName("GCAsset")]$SourceAsset,
+
+		[Parameter(Mandatory=$false)]
+		[PSTypeName("GCAsset")]$DestinationAsset,
+
+		[Parameter(Mandatory=$false)]
+		[PSTypeName("GCAsset")]$AnySideAsset,
+
+		[Parameter(Mandatory=$false)]
+		[PSTypeName("GCLabel")]$SourceLabel,
+
+		[Parameter(Mandatory=$false)]
+		[PSTypeName("GCLabel")]$DestinationLabel,
+
+		[Parameter(Mandatory=$false)]
+		[PSTypeName("GCLabel")]$AnySideLabel,
+
+		[Parameter(Mandatory=$false)]
+		[System.Array]$IncludeTag,
+
+		[Parameter(Mandatory=$false)]
+		[System.Array]$ExcludeTag,
+
+		[Parameter(Mandatory=$false)]
+		[ValidateRange(0,1000)]$Limit = 20,
+
+		[Parameter(Mandatory=$false)]
+		[ValidateRange(0,500000)][Int32]$Offset = 0,
+
+		[Parameter(Mandatory=$false)]
+		[PSTypeName("GCApiKey")]$Key
 	)
 	begin {
-		$Key = $Global:GCApiKey
-		
-		$Uri = $Key.Uri + "incidents?sort=-start_time"
+		if ($global:GCApiKey) {
+			$K = $global:GCApiKey
+			$Uri = $K.Uri + "incidents?sort=-start_time"
+		} elseif ($Key) {
+			$K = $Key
+			$Uri = $K.Uri + "incidents?sort=-start_time"
+		} else {
+			throw "No authentication key present."
+		}
 		
 		if (-not $StartTime) {
 			$StartTime = $(Get-Date).AddHours(-1)
@@ -200,7 +238,7 @@ function Get-GCIncident{
 	}
 	process {
 		try {
-			$Result = $(Invoke-RestMethod -Uri $Uri -Authentication Bearer -Token $Key.Token -Method "GET" | Select-Object -ExpandProperty "objects") | foreach {$_.PSTypeNames.Clear(); $_.PSTypeNames.Add("GCIncident"); $_}
+			$Result = $(Invoke-RestMethod -Uri $Uri -Authentication Bearer -Token $K.Token -Method "GET" | Select-Object -ExpandProperty "objects") | foreach {$_.PSTypeNames.Clear(); $_.PSTypeNames.Add("GCIncident"); $_}
 		}
 		catch {
 			throw $_.Exception

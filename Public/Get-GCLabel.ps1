@@ -31,16 +31,34 @@ function Get-GCLabel {
 	
 	[CmdletBinding()]
 	param (
-		[Parameter(Mandatory=$false)][Switch]$FindMatches,
-		[Parameter(Mandatory=$false)][System.String]$LabelKey,
-		[Parameter(Mandatory=$false)][System.String]$LabelValue,
-		[Parameter(Mandatory=$false)][ValidateRange(0,1000)][Int32]$Limit,
-		[Parameter(Mandatory=$false)][ValidateRange(0,500000)][Int32]$Offset
+		[Parameter(Mandatory=$false)]
+		[Switch]$FindMatches,
+
+		[Parameter(Mandatory=$false)]
+		[System.String]$LabelKey,
+
+		[Parameter(Mandatory=$false)]
+		[System.String]$LabelValue,
+
+		[Parameter(Mandatory=$false)]
+		[ValidateRange(0,1000)][Int32]$Limit,
+
+		[Parameter(Mandatory=$false)]
+		[ValidateRange(0,500000)][Int32]$Offset,
+
+		[Parameter(Mandatory=$false)]
+		[PSTypeName("GCApiKey")]$Key
 	)
 	begin {
-		$Key = $Global:GCApiKey
-
-		$Uri = $Key.Uri + "visibility/labels?"
+		if ($global:GCApiKey) {
+			$K = $global:GCApiKey
+			$Uri = $K.Uri + "visibility/labels?"
+		} elseif ($Key) {
+			$K = $Key
+			$Uri = $K.Uri + "visibility/labels?"
+		} else {
+			throw "No authentication key present."
+		}
 		
 		#Building the Uri with given parameters
 		if ($FindMatches) {

@@ -85,20 +85,47 @@ function Get-GCPolicy {
 
 	[CmdletBinding()]
 	param (
-		[Parameter(Mandatory=$false)][System.String]$Search,
-		[Parameter(Mandatory=$false)][ValidateSet("TCP","UDP")][System.Array]$Protocol = @("TCP","UDP"),
-		[Parameter(Mandatory=$false)][ValidateSet("allow","alert","block","override")][System.String]$Action = "allow",
-		[Parameter(Mandatory=$false)][ValidateRange(1,65535)][System.Array]$Port,
-		[Parameter(Mandatory=$false)][PSTypeName("GCLabel")]$SourceLabel,
-		[Parameter(Mandatory=$false)][PSTypeName("GCLabel")]$DestinationLabel,
-		[Parameter(Mandatory=$false)][PSTypeName("GCLabel")]$AnySideLabel,
-		[Parameter(Mandatory=$false)][System.Array]$SourceProcess,
-		[Parameter(Mandatory=$false)][System.Array]$DestinationProcess,
-		[Parameter(Mandatory=$false)][System.Array]$AnySideProcess,
-		[Parameter(Mandatory=$false)][PSTypeName("GCAsset")]$SourceAsset,
-		[Parameter(Mandatory=$false)][PSTypeName("GCAsset")]$DestinationAsset,
-		[Parameter(Mandatory=$false)][PSTypeName("GCAsset")]$AnySideAsset,
-		[Parameter(Mandatory=$false)][ValidateScript({
+		[Parameter(Mandatory=$false)]
+		[System.String]$Search,
+
+		[Parameter(Mandatory=$false)]
+		[ValidateSet("TCP","UDP")][System.Array]$Protocol = @("TCP","UDP"),
+
+		[Parameter(Mandatory=$false)]
+		[ValidateSet("allow","alert","block","override")][System.String]$Action = "allow",
+
+		[Parameter(Mandatory=$false)]
+		[ValidateRange(1,65535)][System.Array]$Port,
+
+		[Parameter(Mandatory=$false)]
+		[PSTypeName("GCLabel")]$SourceLabel,
+
+		[Parameter(Mandatory=$false)]
+		[PSTypeName("GCLabel")]$DestinationLabel,
+
+		[Parameter(Mandatory=$false)]
+		[PSTypeName("GCLabel")]$AnySideLabel,
+
+		[Parameter(Mandatory=$false)]
+		[System.Array]$SourceProcess,
+
+		[Parameter(Mandatory=$false)]
+		[System.Array]$DestinationProcess,
+
+		[Parameter(Mandatory=$false)]
+		[System.Array]$AnySideProcess,
+
+		[Parameter(Mandatory=$false)]
+		[PSTypeName("GCAsset")]$SourceAsset,
+
+		[Parameter(Mandatory=$false)]
+		[PSTypeName("GCAsset")]$DestinationAsset,
+
+		[Parameter(Mandatory=$false)]
+		[PSTypeName("GCAsset")]$AnySideAsset,
+
+		[Parameter(Mandatory=$false)]
+		[ValidateScript({
 			foreach ($Subnet in $_) {
 				if (-not ($Subnet -match "[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\/([1-9]|[1-2][0-9]|[3][0-2])")) {
 					throw "The subnet provided is not a valid subnet. Please provide a subnet in 0.0.0.0/0 format."
@@ -107,7 +134,9 @@ function Get-GCPolicy {
 				$true
 			}
 		})][System.Array]$SourceSubnet,
-		[Parameter(Mandatory=$false)][ValidateScript({
+
+		[Parameter(Mandatory=$false)]
+		[ValidateScript({
 			foreach ($Subnet in $_) {
 				if (-not ($Subnet -match "[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\/([1-9]|[1-2][0-9]|[3][0-2])")) {
 					throw "The subnet provided is not a valid subnet. Please provide a subnet in 0.0.0.0/0 format."
@@ -116,7 +145,9 @@ function Get-GCPolicy {
 				$true
 			}
 		})][System.String]$DestinationSubnet,
-		[Parameter(Mandatory=$false)][ValidateScript({
+
+		[Parameter(Mandatory=$false)]
+		[ValidateScript({
 			foreach ($Subnet in $_) {
 				if (-not ($Subnet -match "[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\/([1-9]|[1-2][0-9]|[3][0-2])")) {
 					throw "The subnet provided is not a valid subnet. Please provide a subnet in 0.0.0.0/0 format."
@@ -125,20 +156,43 @@ function Get-GCPolicy {
 				$true
 			}
 		})][System.String]$AnySideSubnet,
-		[Parameter(Mandatory=$false)][System.String]$Ruleset,
-		[Parameter(Mandatory=$false)][System.String]$Comments,
-		[Parameter(Mandatory=$false)][Switch]$SourceInternet,
-		[Parameter(Mandatory=$false)][Switch]$DestinationInternet,
-		[Parameter(Mandatory=$false)][Switch]$AnySideInternet,
-		[Parameter(Mandatory=$false)][ValidateRange(0,1000)][Int32]$Limit,
-		[Parameter(Mandatory=$false)][ValidateRange(0,500000)][Int32]$Offset
+
+		[Parameter(Mandatory=$false)]
+		[System.String]$Ruleset,
+
+		[Parameter(Mandatory=$false)]
+		[System.String]$Comments,
+
+		[Parameter(Mandatory=$false)]
+		[Switch]$SourceInternet,
+
+		[Parameter(Mandatory=$false)]
+		[Switch]$DestinationInternet,
+
+		[Parameter(Mandatory=$false)]
+		[Switch]$AnySideInternet,
+
+		[Parameter(Mandatory=$false)]
+		[ValidateRange(0,1000)][Int32]$Limit,
+
+		[Parameter(Mandatory=$false)]
+		[ValidateRange(0,500000)][Int32]$Offset,
+
+		[Parameter(Mandatory=$false)]
+		[PSTypeName("GCApiKey")]$Key
 	)
-	
-	$Key = $Global:GCApiKey
-	
-	$Uri = $Key.Uri + "visibility/policy/sections/" + $Action + "/rules?"
-	
-	#Protocols has a default value, so we can just add it without checks
+
+	if ($global:GCApiKey) {
+		$K = $global:GCApiKey
+		$Uri = $K.Uri + "visibility/policy/sections/" + $Action + "/rules?"
+	} elseif ($Key) {
+		$K = $Key
+		$Uri = $K.Uri + "visibility/policy/sections/" + $Action + "/rules?"
+	} else {
+		throw "No authentication key present."
+	}
+
+	# Protocols has a default value, so we can just add it without checks
 	$Uri += "protocols="
 	foreach ($P in $Protocol) {
 		$Uri += $P + ","

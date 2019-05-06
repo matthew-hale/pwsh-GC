@@ -33,17 +33,40 @@ function Get-GCAsset {
 
 	[CmdletBinding()]
 	param (
-		[Parameter(Mandatory=$false)][System.String]$Search,
-		[Parameter(Mandatory=$false)][ValidateSet("on","off")][System.String]$Status,
-		[Parameter(Mandatory=$false)][ValidateRange(0,3)][Int32]$Risk,
-		[Parameter(Mandatory=$false,ValueFromPipeline=$true)][PSTypeName("GCLabel")]$Label,
-		[Parameter(Mandatory=$false)][PSTypeName("GCAsset")]$Asset,
-		[Parameter(Mandatory=$false)][ValidateRange(0,1000)][Int32]$Limit = 20,
-		[Parameter(Mandatory=$false)][ValidateRange(0,500000)][Int32]$Offset
+		[Parameter(Mandatory=$false)]
+		[System.String]$Search,
+
+		[Parameter(Mandatory=$false)]
+		[ValidateSet("on","off")][System.String]$Status,
+
+		[Parameter(Mandatory=$false)]
+		[ValidateRange(0,3)][Int32]$Risk,
+
+		[Parameter(Mandatory=$false,ValueFromPipeline=$true)]
+		[PSTypeName("GCLabel")]$Label,
+
+		[Parameter(Mandatory=$false)]
+		[PSTypeName("GCAsset")]$Asset,
+
+		[Parameter(Mandatory=$false)]
+		[ValidateRange(0,1000)][Int32]$Limit = 20,
+
+		[Parameter(Mandatory=$false)]
+		[ValidateRange(0,500000)][Int32]$Offset,
+
+		[Parameter(Mandatory=$false)]
+		[PSTypeName("GCApiKey")]$Key
 	)
 	begin {
-		$Key = $Global:GCApiKey
-		$Uri = $Key.Uri + "assets?"
+		if ($global:GCApiKey) {
+			$K = $global:GCApiKey
+			$Uri = $K.Uri + "assets?"
+		} elseif ($Key) {
+			$K = $Key
+			$Uri = $K.Uri + "assets?"
+		} else {
+			throw "No authentication key present."
+		}
 		
 		#Building the Uri with given parameters
 		$Uri += "limit=" + $Limit
@@ -92,7 +115,7 @@ function Get-GCAsset {
 		}
 		
 		try {
-			$Result = $(Invoke-RestMethod -Uri $Uri -Authentication Bearer -Token $Key.Token -Method "GET" | Select-Object -ExpandProperty "objects") | foreach {$_.PSTypeNames.Clear(); $_.PSTypeNames.Add("GCAsset"); $_}
+			$Result = $(Invoke-RestMethod -Uri $Uri -Authentication Bearer -Token $K.Token -Method "GET" | Select-Object -ExpandProperty "objects") | foreach {$_.PSTypeNames.Clear(); $_.PSTypeNames.Add("GCAsset"); $_}
 		}
 		catch {
 			throw $_.Exception
