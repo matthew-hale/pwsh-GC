@@ -43,7 +43,7 @@ function Get-GCRawFlow {
 		} elseif ($Key) {
 			$K = $Key
 		} else {
-			throw "No authentication token present."
+			throw "No authentication key present."
 		}
 	}
 	process {

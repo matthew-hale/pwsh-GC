@@ -51,11 +51,21 @@ function Get-GCSavedMap {
 		[Parameter(Mandatory=$false)][DateTime[]]$TimeRange,
 		[Parameter(Mandatory=$false)][System.String]$AuthorID,
 		[Parameter(Mandatory=$false)][Int32]$Limit,
-		[Parameter(Mandatory=$false)][Int32]$Offset
+		[Parameter(Mandatory=$false)][Int32]$Offset,
+		[Parameter(Mandatory=$false)]
+		[PSTypeName("GCApiKey")]$Key
 	)
 	begin {
-		$Key = $Global:GCApiKey
-		$Uri = $Key.Uri + "visibility/saved-maps?sort=id"
+
+		if ($global:GCApiKey) {
+			$K = $global:GCApiKey
+			$Uri = $K.Uri + "visibility/saved-maps?sort=id"
+		} elseif ($Key) {
+			$K = $Key
+			$Uri = $K.Uri + "visibility/saved-maps?sort=id"
+		} else {
+			throw "No authentication key present."
+		}
 		
 		if ($AuthorID) {
 			$Uri += "&author_id="
@@ -127,7 +137,7 @@ function Get-GCSavedMap {
 	}
 	process {
 		try {
-			$Result = $(Invoke-RestMethod -Uri $Uri -Authentication Bearer -Token $Key.Token -Method "GET" | Select-Object -ExpandProperty "objects") | foreach {$_.PSTypeNames.Clear(); $_.PSTypeNames.Add("GCSavedMap"); $_}
+			$Result = $(Invoke-RestMethod -Uri $Uri -Authentication Bearer -Token $K.Token -Method "GET" | Select-Object -ExpandProperty "objects") | foreach {$_.PSTypeNames.Clear(); $_.PSTypeNames.Add("GCSavedMap"); $_}
 		}
 		catch {
 			throw $_.Exception
