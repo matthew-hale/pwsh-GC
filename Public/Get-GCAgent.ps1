@@ -58,29 +58,29 @@ function Get-GCAgent {
 
 	[CmdletBinding()]
 	param (
-		[System.Array]$Version,
+		[String[]]$Version,
 
-		[System.Array]$Kernel,
+		[String[]]$Kernel,
 
-		[ValidateSet("Unknown","Windows","Linux")][System.Array]$OS,
+		[ValidateSet("Unknown","Windows","Linux")][String[]]$OS,
 
 		[PSTypeName("GCLabel")]$Label,
 
-		[ValidateSet("Online","Offline")][System.Array]$Status, # = display_status
+		[ValidateSet("Online","Offline")][String[]]$Status, # = display_status
 
 		[ValidateSet("undefined",1,2,3,4,5,6,7,8,9,10,11,12,13,14)]$Flag,
 
-		[ValidateSet("Active","Not Deployed","Disabled")][System.Array]$Enforcement, # = module_status_enforcement
+		[ValidateSet("Active","Not Deployed","Disabled")][String[]]$Enforcement, # = module_status_enforcement
 
-		[ValidateSet("Active","Not Deployed")][System.Array]$Deception, # = module_status_deception
+		[ValidateSet("Active","Not Deployed")][String[]]$Deception, # = module_status_deception
 
-		[ValidateSet("Active","Not Deployed")][System.Array]$Detection, # = module_status_detection
+		[ValidateSet("Active","Not Deployed")][String[]]$Detection, # = module_status_detection
 
-		[ValidateSet("Active","Not Deployed")][System.Array]$Reveal,  # = module_status_reveal
+		[ValidateSet("Active","Not Deployed")][String[]]$Reveal,  # = module_status_reveal
 
-		[ValidateSet("last_month","last_week","last_12_hours","last_24_hours","not_active")][System.Array]$Activity,
+		[ValidateSet("last_month","last_week","last_12_hours","last_24_hours","not_active")][String[]]$Activity,
 
-		[System.String]$Search,
+		[String]$Search,
 
 		[ValidateRange(0,1000)][Int32]$Limit,
 
