@@ -58,65 +58,57 @@ function Get-GCAgent {
 
 	[CmdletBinding()]
 	param (
-		[Parameter(Mandatory=$false)]
 		[System.Array]$Version,
 
-		[Parameter(Mandatory=$false)]
 		[System.Array]$Kernel,
 
-		[Parameter(Mandatory=$false)]
 		[ValidateSet("Unknown","Windows","Linux")][System.Array]$OS,
 
-		[Parameter(Mandatory=$false)]
 		[PSTypeName("GCLabel")]$Label,
 
-		[Parameter(Mandatory=$false)]
 		[ValidateSet("Online","Offline")][System.Array]$Status, # = display_status
 
-		[Parameter(Mandatory=$false)]
 		[ValidateSet("undefined",1,2,3,4,5,6,7,8,9,10,11,12,13,14)]$Flag,
 
-		[Parameter(Mandatory=$false)]
 		[ValidateSet("Active","Not Deployed","Disabled")][System.Array]$Enforcement, # = module_status_enforcement
 
-		[Parameter(Mandatory=$false)]
 		[ValidateSet("Active","Not Deployed")][System.Array]$Deception, # = module_status_deception
 
-		[Parameter(Mandatory=$false)]
 		[ValidateSet("Active","Not Deployed")][System.Array]$Detection, # = module_status_detection
 
-		[Parameter(Mandatory=$false)]
 		[ValidateSet("Active","Not Deployed")][System.Array]$Reveal,  # = module_status_reveal
 
-		[Parameter(Mandatory=$false)]
 		[ValidateSet("last_month","last_week","last_12_hours","last_24_hours","not_active")][System.Array]$Activity,
 
-		[Parameter(Mandatory=$false)]
-		[System.String]$GCFilter,
+		[System.String]$Search,
 
-		[Parameter(Mandatory=$false)]
 		[ValidateRange(0,1000)][Int32]$Limit,
 
-		[Parameter(Mandatory=$false)]
 		[ValidateRange(0,500000)][Int32]$Offset,
 
-		[Parameter(Mandatory=$false)]
-		[PSTypeName("GCApiKey")]$Key
+		[PSTypeName("GCApiKey")]$ApiKey
 	)
 	begin {
-		if ($global:GCApiKey) {
-			$K = $global:GCApiKey
-			$Uri = $K.Uri + "agents?sort=version"
+		if (GCApiKey-present) {
+			if ($ApiKey) {
+				$Key = $ApiKey
+			} else {
+				$Key = $global:GCApiKey
+			} 
+			$Uri = $Key.Uri + "/agents"
 		}
 		
-		#Building the Uri with given parameters
+		$Body = @{
+			version = $Version -join ","
+			kernel = $Kernel -join ","
+			os = $OS -join ","
+			labels = $Label.id -join ","
+		}
+
+		# Building the request body with given parameters
+		
 		if ($Version) {
-			$Uri += "&version="
-			foreach ($V in $Version) {
-				$Uri += $V + ","
-			}
-			
-			$Uri = $Uri.SubString(0,$Uri.length-1) #Remove trailing ","
+			$Body.version = $Version -join ","
 		}
 		
 		if ($Kernel) {
@@ -212,8 +204,8 @@ function Get-GCAgent {
 			$Uri = $Uri.SubString(0,$Uri.length-1) #Remove trailing ","
 		}
 		
-		if ($GCFilter) {
-			$Uri += "&gc_filter=" + $GCFilter
+		if ($Search) {
+			$Uri += "&gc_filter=" + $Search
 		}
 		
 		if ($Limit) {
@@ -223,6 +215,7 @@ function Get-GCAgent {
 		if ($Offset) {
 			$Uri += "&offset=" + $Offset
 		}
+		#>
 	}
 	process {
 		if ($Key) {

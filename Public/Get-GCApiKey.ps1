@@ -35,8 +35,8 @@ function Get-GCApiKey {
 		[Switch]$Export
 	)
 	begin {
-		$Uri = "https://" + $Server + ".cloud.guardicore.com/api/v3.0/"
-		$TempUri = $Uri + "authenticate"
+		$Uri = "https://" + $Server + ".cloud.guardicore.com/api/v3.0"
+		$TempUri = $Uri + "/authenticate"
 		$Body = [PSCustomObject]@{
 			"username" = ""
 			"password" = ""
