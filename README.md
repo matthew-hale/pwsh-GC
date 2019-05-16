@@ -24,6 +24,8 @@ where $Creds is a PowerShell credential object (you can call Get-Credential). Al
 
 This function saves the api token to a global variable called $GCApiKey that is used automatically by the rest of the functions in the module; there's no need to store it and manually enter it each time. It works like a typical GuardiCore user session, with the same timeout value (24 hours by default). **Note: exiting the PowerShell session will require that you re-authenticate.**
 
+You also have the option of using the -Export parameter, which will output the object on the pipeline for manual use. This option is good for running a number of API calls across multiple different environments, or if you just want to do a quick call without discarding your current session.
+
 ### Examples
 Create a static label from an array of hostnames:
 
