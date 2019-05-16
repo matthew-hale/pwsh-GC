@@ -77,24 +77,13 @@ function Get-GCAgent {
 	}
 
 	# Removing empty hashtable keys
-
-	$KeyList = [System.Collections.Generic.List[string]]::new()
-
-	foreach ($HashKey in $Body.Keys) {
-		$List.Add($HashKey)
-	}
-
-	foreach ($HashKey in $List) {
-		if ([string]::isNullOrEmpty($Body[$HashKey])) {
-			$Body.Remove($HashKey)
-		}
-	}
+	$RequestBody = Remove-EmptyKeys $Body
 
 	# Making the call
 	if ($Raw) {
-		pwsh-GC-get-request -Raw -Uri $Uri -Body $Body -ApiKey $Key
+		pwsh-GC-get-request -Raw -Uri $Uri -Body $RequestBody -ApiKey $Key
 	} else {
-		pwsh-GC-get-request -Uri $Uri -Body $Body -ApiKey $Key | foreach {$_.PSTypeNames.Clear(); $_.PSTypeNames.Add("GCAgent"); $_}
+		pwsh-GC-get-request -Uri $Uri -Body $RequestBody -ApiKey $Key | foreach {$_.PSTypeNames.Clear(); $_.PSTypeNames.Add("GCAgent"); $_}
 	}
 }
 
