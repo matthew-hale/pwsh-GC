@@ -21,9 +21,12 @@ function ConvertFrom-GCUnixTime {
 	param (
 		[Parameter(Mandatory=$true,ValueFromPipeline=$true)][Int64]$UnixDate
 	)
+	begin {
+		$Converted = [System.Collections.Generic.List[object]]::new()
+	}
 	process {
 		$Origin = New-Object DateTime 1970, 1, 1, 0, 0, 0, ([DateTimeKind]::Utc)
-		$Converted = $Origin.AddSeconds([Int]($UnixDate/1000)) #Remember: GuardiCore works with epoch times in milliseconds
+		$Converted.Add($Origin.AddSeconds([Int]($UnixDate/1000))) #Remember: GuardiCore works with epoch times in milliseconds
 	}
 	end {
 		$Converted.ToLocalTime()

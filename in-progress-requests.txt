@@ -1,0 +1,4 @@
+https://cus-2295.cloud.guardicore.com/api/v3.0/agent_aggregators
+https://cus-2295.cloud.guardicore.com/api/v3.0/collectors
+https://cus-2295.cloud.guardicore.com/api/v3.0/system-events
+https://cus-2295.cloud.guardicore.com/api/v3.0/system/audit-log
