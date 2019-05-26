@@ -2,7 +2,7 @@ function Get-GCUser {
 	[cmdletbinding()]
 
 	param (
-		[String]$Name,
+		[String[]]$Name,
 
 		[Switch]$Raw,
 
@@ -18,9 +18,11 @@ function Get-GCUser {
 		$Uri = "/system/users"
 	}
 
-	$Body = @{
-		username = $Name
+	foreach ( $ThisName in $Name ) {
+		$Body = @{
+			username = $ThisName
+		}
+	
+		pwsh-gc-get-request -Uri $Uri -Body $Body -ApiKey $Key -Raw:$Raw.IsPresent
 	}
-
-	pwsh-gc-get-request -Uri $Uri -Body $Body -ApiKey $Key -Raw:$Raw.IsPresent
 }
