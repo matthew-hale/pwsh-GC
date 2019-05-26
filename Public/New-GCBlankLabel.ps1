@@ -2,11 +2,23 @@ function New-GCBlankLabel {
 	[cmdletbinding()]
 
 	param (
-		[Parameter(Mandatory=$true)]$LabelKey,
-		[Parameter(Mandatory=$true)]$LabelValue
+		[Parameter(Mandatory)]
+		[String]$LabelKey,
+
+		[Parameter(Mandatory)]
+		[String]$LabelValue,
+
+		[PSTypeName("GCApiKey")]$ApiKey
 	)
-	$Uri = $Global:GCApiKey.Uri + "visibility/labels"
-	$Token = $Global:GCApiKey.Token
+
+	if ( GCApiKey-present $ApiKey ) {
+		if ( $ApiKey ) {
+			$Key = $ApiKey
+		} else {
+			$Key = $global:GCApiKey
+		} 
+		$Uri = "/visibility/labels"
+	}
 
 	$Body = [PSCustomObject]@{
 		id = $null
@@ -15,7 +27,5 @@ function New-GCBlankLabel {
 		criteria = @()
 	}
 
-	$BodyJson = $Body | ConvertTo-Json
-
-	Invoke-RestMethod -Uri $Uri -Method POST -ContentType application/json -Authentication Bearer -Token $Token -Body $BodyJson
+	pwsh-GC-post-request -Raw -Uri $Uri -Body $Body -ApiKey $Key
 }
