@@ -25,21 +25,21 @@ function pwsh-GC-get-request {
 	
 	process {
 		$Request = try {
-				Invoke-RestMethod -Uri $RequestUri -Method Get -Body $Body -Authentication Bearer -Token $RequestToken
-			}
-			catch {
-				throw $_.Exception
+			Invoke-RestMethod -Uri $RequestUri -Method Get -Body $Body -Authentication Bearer -Token $RequestToken
+		}
+		catch {
+			throw $_.Exception
+		}
+	
+		switch ($Raw) {
+			$true {
+				$Result.Add($Request)
 			}
 	
-		if ($Request) {
-			switch ($Raw) {
-				$true {
-					$Result.Add($Request)
-				}
-		
-				default {
+			default {
+				if ( $Request.objects ) {
 					$Result.AddRange($Request.objects)
-				}
+				} 
 			}
 		}
 	}

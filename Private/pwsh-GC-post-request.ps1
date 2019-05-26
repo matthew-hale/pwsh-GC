@@ -25,19 +25,19 @@ function pwsh-GC-post-request {
 	$RequestBody = $Body | ConvertTo-Json -Depth 5
 
 	$Request = try {
-			Invoke-RestMethod -Uri $RequestUri -Method $Method -Body $RequestBody -ContentType "application/json" -Authentication Bearer -Token $RequestToken
-		}
-		catch {
-			throw $_.Exception
+		Invoke-RestMethod -Uri $RequestUri -Method $Method -Body $RequestBody -ContentType "application/json" -Authentication Bearer -Token $RequestToken
+	}
+	catch {
+		throw $_.Exception
+	}
+
+	switch ($Raw) {
+		$true {
+			$Result.Add($Request)
 		}
 
-	if ($Request) {
-		switch ($Raw) {
-			$true {
-				$Result.Add($Request)
-			}
-	
-			default {
+		default {
+			if ( $Request.objects ) {
 				$Result.AddRange($Request.objects)
 			}
 		}
