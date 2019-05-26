@@ -65,8 +65,8 @@ function Get-GCIncident{
 		to_time = $EndTime
 		severity = $Severity
 		incident_type = $IncidentType
-		tag = $IncludeTag
-		tags__not = $ExcludeTag
+		tag = $IncludeTag -join ","
+		tags__not = $ExcludeTag -join ","
 	}
 
 	# Removing empty keys
@@ -82,16 +82,12 @@ function Get-GCIncident{
 	
 	if ($SourceLabel) {
 		$Uri += "labels:"
-		foreach ($L in $SourceLabel) {
-			$Uri += $L.id -join "|"
-		}
+		$Uri += $SourceLabel.id -join "|"
 	}
 	
 	if ($SourceAsset) {
 		$Uri += "assets:"
-		foreach ($A in $SourceAsset) {
-			$Uri += $A -join ","
-		}
+		$Uri += $SourceAsset -join ","
 	}
 	
 	if ($Uri[$Uri.length-1] -eq "=") {
@@ -104,16 +100,12 @@ function Get-GCIncident{
 	
 	if ($DestinationLabel) {
 		$Uri += "labels:"
-		foreach ($L in $DestinationLabel) {
-			$Uri += $L.id -join "|"
-		}
+		$Uri += $DestinationLabel.id -join "|"
 	}
 	
 	if ($DestinationAsset) {
 		$Uri += "assets:"
-		foreach ($A in $DestinationAsset) {
-			$Uri += $A -join ","
-		}
+		$Uri += $DestinationAsset -join ","
 	}
 	
 	if ($Uri[$Uri.length-1] -eq "=") {
@@ -125,16 +117,12 @@ function Get-GCIncident{
 	
 	if ($AnySideLabel) {
 		$Uri += "labels:"
-		foreach ($L in $AnySideLabel) {
-			$Uri += $L.id -join "|"
-		}
+		$Uri += $AnySideLabel.id -join "|"
 	}
 	
 	if ($AnySideAsset) {
 		$Uri += "assets:"
-		foreach ($A in $AnySideAsset) {
-			$Uri += $A -join ","
-		}
+		$Uri += $AnySideAsset -join ","
 	}
 	
 	if ($Uri[$Uri.length-1] -eq "=") {
@@ -144,10 +132,8 @@ function Get-GCIncident{
 	# Making the call
 
 	if ( $Raw ) {
-		$Result = pwsh-GC-get-request -Raw -Uri $Uri -Body $RequestBody -ApiKey $Key
+		pwsh-GC-get-request -Raw -Uri $Uri -Body $RequestBody -ApiKey $Key
 	} else {
-		$Result = pwsh-GC-get-request -Uri $Uri -Body $RequestBody -ApiKey $Key | foreach {$_.PSTypeNames.Clear(); $_.PSTypeNames.Add("GCIncident"); $_}
+		pwsh-GC-get-request -Uri $Uri -Body $RequestBody -ApiKey $Key | foreach {$_.PSTypeNames.Clear(); $_.PSTypeNames.Add("GCIncident"); $_}
 	}
-
-	$Result
 }
