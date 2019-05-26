@@ -22,7 +22,7 @@ function pwsh-GC-post-request {
 		$RequestUri = $global:GCApiKey.Uri + $Uri
 	}
 	
-	$RequestBody = $Body | ConvertTo-Json -Depth 5
+	$RequestBody = $Body | ConvertTo-Json -Depth 10
 
 	$Request = try {
 		Invoke-RestMethod -Uri $RequestUri -Method $Method -Body $RequestBody -ContentType "application/json" -Authentication Bearer -Token $RequestToken
