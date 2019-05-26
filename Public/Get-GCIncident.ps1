@@ -30,6 +30,8 @@ function Get-GCIncident{
 
 		[ValidateRange(0,500000)][Int32]$Offset = 0,
 
+		[Switch]$Raw,
+
 		[PSTypeName("GCApiKey")]$ApiKey
 	)
 
