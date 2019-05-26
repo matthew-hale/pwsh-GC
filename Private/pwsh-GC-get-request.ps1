@@ -31,13 +31,15 @@ function pwsh-GC-get-request {
 				throw $_.Exception
 			}
 	
-		switch ($Raw) {
-			$true {
-				$Result.Add($Request)
-			}
-	
-			default {
-				$Result.Add($Request.objects)
+		if ($Request) {
+			switch ($Raw) {
+				$true {
+					$Result.Add($Request)
+				}
+		
+				default {
+					$Result.AddRange($Request.objects)
+				}
 			}
 		}
 	}

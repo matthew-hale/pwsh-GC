@@ -3,45 +3,45 @@ function pwsh-GC-post-request {
 		[Parameter(Mandatory)]
 		[String]$Uri,
 	
-		[PSTypeName("GCApiKey")]$ApiKey,
-
 		[PSCustomObject]$Body,
+
+		[PSTypeName("GCApiKey")]$ApiKey,
 
 		[ValidateSet("Post","Put")][String]$Method = "Post",
 	
 		[Switch]$Raw
 	)
 	
-	begin {
-		$Result = [System.Collections.Generic.List[object]]::new()
-		if ($ApiKey) {
-			$RequestToken = $ApiKey.Token
-			$RequestUri = $ApiKey.Uri + $Uri
-		} else {
-			$RequestToken = $global:GCApiKey.Token
-			$RequestUri = $global:GCApiKey.Uri + $Uri
-		}
+	$Result = [System.Collections.Generic.List[object]]::new()
+
+	if ($ApiKey) {
+		$RequestToken = $ApiKey.Token
+		$RequestUri = $ApiKey.Uri + $Uri
+	} else {
+		$RequestToken = $global:GCApiKey.Token
+		$RequestUri = $global:GCApiKey.Uri + $Uri
 	}
 	
-	process {
-		$Request = try {
-				Invoke-RestMethod -Uri $RequestUri -Method $Method -Body $Body -ContentType "application/json" -Authentication Bearer -Token $RequestToken
-			}
-			catch {
-				throw $_.Exception
-			}
-	
+	$RequestBody = $Body | ConvertTo-Json -Depth 5
+
+	$Request = try {
+			Invoke-RestMethod -Uri $RequestUri -Method $Method -Body $RequestBody -ContentType "application/json" -Authentication Bearer -Token $RequestToken
+		}
+		catch {
+			throw $_.Exception
+		}
+
+	if ($Request) {
 		switch ($Raw) {
 			$true {
 				$Result.Add($Request)
 			}
 	
 			default {
-				$Result.Add($Request.objects)
+				$Result.AddRange($Request.objects)
 			}
 		}
 	}
-	end {
-		$Result
-	}
+
+	$Result
 }
