@@ -83,7 +83,7 @@ function Get-GCPolicy {
 		} else {
 			$Key = $global:GCApiKey
 		} 
-		$Uri = "/visibility/policy/rules"
+		$Uri = "/visibility/policy/rules?limit=" + $Limit
 	}
 	
 	# Building the request body with given parameters
@@ -91,7 +91,6 @@ function Get-GCPolicy {
 	$Body = @{
 		sections = $Section -join ","
 		protocols = $Protocol -join ","
-		limit = $Limit
 		offset = $Offset
 		search = $Search
 		comments = $Comments
