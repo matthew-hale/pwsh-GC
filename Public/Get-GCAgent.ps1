@@ -64,12 +64,12 @@ function Get-GCAgent {
 
 	# This one's unique
 	if ($Enforcement) {
-		$Add += foreach ($E in $Enforcement) {
-			if ($E -eq "Disabled") {
-				$E = "Enforcement disabled from management console"
-				$E
+		$Add += foreach ($ThisEnforcement in $Enforcement) {
+			if ($ThisEnforcement -eq "Disabled") {
+				$ThisEnforcement = "Enforcement disabled from management console"
+				$ThisEnforcement
 			} else {
-				$E
+				$ThisEnforcement
 			}
 		}
 

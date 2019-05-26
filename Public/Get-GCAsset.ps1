@@ -44,7 +44,7 @@ function Get-GCAsset {
 		$Body = @{
 			search = $Search
 			status = $Status
-			risk = $Risk
+			risk_level = $Risk
 			labels = $LabelIDs -join ","
 			asset = $Asset.id -join ","
 			limit = $Limit
@@ -58,7 +58,7 @@ function Get-GCAsset {
 		if ($Raw) {
 			pwsh-GC-get-request -Raw -Uri $Uri -Body $RequestBody -ApiKey $Key
 		} else {
-			pwsh-GC-get-request -Uri $Uri -Body $RequestBody -ApiKey $Key | foreach {$_.PSTypeNames.Clear(); $_.PSTypeNames.Add("GCAgent"); $_}
+			pwsh-GC-get-request -Uri $Uri -Body $RequestBody -ApiKey $Key | foreach {$_.PSTypeNames.Clear(); $_.PSTypeNames.Add("GCAsset"); $_}
 		}
 	}
 }

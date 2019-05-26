@@ -22,7 +22,14 @@ function Get-GCUser {
 		$Body = @{
 			username = $ThisName
 		}
+
+		$RequestBody = Remove-EmptyKeys $Body
 	
-		pwsh-gc-get-request -Uri $Uri -Body $Body -ApiKey $Key -Raw:$Raw.IsPresent
+		if ( $Raw ) {
+			pwsh-gc-get-request -Raw -Uri $Uri -Body $RequestBody -ApiKey $Key
+		} else {
+			pwsh-gc-get-request -Uri $Uri -Body $RequestBody -ApiKey $Key | foreach {$_.PSTypeNames.Clear(); $_.PSTypeNames.Add("GCUser"); $_}
+			
+		}
 	}
 }
