@@ -8,7 +8,7 @@ schema: 2.0.0
 # ConvertTo-GCUnixTime
 
 ## SYNOPSIS
-{{ Fill in the Synopsis }}
+{{ Converts datetime objects into Unix timestamps in milliseconds. }}
 
 ## SYNTAX
 
@@ -17,21 +17,28 @@ ConvertTo-GCUnixTime [-DateTime] <DateTime> [<CommonParameters>]
 ```
 
 ## DESCRIPTION
-{{ Fill in the Description }}
+{{ GuardiCore stores timestamps as Unix timestamps in milliseconds. This can be annoying to deal with, so the helper functions ConvertFrom- and ConvertTo-GCUnixTime are used to make the transition seamless. }}
 
 ## EXAMPLES
 
 ### Example 1
 ```powershell
-PS C:\> {{ Add example code here }}
+PS C:\> {{ ConvertTo-GCUnixTime -DateTime "1/1/2019 00:00:00" }}
 ```
 
-{{ Add example description here }}
+{{ Convert a DateTime-formatted string as a named parameter. }}
+
+### Example 2
+```powershell
+PS C:\> {{ Get-Date | ConvertTo-GCUnixTime }}
+```
+
+{{ Convert a DateTime object using the pipeline. }}
 
 ## PARAMETERS
 
 ### -DateTime
-{{ Fill DateTime Description }}
+{{ A DateTime object, or a string formatted as such. }}
 
 ```yaml
 Type: DateTime
