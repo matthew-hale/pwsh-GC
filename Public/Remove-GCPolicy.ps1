@@ -7,7 +7,7 @@ function Remove-GCPolicy {
 		[Parameter(ValueFromPipeline)]
 		[System.Array]$Policy,
 
-		[PSTypeName("GCApiKey")]
+		[PSTypeName("GCApiKey")]$ApiKey
 	)
 	begin {
 		if ( GCApiKey-present $ApiKey ) {
