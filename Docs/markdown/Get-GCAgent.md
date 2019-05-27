@@ -8,7 +8,7 @@ schema: 2.0.0
 # Get-GCAgent
 
 ## SYNOPSIS
-{{ Fill in the Synopsis }}
+{{ Retrieve an agent from the management server. }}
 
 ## SYNTAX
 
@@ -20,21 +20,21 @@ Get-GCAgent [[-Version] <String[]>] [[-Kernel] <String[]>] [[-OS] <String[]>] [[
 ```
 
 ## DESCRIPTION
-{{ Fill in the Description }}
+{{ Pulls one or more agents from the management server based on the given parameters. Agents can be returned based on agent version, kernel version, string search, etc. }}
 
 ## EXAMPLES
 
 ### Example 1
 ```powershell
-PS C:\> {{ Add example code here }}
+PS C:\> {{ Get-GCAgent -Search Demo-Hostname }}
 ```
 
-{{ Add example description here }}
+{{ Retrieve all agents that match the "Demo-Hostname" search string. }}
 
 ## PARAMETERS
 
 ### -Activity
-{{ Fill Activity Description }}
+{{ Get agents based on when their last activity was.}}
 
 ```yaml
 Type: String[]
@@ -50,7 +50,7 @@ Accept wildcard characters: False
 ```
 
 ### -ApiKey
-{{ Fill ApiKey Description }}
+{{ Provide an external ApiKey, in place of the global GCApiKey variable. }}
 
 ```yaml
 Type: Object
@@ -65,7 +65,7 @@ Accept wildcard characters: False
 ```
 
 ### -Deception
-{{ Fill Deception Description }}
+{{ Get agents based on whether the deception module is present. }}
 
 ```yaml
 Type: String[]
@@ -81,7 +81,7 @@ Accept wildcard characters: False
 ```
 
 ### -Detection
-{{ Fill Detection Description }}
+{{ Get agents based on whether the detection module is present. }}
 
 ```yaml
 Type: String[]
@@ -97,7 +97,7 @@ Accept wildcard characters: False
 ```
 
 ### -Enforcement
-{{ Fill Enforcement Description }}
+{{ Get agents based on whether the enforcement module is present. }}
 
 ```yaml
 Type: String[]
@@ -113,7 +113,7 @@ Accept wildcard characters: False
 ```
 
 ### -Flag
-{{ Fill Flag Description }}
+{{ Get agents based on their status flags. }}
 
 ```yaml
 Type: Object
@@ -129,7 +129,7 @@ Accept wildcard characters: False
 ```
 
 ### -Kernel
-{{ Fill Kernel Description }}
+{{ Get agents based on kernel version. }}
 
 ```yaml
 Type: String[]
@@ -144,7 +144,7 @@ Accept wildcard characters: False
 ```
 
 ### -Label
-{{ Fill Label Description }}
+{{ Get agents based on a given GuardiCore label. }}
 
 ```yaml
 Type: Object
@@ -159,7 +159,7 @@ Accept wildcard characters: False
 ```
 
 ### -Limit
-{{ Fill Limit Description }}
+{{ The maximum number of objects to return. }}
 
 ```yaml
 Type: Int32
@@ -174,7 +174,7 @@ Accept wildcard characters: False
 ```
 
 ### -OS
-{{ Fill OS Description }}
+{{ Get agents based on the OS of the machine. }}
 
 ```yaml
 Type: String[]
@@ -190,7 +190,7 @@ Accept wildcard characters: False
 ```
 
 ### -Offset
-{{ Fill Offset Description }}
+{{ The index of the first result to be returned. }}
 
 ```yaml
 Type: Int32
@@ -205,7 +205,7 @@ Accept wildcard characters: False
 ```
 
 ### -Raw
-{{ Fill Raw Description }}
+{{ Return the raw result instead of the agent objects directly. }}
 
 ```yaml
 Type: SwitchParameter
@@ -220,7 +220,7 @@ Accept wildcard characters: False
 ```
 
 ### -Reveal
-{{ Fill Reveal Description }}
+{{ Get agents based on whether the reveal module is present. }}
 
 ```yaml
 Type: String[]
@@ -236,7 +236,7 @@ Accept wildcard characters: False
 ```
 
 ### -Search
-{{ Fill Search Description }}
+{{ Get agents based on a search string. }}
 
 ```yaml
 Type: String
@@ -251,7 +251,7 @@ Accept wildcard characters: False
 ```
 
 ### -Status
-{{ Fill Status Description }}
+{{ Get agents based on their status. }}
 
 ```yaml
 Type: String[]
@@ -267,7 +267,7 @@ Accept wildcard characters: False
 ```
 
 ### -Version
-{{ Fill Version Description }}
+{{ Get agents based on the agent version. }}
 
 ```yaml
 Type: String[]
