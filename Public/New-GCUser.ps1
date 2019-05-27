@@ -20,8 +20,6 @@ function New-GCUser {
 
 		[Switch]$IncidentPasswordAccess,
 
-		[Switch]$Raw,
-
 		[PSTypeName("GCApiKey")]$ApiKey
 	)
 
@@ -50,6 +48,6 @@ function New-GCUser {
 		username = $Name
 	}
 
-	pwsh-gc-post-request -Uri $Uri -Body $Body -ApiKey $Key -Raw:$Raw.IsPresent
+	pwsh-gc-post-request -Raw -Uri $Uri -Body $Body -ApiKey $Key
 }
 
