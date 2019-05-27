@@ -22,7 +22,9 @@ function New-GCSavedMap{
 
 		[Switch]$TimeResolution,
 
-		[Switch]$EmailOnProgress
+		[Switch]$EmailOnProgress,
+
+		[PSTypeName("GCApiKey)"]$ApiKey
 	)
 
 	if ( GCApiKey-present $ApiKey ) {
