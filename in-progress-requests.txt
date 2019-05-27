@@ -2,3 +2,4 @@
 /collectors
 /system-events
 /system/audit-log
+/rbac/*
