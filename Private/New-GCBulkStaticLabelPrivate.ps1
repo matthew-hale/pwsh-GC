@@ -17,10 +17,9 @@
 #>
 function New-GCBulkStaticLabelPrivate {
 	param (
-		[Parameter(Mandatory=$false,ValueFromPipeline=$true)]
+		[Parameter(ValueFromPipeline)]
 		[System.Object[]]$Labels,
 
-		[Parameter(Mandatory=$false)]
 		[PSTypeName("GCApiKey")]$ApiKey
 	)
 	begin {
