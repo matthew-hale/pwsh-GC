@@ -5,16 +5,12 @@ function pwsh-GC-delete-request {
 		[Parameter(Mandatory)]
 		[String]$Uri,
 
+		[Parameter(Mandatory)]
 		[PSTypeName("GCApiKey")]$ApiKey
 	)
 	
-	if ( $ApiKey ) {
-		$RequestToken = $ApiKey.Token
-		$RequestUri = $ApiKey.Uri + $Uri
-	} else {
-		$RequestToken = $global:GCApiKey.Token
-		$RequestUri = $global:GCApiKey.Uri + $Uri
-	}
+	$RequestToken = $ApiKey.Token
+	$RequestUri = $ApiKey.Uri + $Uri
 
 	try {
 		Invoke-RestMethod -Uri $RequestUri -Method Delete -Authentication Bearer -Token $RequestToken

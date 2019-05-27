@@ -7,6 +7,7 @@ function pwsh-GC-get-request {
 
 		[HashTable]$Body,
 
+		[Parameter(Mandatory)]
 		[PSTypeName("GCApiKey")]$ApiKey,
 
 		[Switch]$Raw
@@ -14,13 +15,8 @@ function pwsh-GC-get-request {
 	
 	begin {
 		$Result = [System.Collections.Generic.List[object]]::new()
-		if ( $ApiKey ) {
-			$RequestToken = $ApiKey.Token
-			$RequestUri = $ApiKey.Uri + $Uri
-		} else {
-			$RequestToken = $global:GCApiKey.Token
-			$RequestUri = $global:GCApiKey.Uri + $Uri
-		}
+		$RequestToken = $ApiKey.Token
+		$RequestUri = $ApiKey.Uri + $Uri
 	}
 	
 	process {

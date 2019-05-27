@@ -5,6 +5,7 @@ function pwsh-GC-post-request {
 	
 		[PSCustomObject]$Body,
 
+		[Parameter(Mandatory)]
 		[PSTypeName("GCApiKey")]$ApiKey,
 
 		[ValidateSet("Post","Put")][String]$Method = "Post",
@@ -14,14 +15,8 @@ function pwsh-GC-post-request {
 	
 	$Result = [System.Collections.Generic.List[object]]::new()
 
-	if ( $ApiKey ) {
-		$RequestToken = $ApiKey.Token
-		$RequestUri = $ApiKey.Uri + $Uri
-	} else {
-		$RequestToken = $global:GCApiKey.Token
-		$RequestUri = $global:GCApiKey.Uri + $Uri
-	}
-	
+	$RequestToken = $ApiKey.Token
+	$RequestUri = $ApiKey.Uri + $Uri
 	$RequestBody = $Body | ConvertTo-Json -Depth 10
 
 	$Request = try {

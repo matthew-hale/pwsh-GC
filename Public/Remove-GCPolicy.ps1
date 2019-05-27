@@ -1,27 +1,34 @@
-#Encapsulates the "POST visibility/policy/rules/{ruleID}" API call (for deletion)
+# Encapsulates the "POST visibility/policy/rules/{ruleID}" API call (for deletion)
 
 function Remove-GCPolicy {
 	
 	[CmdletBinding()]
 	param (
-		[Parameter(Mandatory=$false,ValueFromPipeline=$true)][System.Array]$Policy
+		[Parameter(ValueFromPipeline)]
+		[System.Array]$Policy,
+
+		[PSTypeName("GCApiKey")]
 	)
 	begin {
-		$Key = $Global:GCApiKey
+		if ( GCApiKey-present $ApiKey ) {
+			if ( $ApiKey ) {
+				$Key = $ApiKey
+			} else {
+				$Key = $global:GCApiKey
+			} 
+		}
 		
 		$Body = [PSCustomObject]@{
 			action = "delete"
 		}
 		
-		$BodyJson = $Body | ConvertTo-Json -Depth 99
-		
-		$Result = @()
+		$Result = [System.Collections.Generic.List[object]]::new()
 	}
 	process {
-		foreach ($P in $Policy) {
-			$Uri = $Key.Uri + "visibility/policy/rules/" + $P.id
+		foreach ($ThisPolicy in $Policy) {
+			$Uri = "/visibility/policy/rules/" + $ThisPolicy.id
 			
-			$Result += Invoke-RestMethod -Uri $Uri -ContentType "application/json" -Authentication Bearer -Token $Key.Token -Body $BodyJson -Method "POST"
+			$Result.Add( $(pwsh-GC-post-request -Raw -Uri $Uri -Body $Body -ApiKey $Key) )
 		}
 	}
 	end {
