@@ -14,7 +14,7 @@ function pwsh-GC-get-request {
 	
 	begin {
 		$Result = [System.Collections.Generic.List[object]]::new()
-		if ($ApiKey) {
+		if ( $ApiKey ) {
 			$RequestToken = $ApiKey.Token
 			$RequestUri = $ApiKey.Uri + $Uri
 		} else {

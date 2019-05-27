@@ -25,8 +25,8 @@ function New-GCUser {
 		[PSTypeName("GCApiKey")]$ApiKey
 	)
 
-	if (GCApiKey-present $ApiKey) {
-		if ($ApiKey) {
+	if ( GCApiKey-present $ApiKey ) {
+		if ( $ApiKey ) {
 			$Key = $ApiKey
 		} else {
 			$Key = $global:GCApiKey
