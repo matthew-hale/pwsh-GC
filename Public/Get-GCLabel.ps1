@@ -1,79 +1,50 @@
-<#
-.SYNOPSIS
-	Encapsulates the "GET /visibility/labels" API call.
-
-.DESCRIPTION
-	Retrieves labels that fit the parameters given. Additionally includes member assets if find_matches is set.
-
-.PARAMETER FindMatches
-	Switch - if set to true, request returns the assets that match the label's definition.
-
-.PARAMETER LabelKey
-	The key of the label.
-
-.PARAMETER LabelValue
-	The value of the label.
-
-.PARAMETER Limit
-	The maximum number of labels to return.
-
-.PARAMETER Offset
-	The index of the first result to return.
-
-.INPUTS
-	None. This function accepts no pipeline inputs.
-
-.OUTPUTS
-	[PSTypeName="GCLabel"] One or more GCLabel objects.
-
-#>
 function Get-GCLabel {
 	
 	[CmdletBinding()]
 	param (
-		[Parameter(Mandatory=$false)][Switch]$FindMatches,
-		[Parameter(Mandatory=$false)][System.String]$LabelKey,
-		[Parameter(Mandatory=$false)][System.String]$LabelValue,
-		[Parameter(Mandatory=$false)][ValidateRange(0,1000)][Int32]$Limit,
-		[Parameter(Mandatory=$false)][ValidateRange(0,500000)][Int32]$Offset
-	)
-	begin {
-		$Key = $Global:GCApiKey
+		[Switch]$FindMatches,
 
-		$Uri = $Key.Uri + "visibility/labels?"
-		
-		#Building the Uri with given parameters
-		if ($FindMatches) {
-			$Uri += "find_matches=true"
+		[System.String]$LabelKey,
+
+		[System.String]$LabelValue,
+
+		[ValidateRange(0,1000)][Int32]$Limit = 20,
+
+		[ValidateRange(0,500000)][Int32]$Offset,
+
+		[Switch]$Raw,
+
+		[PSTypeName("GCApiKey")]$ApiKey
+	)
+
+	if ( GCApiKey-present $ApiKey ) {
+		if ( $ApiKey ) {
+			$Key = $ApiKey
 		} else {
-			$Uri += "find_matches=false"
-		}
-		
-		if ($LabelKey) {
-			$Uri += "&key=" + $LabelKey
-		}
-		
-		if ($LabelValue) {
-			$Uri += "&value=" + $LabelValue
-		}
-		
-		if ($Limit) {
-			$Uri += "&limit=" + $Limit
-		}
-		
-		if ($Offset) {
-			$Uri += "&offset=" + $Offset
-		}
+			$Key = $global:GCApiKey
+		} 
+		$Uri = "/visibility/labels"
 	}
-	process {
-		try {
-			$Result = $(Invoke-RestMethod -Uri $Uri -Authentication Bearer -Token $Key.Token -Method "GET" | Select-Object -ExpandProperty "objects") | foreach {$_.PSTypeNames.Clear(); $_.PSTypeNames.Add("GCLabel"); $_}
-		}
-		catch {
-			throw $_.Exception
-		}
+	
+	# Building the request body with given parameters
+	
+	$Body = @{
+	find_matches = $FindMatches:isPresent
+	key = $LabelKey
+	value = $LabelValue
+	limit = $Limit
+	offset = $Offset
 	}
-	end {
-		$Result
+
+	# Removing empty keys
+
+	$RequestBody = Remove-EmptyKeys $Body
+
+	# Making the call
+
+	if ( $Raw ) {
+		pwsh-GC-get-request -Raw -Uri $Uri -Body $RequestBody -ApiKey $Key
+	} else {
+		pwsh-GC-get-request -Uri $Uri -Body $RequestBody -ApiKey $Key | foreach {$_.PSTypeNames.Clear(); $_.PSTypeNames.Add("GCLabel"); $_}
 	}
 }

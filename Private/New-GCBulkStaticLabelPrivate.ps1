@@ -17,24 +17,30 @@
 #>
 function New-GCBulkStaticLabelPrivate {
 	param (
-		[Parameter(Mandatory=$false,ValueFromPipeline=$true)][System.Object[]]$Labels
+		[Parameter(ValueFromPipeline)]
+		[System.Object[]]$Labels,
+
+		[PSTypeName("GCApiKey")]$ApiKey
 	)
 	begin {
-		$Key = $global:GCApiKey
-		
-		$Uri = $Key.Uri + "visibility/labels/bulk"
+		if ( GCApiKey-present $ApiKey ) {
+			if ( $ApiKey ) {
+				$Key = $ApiKey
+			} else {
+				$Key = $global:GCApiKey
+			} 
+			$Uri = "/visibility/labels/bulk"
+		}
 	}
 	process {
-		[System.Array]$LabelList += foreach ($Label in $Labels) {
-			$Label
-		}
+		$LabelList = [System.Collections.Generic.List[object]]::new()
+		$LabelList.AddRange($Labels)
 		$Body = [PSCustomObject]@{
 			"action" = "add"
 			"labels" = $LabelList
 		}
 	}
 	end {
-		$BodyJson = $Body | ConvertTo-Json -Depth 99
-		Invoke-RestMethod -Uri $Uri -ContentType "application/json" -Authentication Bearer -Token $Key.Token -Body $BodyJson -Method "POST"
+		pwsh-GC-post-request -Raw -Uri $Uri -Body $Body -ApiKEy $Key
 	}
 }

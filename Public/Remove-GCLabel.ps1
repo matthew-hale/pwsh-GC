@@ -4,16 +4,26 @@ function Remove-GCLabel {
 	
 	[CmdletBinding()]
 	param (
-		[Parameter(Mandatory=$false,ValueFromPipeline=$true)][PSCustomObject]$Label
+		[Parameter(ValueFromPipeline)]
+		[PSTypeName("GCLabel")]$Label,
+
+		[PSTypeName("GCApiKey")]$ApiKey
 	)
 	begin {
-		$Key = $global:GCApiKey
-		$Result = @()
+		if ( GCApiKey-present $ApiKey ) {
+			if ( $ApiKey ) {
+				$Key = $ApiKey
+			} else {
+				$Key = $global:GCApiKey
+			} 
+		}
+
+		$Result = [System.Collections.Generic.List[object]]::new()
 	}
 	process {
-		$Result += foreach ($L in $Label) {
-			$Uri = $Key.Uri + "visibility/labels/" + $L.id
-			Invoke-RestMethod -Uri $Uri -Authentication Bearer -Token $Key.Token -Method "DELETE"
+		foreach ($ThisLabel in $Label) {
+			$Uri = "/visibility/labels/" + $ThisLabel.id
+			pwsh-GC-delete-request -Uri $Uri -ApiKey $Key
 		}
 	}
 	end {

@@ -1,59 +1,24 @@
-<#
-.SYNOPSIS
-	Encapsulates the "POST /visibility/policy/sections/{section_name}/rules" API call
-
-.DESCRIPTION
-	Creates a new segmentation policy according to the given parameters.
-
-.PARAMETER Action
-	Policy section; accepts "allow","alert","block","override"
-
-.PARAMETER Protocol 
-	TCP and/or UDP protocols.
-
-.PARAMETER Port
-	One or more ports.
-
-.PARAMETER PortRange
-
-.PARAMETER
-
-.PARAMETER
-
-.PARAMETER
-
-.PARAMETER
-
-.PARAMETER
-
-.PARAMETER
-
-.PARAMETER
-
-.PARAMETER
-
-.PARAMETER
-
-.PARAMETER
-
-.PARAMETER
-
-.PARAMETER
-
-.PARAMETER
-
-#>
 function New-GCPolicy {
 
 	[CmdletBinding()]
 	param (
-		[Parameter(Mandatory=$true)][ValidateSet("allow","alert","block","override")][System.String]$Action,
-		[Parameter(Mandatory=$false)][ValidateSet("TCP","UDP")][System.Array]$Protocol = @("TCP","UDP"),
-		[Parameter(Mandatory=$false)][ValidateRange(1,65535)][System.Array]$Port,
-		[Parameter(Mandatory=$false)][System.Array]$PortRange,
-		[Parameter(Mandatory=$false)][System.Array]$SourceLabel,
-		[Parameter(Mandatory=$false)][System.Array]$DestinationLabel,
-		[Parameter(Mandatory=$false)][ValidateScript({
+		[Parameter(Mandatory=$true)]
+		[ValidateSet("allow","alert","block","override_allow","override_alert","override_block")]
+		[System.String]$Action,
+
+		[ValidateSet("TCP","UDP")]
+		[System.Array]$Protocol = @("TCP","UDP"),
+
+		[ValidateRange(1,65535)]
+		[System.Array]$Port,
+
+		[System.Array]$PortRange,
+
+		[System.Array]$SourceLabel,
+
+		[System.Array]$DestinationLabel,
+
+		[ValidateScript({
 			if (-not ($_ | Test-Path)) {
 				throw "Path does not exist."
 			}
@@ -62,7 +27,8 @@ function New-GCPolicy {
 			}
 			$true
 		})][String[]]$SourceLabelFile,
-		[Parameter(Mandatory=$false)][ValidateScript({
+
+		[ValidateScript({
 			if (-not ($_ | Test-Path)) {
 				throw "Path does not exist."
 			}
@@ -71,19 +37,39 @@ function New-GCPolicy {
 			}
 			$true
 		})][String[]]$DestinationLabelFile,
-		[Parameter(Mandatory=$false)][System.Array]$SourceProcesses,
-		[Parameter(Mandatory=$false)][System.Array]$DestinationProcesses,
-		[Parameter(Mandatory=$false)][System.Array]$SourceAsset,
-		[Parameter(Mandatory=$false)][System.Array]$DestinationAsset,
-		[Parameter(Mandatory=$false)][System.String]$SourceSubnet,
-		[Parameter(Mandatory=$false)][System.String]$DestinationSubnet,
-		[Parameter(Mandatory=$false)][System.String]$Ruleset,
-		[Parameter(Mandatory=$false)][System.String]$Comments,
-		[Parameter(Mandatory=$false)][Switch]$SourceInternet,
-		[Parameter(Mandatory=$false)][Switch]$DestinationInternet
+
+		[System.Array]$SourceProcesses,
+
+		[System.Array]$DestinationProcesses,
+
+		[System.Array]$SourceAsset,
+
+		[System.Array]$DestinationAsset,
+
+		[System.String]$SourceSubnet,
+
+		[System.String]$DestinationSubnet,
+
+		[System.String]$Ruleset,
+
+		[System.String]$Comments,
+
+		[Switch]$SourceInternet,
+
+		[Switch]$DestinationInternet,
+
+		[PSTypeName("GCApiKey")]$ApiKey
 	)
-	$Key = $global:GCApiKey
 	
+	if ( GCApiKey-present $ApiKey ) {
+		if ( $ApiKey ) {
+			$Key = $ApiKey
+		} else {
+			$Key = $global:GCApiKey
+		} 
+		$Uri = "/visibility/policy/sections/" + $Action + "/rules"
+	}
+
 	if ($SourceLabelFile) {
 		$SourceLabelIDs = Get-GCLabelIDFromFilePrivate -File $SourceLabelFile
 	}
@@ -91,8 +77,6 @@ function New-GCPolicy {
 	if ($DestinationLabelFile) {
 		$DestinationLabelIDs = Get-GCLabelIDFromFilePrivate -File $DestinationLabelFile
 	}
-	
-	$Uri = $Key.Uri + "visibility/policy/sections/" + $Action + "/rules"
 	
 	$ordering_value = $null #Required to be $null by the API call
 	$ruleset_id = $null #Required to be $null by the API call
@@ -232,7 +216,5 @@ function New-GCPolicy {
 		$Body.rule | Add-Member -MemberType NoteProperty -Name ruleset_name -Value $Ruleset
 	}
 	
-	$BodyJson = $Body | ConvertTo-Json -Depth 99
-	Invoke-RestMethod -Uri $Uri -ContentType "application/json" -Authentication Bearer -Token $Key.Token -Body $BodyJson -Method "POST"
-	#$BodyJson
+	pwsh-GC-post-request -Raw -Uri $Uri -Body $Body -ApiKey $Key
 }

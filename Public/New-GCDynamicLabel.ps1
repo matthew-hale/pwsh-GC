@@ -1,56 +1,36 @@
-<#
-.SYNOPSIS
-	Encapsulates the "POST /visibility/labels" API request.
-
-.DESCRIPTION
-
-.PARAMETER LabelKey
-	The key of the new label.
-
-.PARAMETER LabelValue
-	The value of the new label.
-
-.PARAMETER Argument
-	The argument of the dynamic label definition (e.g. "Demo").
-
-.PARAMETER Field
-	The field of the dynamic label definition; accepts "name","numeric_ip_addresses"
-
-.PARAMETER Operation
-	The operation of the dynamic label definition; accepts "STARTSWITH","ENDSWITH","EQUALS","CONTAINS","SUBNET","WILDCARDS"
-
-.PARAMETER Criteria
-	One or more custom objects similar to the above parameters in structure.
-	Example:
-
-	[PSCustomObject]@{
-		field = "name"
-		op = "STARTSWITH"
-		argument = "example"
-	}
-
-.INPUTS
-	[PSCustomObject] One or more criteria objects.
-
-.OUTPUTS
-	application/json data
-
-#>
 function New-GCDynamicLabel {
 
 	[CmdletBinding()]
 	param (
-		[Parameter(Mandatory=$false)][System.String]$LabelKey,
-		[Parameter(Mandatory=$false)][System.String]$LabelValue,
-		[Parameter(Mandatory=$false)][System.String]$Argument,
-		[Parameter(Mandatory=$false)][ValidateSet("name","numeric_ip_addresses","id")][System.String]$Field,
-		[Parameter(Mandatory=$false)][ValidateSet("STARTSWITH","ENDSWITH","EQUALS","CONTAINS","SUBNET","WILDCARDS")][System.String]$Operation,
-		[Parameter(Mandatory=$false,ValueFromPipeline=$true)][Array]$Criteria
+		[System.String]$LabelKey,
+
+		[System.String]$LabelValue,
+
+		[System.String]$Argument,
+
+		[ValidateSet("name","numeric_ip_addresses","id")]
+		[System.String]$Field,
+
+		[ValidateSet("STARTSWITH","ENDSWITH","EQUALS","CONTAINS","SUBNET","WILDCARDS")]
+		[System.String]$Operation,
+
+		[Parameter(ValueFromPipeline)]
+		[Array]$Criteria,
+
+		[Switch]$Raw,
+
+		[PSTypeName("GCApiKey")]$ApiKey
 	)
 	begin {
-		$Key = $global:GCApiKey
-		
-		$Uri = $Key.Uri + "visibility/labels"
+
+		if ( GCApiKey-present $ApiKey ) {
+			if ( $ApiKey ) {
+				$Key = $ApiKey
+			} else {
+				$Key = $global:GCApiKey
+			} 
+			$Uri = "/visibility/labels"
+		}
 		
 		$Body = [PSCustomObject]@{
 			id = $null
@@ -74,7 +54,6 @@ function New-GCDynamicLabel {
 		}
 	}
 	end {
-		$BodyJson = $Body | ConvertTo-Json -Depth 99
-		Invoke-RestMethod -Uri $Uri -ContentType "application/json" -Authentication Bearer -Token $Key.Token -Body $BodyJson -Method "POST"
+		pwsh-GC-get-request -Raw -Uri $Uri -Body $RequestBody -ApiKey $Key
 	}
 }
