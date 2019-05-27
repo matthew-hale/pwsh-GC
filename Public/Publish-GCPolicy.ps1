@@ -1,25 +1,36 @@
-#Encapsulates the "POST /visibility/policy/revisions" API call (publishing policy)
+# Encapsulates the "POST /visibility/policy/revisions" API call (publishing policy)
 
 function Publish-GCPolicy {
 	
 	[CmdletBinding()]
 	param(
-		[Parameter(Mandatory=$true)][System.String]$Comments,
-		[Switch]$Audit
+		[Parameter(Mandatory)]
+		[System.String]$Comments,
+
+		[Switch]$Audit,
+
+		[PSTypeName("GCApiKey")]$ApiKey
 	)
-	$Key = $global:GCApiKey
+
+	if ( GCApiKey-present $ApiKey ) {
+		if ( $ApiKey ) {
+			$Key = $ApiKey
+		} else {
+			$Key = $global:GCApiKey
+		} 
+		$Uri = "/visibility/policy/revisions"
+	}
 	
-	$Uri = $Key.Uri + "visibility/policy/revisions"
-	
+	# Building the request body from parameters
+
 	$Body = [PSCustomObject]@{
 		action = "publish"
 		comments = $Comments
 	}
 	
-	if ($Audit) {
-		$Body.comments += "`nPublished via PowerShell at: " + $(Get-Date) + " from: " + $([System.Net.Dns]::GetHostName())
+	if ($Audit.IsPresent) {
+		$Body.comments += "`nPublished via pwsh-GC at: " + $(Get-Date) + " from: " + $([System.Net.Dns]::GetHostName()) + " (" + (Invoke-WebRequest -uri "http://ifconfig.me/ip").Content + ")"
 	}
 	
-	$BodyJson = $Body | ConvertTo-Json -Depth 99
-	Invoke-RestMethod -Uri $Uri -ContentType "application/json" -Authentication Bearer -Token $Key.Token -Body $BodyJson -Method "POST"
+	pwsh-GC-post-request -Raw -Uri $Uri -Body $Body -ApiKey $Key
 }

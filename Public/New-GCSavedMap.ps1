@@ -24,7 +24,7 @@ function New-GCSavedMap{
 
 		[Switch]$EmailOnProgress,
 
-		[PSTypeName("GCApiKey)"]$ApiKey
+		[PSTypeName("GCApiKey")]$ApiKey
 	)
 
 	if ( GCApiKey-present $ApiKey ) {

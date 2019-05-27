@@ -3,7 +3,7 @@ function New-GCStaticLabel {
 	[CmdletBinding()]
 	param (
 		[Parameter(ValueFromPipeline)]
-		[PSCustomObject]$Asset,
+		[PSTypeName("GCAsset")]$Asset,
 
 		[Parameter(Mandatory)]
 		[System.String]$LabelKey,
