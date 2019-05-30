@@ -37,7 +37,7 @@ PS C:\> {{ Add example code here }}
 ## PARAMETERS
 
 ### -Server
-\[System.String\] GuardiCore management server, in the format: "cus-5555".
+GuardiCore management server, in the format: "cus-5555".
 
 ```yaml
 Type: String

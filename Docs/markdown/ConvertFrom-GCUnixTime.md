@@ -8,7 +8,7 @@ schema: 2.0.0
 # ConvertFrom-GCUnixTime
 
 ## SYNOPSIS
-{{ Converts Unix timestamps from GuardiCore to datetime objects. }}
+Converts Unix timestamps from GuardiCore to datetime objects.
 
 ## SYNTAX
 
@@ -17,35 +17,35 @@ ConvertFrom-GCUnixTime [-UnixDate] <Int64> [<CommonParameters>]
 ```
 
 ## DESCRIPTION
-{{ GuardiCore stores timestamps as Unix timestamps in milliseconds. This can be annoying to deal with, so the helper functions ConvertFrom- and ConvertTo-GCUnixTime are used to make the transition seamless. }}
+GuardiCore stores timestamps as Unix timestamps in milliseconds. This can be annoying to deal with, so the helper functions ConvertFrom- and ConvertTo-GCUnixTime are used to make the transition seamless.
 
 ## EXAMPLES
 
 ### Example 1
 ```powershell
-PS C:\> {{ ConvertFrom-GCUnixTime 1550000000000 }}
+PS C:\> ConvertFrom-GCUnixTime 1550000000000
 ```
 
-{{ Convert a Unix timestamp as a positional parameter. }}
+Convert a Unix timestamp as a positional parameter.
 
 ### Example 2
 ```powershell
-PS C:\> {{ ConvertFrom-GCUnixTime -UnixDate 1550000000000 }}
+PS C:\> ConvertFrom-GCUnixTime -UnixDate 1550000000000
 ```
 
-{{ Convert a Unix timestamp as a named parameter. }}
+Convert a Unix timestamp as a named parameter.
 
 ### Example 3
 ```powershell
-PS C:\> {{ 1550000000000 | ConvertFrom-GCUnixTime }}
+PS C:\> 1550000000000 | ConvertFrom-GCUnixTime
 ```
 
-{{ Use the pipeline to convert a Unix timestamp. }}
+Use the pipeline to convert a Unix timestamp.
 
 ## PARAMETERS
 
 ### -UnixDate
-{{ A Unix timestamp in milliseconds. }}
+A Unix timestamp in milliseconds.
 
 ```yaml
 Type: Int64

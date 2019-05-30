@@ -8,7 +8,7 @@ schema: 2.0.0
 # Get-GCAgent
 
 ## SYNOPSIS
-{{ Retrieve an agent from the management server. }}
+Retrieve an agent from the management server.
 
 ## SYNTAX
 
@@ -20,21 +20,21 @@ Get-GCAgent [[-Version] <String[]>] [[-Kernel] <String[]>] [[-OS] <String[]>] [[
 ```
 
 ## DESCRIPTION
-{{ Pulls one or more agents from the management server based on the given parameters. Agents can be returned based on agent version, kernel version, string search, etc. }}
+Pulls one or more agents from the management server based on the given parameters. Agents can be returned based on agent version, kernel version, string search, etc.
 
 ## EXAMPLES
 
 ### Example 1
 ```powershell
-PS C:\> {{ Get-GCAgent -Search Demo-Hostname }}
+PS C:\> Get-GCAgent -Search Demo-Hostname
 ```
 
-{{ Retrieve all agents that match the "Demo-Hostname" search string. }}
+Retrieve all agents that match the "Demo-Hostname" search string.
 
 ## PARAMETERS
 
 ### -Activity
-{{ Get agents based on when their last activity was.}}
+Get agents based on when their last activity was.
 
 ```yaml
 Type: String[]
@@ -50,7 +50,7 @@ Accept wildcard characters: False
 ```
 
 ### -ApiKey
-{{ Provide an external ApiKey, in place of the global GCApiKey variable. }}
+Provide an external ApiKey, in place of the global GCApiKey variable.
 
 ```yaml
 Type: Object
@@ -65,7 +65,7 @@ Accept wildcard characters: False
 ```
 
 ### -Deception
-{{ Get agents based on whether the deception module is present. }}
+Get agents based on whether the deception module is present.
 
 ```yaml
 Type: String[]
@@ -81,7 +81,7 @@ Accept wildcard characters: False
 ```
 
 ### -Detection
-{{ Get agents based on whether the detection module is present. }}
+Get agents based on whether the detection module is present.
 
 ```yaml
 Type: String[]
@@ -97,7 +97,7 @@ Accept wildcard characters: False
 ```
 
 ### -Enforcement
-{{ Get agents based on whether the enforcement module is present. }}
+Get agents based on whether the enforcement module is present.
 
 ```yaml
 Type: String[]
@@ -113,7 +113,7 @@ Accept wildcard characters: False
 ```
 
 ### -Flag
-{{ Get agents based on their status flags. }}
+Get agents based on their status flags.
 
 ```yaml
 Type: Object
@@ -129,7 +129,7 @@ Accept wildcard characters: False
 ```
 
 ### -Kernel
-{{ Get agents based on kernel version. }}
+Get agents based on kernel version
 
 ```yaml
 Type: String[]
@@ -144,7 +144,7 @@ Accept wildcard characters: False
 ```
 
 ### -Label
-{{ Get agents based on a given GuardiCore label. }}
+Get agents based on a given GuardiCore label.
 
 ```yaml
 Type: Object
@@ -159,7 +159,7 @@ Accept wildcard characters: False
 ```
 
 ### -Limit
-{{ The maximum number of objects to return. }}
+The maximum number of objects to return.
 
 ```yaml
 Type: Int32
@@ -174,7 +174,7 @@ Accept wildcard characters: False
 ```
 
 ### -OS
-{{ Get agents based on the OS of the machine. }}
+Get agents based on the OS of the machine.
 
 ```yaml
 Type: String[]
@@ -190,7 +190,7 @@ Accept wildcard characters: False
 ```
 
 ### -Offset
-{{ The index of the first result to be returned. }}
+The index of the first result to be returned.
 
 ```yaml
 Type: Int32
@@ -205,7 +205,7 @@ Accept wildcard characters: False
 ```
 
 ### -Raw
-{{ Return the raw result instead of the agent objects directly. }}
+Return the raw result instead of the agent objects directly.
 
 ```yaml
 Type: SwitchParameter
@@ -220,7 +220,7 @@ Accept wildcard characters: False
 ```
 
 ### -Reveal
-{{ Get agents based on whether the reveal module is present. }}
+Get agents based on whether the reveal module is present.
 
 ```yaml
 Type: String[]
@@ -236,7 +236,7 @@ Accept wildcard characters: False
 ```
 
 ### -Search
-{{ Get agents based on a search string. }}
+Get agents based on a search string.
 
 ```yaml
 Type: String
@@ -251,7 +251,7 @@ Accept wildcard characters: False
 ```
 
 ### -Status
-{{ Get agents based on their status. }}
+Get agents based on their status.
 
 ```yaml
 Type: String[]
@@ -267,7 +267,7 @@ Accept wildcard characters: False
 ```
 
 ### -Version
-{{ Get agents based on the agent version. }}
+Get agents based on the agent version.
 
 ```yaml
 Type: String[]
