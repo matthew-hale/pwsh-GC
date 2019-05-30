@@ -36,7 +36,7 @@ Specifically, the data pulled includes:
 
 ### Example 1
 ```powershell
-PS C:\> {{ Add example code here }}
+PS C:\> Get-GCRawFlow | Get-GCFlowInfo
 ```
 
 {{ Add example description here }}

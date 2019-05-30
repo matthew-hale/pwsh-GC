@@ -17,11 +17,11 @@ function Get-GCFlowInfo {
 	end {
 		$Count = $InputFlows.count
 		$Total = $InputFlows | Get-GCFlowTotal
-		$Sources = $InputFlows.source_ip | Sort -Unique
-		$SourceProcesses = $InputFlows.source_process_name | Sort -Unique
-		$Destinations = $InputFlows.destination_ip | Sort -Unique
-		$DestinationProcesses = $InputFlows.destination_process_name | Sort -Unique
-		$DestinationPorts = $InputFlows.destination_port | Sort -Unique
+		$Sources = $InputFlows.source_ip | Sort-Object -Unique
+		$SourceProcesses = $InputFlows.source_process_name | Sort-Object -Unique
+		$Destinations = $InputFlows.destination_ip | Sort-Object -Unique
+		$DestinationProcesses = $InputFlows.destination_process_name | Sort-Object -Unique
+		$DestinationPorts = $InputFlows.destination_port | Sort-Object -Unique
 
 		$Output = [PSCustomObject]@{
 			"Title" = $Title
