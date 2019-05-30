@@ -8,7 +8,7 @@ schema: 2.0.0
 # Get-GCAsset
 
 ## SYNOPSIS
-{{ Fill in the Synopsis }}
+Retrieve an asset from the management server.
 
 ## SYNTAX
 
@@ -18,21 +18,21 @@ Get-GCAsset [[-Search] <String>] [[-Status] <String>] [[-Risk] <Int32>] [[-Label
 ```
 
 ## DESCRIPTION
-{{ Fill in the Description }}
+Pulls one or more assets from the management server based on the given parameters. Assets can be returned based on hostname, label, risk level, etc.
 
 ## EXAMPLES
 
 ### Example 1
 ```powershell
-PS C:\> {{ Add example code here }}
+PS C:\> Get-GCAsset -Search Demo-Hostname
 ```
 
-{{ Add example description here }}
+Retrieve all assets that match the "Demo-Hostname" search string.
 
 ## PARAMETERS
 
 ### -ApiKey
-{{ Fill ApiKey Description }}
+Provide an external ApiKey, in place of the global GCApiKey variable.
 
 ```yaml
 Type: Object
@@ -47,7 +47,7 @@ Accept wildcard characters: False
 ```
 
 ### -Asset
-{{ Fill Asset Description }}
+Get assets based on one or more GuardiCore asset objects.
 
 ```yaml
 Type: Object
@@ -62,7 +62,7 @@ Accept wildcard characters: False
 ```
 
 ### -Label
-{{ Fill Label Description }}
+Get assets based on one or more GuardiCore label objects.
 
 ```yaml
 Type: Object
@@ -77,7 +77,7 @@ Accept wildcard characters: False
 ```
 
 ### -Limit
-{{ Fill Limit Description }}
+The maximum number of objects to return.
 
 ```yaml
 Type: Int32
@@ -92,7 +92,7 @@ Accept wildcard characters: False
 ```
 
 ### -Offset
-{{ Fill Offset Description }}
+The index of the first result to be returned.
 
 ```yaml
 Type: Int32
@@ -107,7 +107,7 @@ Accept wildcard characters: False
 ```
 
 ### -Raw
-{{ Fill Raw Description }}
+Return the raw result instead of the agent objects directly.
 
 ```yaml
 Type: SwitchParameter
@@ -122,7 +122,7 @@ Accept wildcard characters: False
 ```
 
 ### -Risk
-{{ Fill Risk Description }}
+Get assets based on their risk level.
 
 ```yaml
 Type: Int32
@@ -137,7 +137,7 @@ Accept wildcard characters: False
 ```
 
 ### -Search
-{{ Fill Search Description }}
+Get assets based on a search string.
 
 ```yaml
 Type: String
@@ -152,7 +152,7 @@ Accept wildcard characters: False
 ```
 
 ### -Status
-{{ Fill Status Description }}
+Get assets based on their status.
 
 ```yaml
 Type: String

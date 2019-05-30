@@ -144,7 +144,7 @@ Accept wildcard characters: False
 ```
 
 ### -Label
-Get agents based on a given GuardiCore label.
+Get assets based on one or more GuardiCore label objects.
 
 ```yaml
 Type: Object
