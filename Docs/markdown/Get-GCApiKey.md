@@ -29,15 +29,27 @@ If using the key as a portable object, functions can optionally take this key as
 
 ### Example 1
 ```powershell
-PS C:\> {{ Add example code here }}
+PS C:\> Get-GCApiKey -Server cus-XXXX -Credential api
+Password for user api: ******
+
 ```
 
-{{ Add example description here }}
+Authenticate to the "cus-XXXX" server using the username "api". Prompts for password.
+
+### Example 2
+```powershell
+PS C:\> $Cred = Get-Credential api
+Password for user api: ******
+
+PS C:\> $ApiKey = Get-GCApiKey -Server cus-XXXX -Credential $Cred -Export
+```
+
+Authenticate to the "cus-XXXX" server using a credential object, and store the result in the $ApiKey variable.
 
 ## PARAMETERS
 
 ### -Server
-GuardiCore management server, in the format: "cus-5555".
+GuardiCore management server, in the format: "cus-XXXX".
 
 ```yaml
 Type: String
@@ -52,7 +64,7 @@ Accept wildcard characters: False
 ```
 
 ### -Credential
-{{ Fill Credential Description }}
+Credential for authentication.
 
 ```yaml
 Type: PSCredential
@@ -67,7 +79,7 @@ Accept wildcard characters: False
 ```
 
 ### -Export
-\[Switch\] Exports the key on the pipeline instead of setting it to the global variable.
+Exports the key on the pipeline instead of setting it to the global variable.
 
 ```yaml
 Type: SwitchParameter
