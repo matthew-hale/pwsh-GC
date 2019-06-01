@@ -67,6 +67,8 @@ function Get-GCIncident{
 		incident_type = $IncidentType
 		tag = $IncludeTag -join ","
 		tags__not = $ExcludeTag -join ","
+		limit = $Limit
+		offset = $Offset
 	}
 
 	# Removing empty keys
