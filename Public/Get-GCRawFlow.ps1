@@ -46,7 +46,18 @@ function Get-GCRawFlow {
 		$Uri = "/connections?sort=slot_start_time"
 	}
 
+	# Handling default time values
+
+	if ( -not $StartTime ) {
+		$StartTime = $(Get-Date).AddHours(-1)
+	}
+
+	if ( -not $EndTime ) {
+		$EndTime = Get-Date
+	}
+
 	# Building the request body
+
 
 	$Body = @{
 		from_time = (ConvertTo-GCUnixTime $StartTime)
