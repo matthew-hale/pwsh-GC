@@ -8,7 +8,7 @@ schema: 2.0.0
 # Get-GCIncident
 
 ## SYNOPSIS
-{{ Fill in the Synopsis }}
+Retrieve an incident from the management server.
 
 ## SYNTAX
 
@@ -21,13 +21,13 @@ Get-GCIncident [[-StartTime] <DateTime>] [[-EndTime] <DateTime>] [[-Severity] <S
 ```
 
 ## DESCRIPTION
-{{ Fill in the Description }}
+Pulls one or more agents from the management server based on the given parameters. Agents can be returned based on agent version, kernel version, string search, etc.
 
 ## EXAMPLES
 
 ### Example 1
 ```powershell
-PS C:\> {{ Add example code here }}
+PS C:\> Get-GCIncident
 ```
 
 {{ Add example description here }}
