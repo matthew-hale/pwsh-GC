@@ -1,6 +1,6 @@
 ---
-external help file: GuardiCoreHelper-help.xml
-Module Name: GuardiCoreHelper
+external help file: pwsh-GC-help.xml
+Module Name: pwsh-GC
 online version:
 schema: 2.0.0
 ---
@@ -8,7 +8,7 @@ schema: 2.0.0
 # New-GCPolicy
 
 ## SYNOPSIS
-{{Fill in the Synopsis}}
+{{ Fill in the Synopsis }}
 
 ## SYNTAX
 
@@ -18,11 +18,11 @@ New-GCPolicy [-Action] <String> [[-Protocol] <Array>] [[-Port] <Array>] [[-PortR
  [[-DestinationLabelFile] <String[]>] [[-SourceProcesses] <Array>] [[-DestinationProcesses] <Array>]
  [[-SourceAsset] <Array>] [[-DestinationAsset] <Array>] [[-SourceSubnet] <String>]
  [[-DestinationSubnet] <String>] [[-Ruleset] <String>] [[-Comments] <String>] [-SourceInternet]
- [-DestinationInternet] [<CommonParameters>]
+ [-DestinationInternet] [[-ApiKey] <Object>] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
-{{Fill in the Description}}
+{{ Fill in the Description }}
 
 ## EXAMPLES
 
@@ -36,13 +36,13 @@ PS C:\> {{ Add example code here }}
 ## PARAMETERS
 
 ### -Action
-{{Fill Action Description}}
+{{ Fill Action Description }}
 
 ```yaml
 Type: String
 Parameter Sets: (All)
 Aliases:
-Accepted values: allow, alert, block, override
+Accepted values: allow, alert, block, override_allow, override_alert, override_block
 
 Required: True
 Position: 0
@@ -51,8 +51,23 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
+### -ApiKey
+{{ Fill ApiKey Description }}
+
+```yaml
+Type: Object
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: 16
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
 ### -Comments
-{{Fill Comments Description}}
+{{ Fill Comments Description }}
 
 ```yaml
 Type: String
@@ -67,7 +82,7 @@ Accept wildcard characters: False
 ```
 
 ### -DestinationAsset
-{{Fill DestinationAsset Description}}
+{{ Fill DestinationAsset Description }}
 
 ```yaml
 Type: Array
@@ -82,7 +97,7 @@ Accept wildcard characters: False
 ```
 
 ### -DestinationInternet
-{{Fill DestinationInternet Description}}
+{{ Fill DestinationInternet Description }}
 
 ```yaml
 Type: SwitchParameter
@@ -97,7 +112,7 @@ Accept wildcard characters: False
 ```
 
 ### -DestinationLabel
-{{Fill DestinationLabel Description}}
+{{ Fill DestinationLabel Description }}
 
 ```yaml
 Type: Array
@@ -112,7 +127,7 @@ Accept wildcard characters: False
 ```
 
 ### -DestinationLabelFile
-{{Fill DestinationLabelFile Description}}
+{{ Fill DestinationLabelFile Description }}
 
 ```yaml
 Type: String[]
@@ -127,7 +142,7 @@ Accept wildcard characters: False
 ```
 
 ### -DestinationProcesses
-{{Fill DestinationProcesses Description}}
+{{ Fill DestinationProcesses Description }}
 
 ```yaml
 Type: Array
@@ -142,7 +157,7 @@ Accept wildcard characters: False
 ```
 
 ### -DestinationSubnet
-{{Fill DestinationSubnet Description}}
+{{ Fill DestinationSubnet Description }}
 
 ```yaml
 Type: String
@@ -157,7 +172,7 @@ Accept wildcard characters: False
 ```
 
 ### -Port
-{{Fill Port Description}}
+{{ Fill Port Description }}
 
 ```yaml
 Type: Array
@@ -172,7 +187,7 @@ Accept wildcard characters: False
 ```
 
 ### -PortRange
-{{Fill PortRange Description}}
+{{ Fill PortRange Description }}
 
 ```yaml
 Type: Array
@@ -187,7 +202,7 @@ Accept wildcard characters: False
 ```
 
 ### -Protocol
-{{Fill Protocol Description}}
+{{ Fill Protocol Description }}
 
 ```yaml
 Type: Array
@@ -203,7 +218,7 @@ Accept wildcard characters: False
 ```
 
 ### -Ruleset
-{{Fill Ruleset Description}}
+{{ Fill Ruleset Description }}
 
 ```yaml
 Type: String
@@ -218,7 +233,7 @@ Accept wildcard characters: False
 ```
 
 ### -SourceAsset
-{{Fill SourceAsset Description}}
+{{ Fill SourceAsset Description }}
 
 ```yaml
 Type: Array
@@ -233,7 +248,7 @@ Accept wildcard characters: False
 ```
 
 ### -SourceInternet
-{{Fill SourceInternet Description}}
+{{ Fill SourceInternet Description }}
 
 ```yaml
 Type: SwitchParameter
@@ -248,7 +263,7 @@ Accept wildcard characters: False
 ```
 
 ### -SourceLabel
-{{Fill SourceLabel Description}}
+{{ Fill SourceLabel Description }}
 
 ```yaml
 Type: Array
@@ -263,7 +278,7 @@ Accept wildcard characters: False
 ```
 
 ### -SourceLabelFile
-{{Fill SourceLabelFile Description}}
+{{ Fill SourceLabelFile Description }}
 
 ```yaml
 Type: String[]
@@ -278,7 +293,7 @@ Accept wildcard characters: False
 ```
 
 ### -SourceProcesses
-{{Fill SourceProcesses Description}}
+{{ Fill SourceProcesses Description }}
 
 ```yaml
 Type: Array
@@ -293,7 +308,7 @@ Accept wildcard characters: False
 ```
 
 ### -SourceSubnet
-{{Fill SourceSubnet Description}}
+{{ Fill SourceSubnet Description }}
 
 ```yaml
 Type: String
@@ -308,8 +323,7 @@ Accept wildcard characters: False
 ```
 
 ### CommonParameters
-This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable, -InformationAction, -InformationVariable, -OutVariable, -OutBuffer, -PipelineVariable, -Verbose, -WarningAction, and -WarningVariable.
-For more information, see about_CommonParameters (http://go.microsoft.com/fwlink/?LinkID=113216).
+This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable, -InformationAction, -InformationVariable, -OutVariable, -OutBuffer, -PipelineVariable, -Verbose, -WarningAction, and -WarningVariable. For more information, see [about_CommonParameters](http://go.microsoft.com/fwlink/?LinkID=113216).
 
 ## INPUTS
 

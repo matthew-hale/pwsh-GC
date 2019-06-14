@@ -1,6 +1,6 @@
 ---
-external help file: GuardiCoreHelper-help.xml
-Module Name: GuardiCoreHelper
+external help file: pwsh-GC-help.xml
+Module Name: pwsh-GC
 online version:
 schema: 2.0.0
 ---
@@ -8,18 +8,18 @@ schema: 2.0.0
 # Get-GCSavedMap
 
 ## SYNOPSIS
-Encapsulates the "GET /visibility/saved-maps" api request
+{{ Fill in the Synopsis }}
 
 ## SYNTAX
 
 ```
 Get-GCSavedMap [[-Search] <String>] [[-State] <String>] [[-Features] <Object>] [[-Asset] <Object>]
  [[-Label] <Object>] [[-TimeRange] <DateTime[]>] [[-AuthorID] <String>] [[-Limit] <Int32>] [[-Offset] <Int32>]
- [<CommonParameters>]
+ [-Raw] [[-ApiKey] <Object>] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
-{{Fill in the Description}}
+{{ Fill in the Description }}
 
 ## EXAMPLES
 
@@ -32,38 +32,23 @@ PS C:\> {{ Add example code here }}
 
 ## PARAMETERS
 
-### -Search
-A generic search string; use this to search for maps by name.
+### -ApiKey
+{{ Fill ApiKey Description }}
 
 ```yaml
-Type: String
+Type: Object
 Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 1
+Position: 9
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -State
-Current state of the map; accepts "READY","IN_PROGRESS","QUEUED","CANCELLED","FAILED","EMPTY"
-
-```yaml
-Type: String
-Parameter Sets: (All)
-Aliases:
-
-Required: False
-Position: 2
-Default value: None
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-### -Features
-Map features; accepts "include_processes","time_resolution"
+### -Asset
+{{ Fill Asset Description }}
 
 ```yaml
 Type: Object
@@ -77,8 +62,39 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -Asset
-One or more GCAsset objects.
+### -AuthorID
+{{ Fill AuthorID Description }}
+
+```yaml
+Type: String
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: 6
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -Features
+{{ Fill Features Description }}
+
+```yaml
+Type: Object
+Parameter Sets: (All)
+Aliases:
+Accepted values: include_processes, time_resolution
+
+Required: False
+Position: 2
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -Label
+{{ Fill Label Description }}
 
 ```yaml
 Type: Object
@@ -92,41 +108,11 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -Label
-One or more GCLabel objects.
+### -Limit
+{{ Fill Limit Description }}
 
 ```yaml
-Type: Object
-Parameter Sets: (All)
-Aliases:
-
-Required: False
-Position: 5
-Default value: None
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-### -TimeRange
-Array containing a start and end time, as DateTime objects.
-
-```yaml
-Type: DateTime[]
-Parameter Sets: (All)
-Aliases:
-
-Required: False
-Position: 6
-Default value: None
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-### -AuthorID
-ID of the map author.
-
-```yaml
-Type: String
+Type: Int32
 Parameter Sets: (All)
 Aliases:
 
@@ -137,8 +123,8 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -Limit
-The maximum number of results to return.
+### -Offset
+{{ Fill Offset Description }}
 
 ```yaml
 Type: Int32
@@ -147,36 +133,82 @@ Aliases:
 
 Required: False
 Position: 8
-Default value: 0
+Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -Offset
-The index of the first result to return.
+### -Raw
+{{ Fill Raw Description }}
 
 ```yaml
-Type: Int32
+Type: SwitchParameter
 Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 9
-Default value: 0
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -Search
+{{ Fill Search Description }}
+
+```yaml
+Type: String
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: 0
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -State
+{{ Fill State Description }}
+
+```yaml
+Type: String
+Parameter Sets: (All)
+Aliases:
+Accepted values: READY, IN_PROGRESS, QUEUED, CANCELLED, FAILED, EMPTY
+
+Required: False
+Position: 1
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -TimeRange
+{{ Fill TimeRange Description }}
+
+```yaml
+Type: DateTime[]
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: 5
+Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
 ### CommonParameters
-This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable, -InformationAction, -InformationVariable, -OutVariable, -OutBuffer, -PipelineVariable, -Verbose, -WarningAction, and -WarningVariable.
-For more information, see about_CommonParameters (http://go.microsoft.com/fwlink/?LinkID=113216).
+This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable, -InformationAction, -InformationVariable, -OutVariable, -OutBuffer, -PipelineVariable, -Verbose, -WarningAction, and -WarningVariable. For more information, see [about_CommonParameters](http://go.microsoft.com/fwlink/?LinkID=113216).
 
 ## INPUTS
 
-### None. This function accepts no pipeline inputs.
+### None
+
 ## OUTPUTS
 
-### PSTypeName="GCSavedMap"
+### System.Object
 ## NOTES
 
 ## RELATED LINKS

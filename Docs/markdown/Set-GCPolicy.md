@@ -1,6 +1,6 @@
 ---
-external help file: GuardiCoreHelper-help.xml
-Module Name: GuardiCoreHelper
+external help file: pwsh-GC-help.xml
+Module Name: pwsh-GC
 online version:
 schema: 2.0.0
 ---
@@ -8,7 +8,7 @@ schema: 2.0.0
 # Set-GCPolicy
 
 ## SYNOPSIS
-{{Encapsulates the "PUT /visibility/policy/rules/{ruleID}" API request. }}
+{{ Fill in the Synopsis }}
 
 ## SYNTAX
 
@@ -17,7 +17,7 @@ Set-GCPolicy [[-Policy] <Object>] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
-{{This function takes one or more GCPolicy objects and, by ID, sets the policy on the management server to match them. This is typically used at the end of a pipeline where policy has been fetched from the management server, then altered.}}
+{{ Fill in the Description }}
 
 ## EXAMPLES
 
@@ -31,7 +31,7 @@ PS C:\> {{ Add example code here }}
 ## PARAMETERS
 
 ### -Policy
-{{PSTypeName("GCPolicy") One or more GCPolicy objects, as returned from the API.}}
+{{ Fill Policy Description }}
 
 ```yaml
 Type: Object
@@ -46,8 +46,7 @@ Accept wildcard characters: False
 ```
 
 ### CommonParameters
-This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable, -InformationAction, -InformationVariable, -OutVariable, -OutBuffer, -PipelineVariable, -Verbose, -WarningAction, and -WarningVariable.
-For more information, see about_CommonParameters (http://go.microsoft.com/fwlink/?LinkID=113216).
+This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable, -InformationAction, -InformationVariable, -OutVariable, -OutBuffer, -PipelineVariable, -Verbose, -WarningAction, and -WarningVariable. For more information, see [about_CommonParameters](http://go.microsoft.com/fwlink/?LinkID=113216).
 
 ## INPUTS
 

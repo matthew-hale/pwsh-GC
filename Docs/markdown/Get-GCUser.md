@@ -5,7 +5,7 @@ online version:
 schema: 2.0.0
 ---
 
-# New-GCBulkStaticLabel
+# Get-GCUser
 
 ## SYNOPSIS
 {{ Fill in the Synopsis }}
@@ -13,7 +13,7 @@ schema: 2.0.0
 ## SYNTAX
 
 ```
-New-GCBulkStaticLabel [-Path] <FileInfo> [<CommonParameters>]
+Get-GCUser [[-Name] <String[]>] [-Raw] [[-ApiKey] <Object>] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -30,16 +30,46 @@ PS C:\> {{ Add example code here }}
 
 ## PARAMETERS
 
-### -Path
-{{ Fill Path Description }}
+### -ApiKey
+{{ Fill ApiKey Description }}
 
 ```yaml
-Type: FileInfo
+Type: Object
 Parameter Sets: (All)
 Aliases:
 
-Required: True
+Required: False
+Position: 1
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -Name
+{{ Fill Name Description }}
+
+```yaml
+Type: String[]
+Parameter Sets: (All)
+Aliases:
+
+Required: False
 Position: 0
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -Raw
+{{ Fill Raw Description }}
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False

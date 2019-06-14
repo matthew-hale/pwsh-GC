@@ -1,6 +1,6 @@
 ---
-external help file: GuardiCoreHelper-help.xml
-Module Name: GuardiCoreHelper
+external help file: pwsh-GC-help.xml
+Module Name: pwsh-GC
 online version:
 schema: 2.0.0
 ---
@@ -8,16 +8,16 @@ schema: 2.0.0
 # Remove-GCSavedMap
 
 ## SYNOPSIS
-{{Fill in the Synopsis}}
+{{ Fill in the Synopsis }}
 
 ## SYNTAX
 
 ```
-Remove-GCSavedMap [[-Map] <Array>] [<CommonParameters>]
+Remove-GCSavedMap [[-Map] <Object>] [[-ApiKey] <Object>] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
-{{Fill in the Description}}
+{{ Fill in the Description }}
 
 ## EXAMPLES
 
@@ -30,11 +30,26 @@ PS C:\> {{ Add example code here }}
 
 ## PARAMETERS
 
-### -Map
-{{Fill Map Description}}
+### -ApiKey
+{{ Fill ApiKey Description }}
 
 ```yaml
-Type: Array
+Type: Object
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: 1
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -Map
+{{ Fill Map Description }}
+
+```yaml
+Type: Object
 Parameter Sets: (All)
 Aliases:
 
@@ -46,12 +61,11 @@ Accept wildcard characters: False
 ```
 
 ### CommonParameters
-This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable, -InformationAction, -InformationVariable, -OutVariable, -OutBuffer, -PipelineVariable, -Verbose, -WarningAction, and -WarningVariable.
-For more information, see about_CommonParameters (http://go.microsoft.com/fwlink/?LinkID=113216).
+This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable, -InformationAction, -InformationVariable, -OutVariable, -OutBuffer, -PipelineVariable, -Verbose, -WarningAction, and -WarningVariable. For more information, see [about_CommonParameters](http://go.microsoft.com/fwlink/?LinkID=113216).
 
 ## INPUTS
 
-### System.Array
+### System.Object
 
 ## OUTPUTS
 

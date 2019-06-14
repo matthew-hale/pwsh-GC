@@ -5,7 +5,7 @@ online version:
 schema: 2.0.0
 ---
 
-# New-GCBulkStaticLabel
+# Set-GCUser
 
 ## SYNOPSIS
 {{ Fill in the Synopsis }}
@@ -13,7 +13,7 @@ schema: 2.0.0
 ## SYNTAX
 
 ```
-New-GCBulkStaticLabel [-Path] <FileInfo> [<CommonParameters>]
+Set-GCUser [[-User] <Object>] [[-ApiKey] <Object>] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -30,18 +30,33 @@ PS C:\> {{ Add example code here }}
 
 ## PARAMETERS
 
-### -Path
-{{ Fill Path Description }}
+### -ApiKey
+{{ Fill ApiKey Description }}
 
 ```yaml
-Type: FileInfo
+Type: Object
 Parameter Sets: (All)
 Aliases:
 
-Required: True
-Position: 0
+Required: False
+Position: 1
 Default value: None
 Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -User
+{{ Fill User Description }}
+
+```yaml
+Type: Object
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: 0
+Default value: None
+Accept pipeline input: True (ByValue)
 Accept wildcard characters: False
 ```
 
@@ -50,7 +65,7 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 
 ## INPUTS
 
-### None
+### System.Object
 
 ## OUTPUTS
 

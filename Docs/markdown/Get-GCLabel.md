@@ -1,6 +1,6 @@
 ---
-external help file: GuardiCoreHelper-help.xml
-Module Name: GuardiCoreHelper
+external help file: pwsh-GC-help.xml
+Module Name: pwsh-GC
 online version:
 schema: 2.0.0
 ---
@@ -8,18 +8,17 @@ schema: 2.0.0
 # Get-GCLabel
 
 ## SYNOPSIS
-Encapsulates the "GET /visibility/labels" API call.
+{{ Fill in the Synopsis }}
 
 ## SYNTAX
 
 ```
 Get-GCLabel [-FindMatches] [[-LabelKey] <String>] [[-LabelValue] <String>] [[-Limit] <Int32>]
- [[-Offset] <Int32>] [<CommonParameters>]
+ [[-Offset] <Int32>] [-Raw] [[-ApiKey] <Object>] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
-Retrieves labels that fit the parameters given.
-Additionally includes member assets if find_matches is set.
+{{ Fill in the Description }}
 
 ## EXAMPLES
 
@@ -32,8 +31,23 @@ PS C:\> {{ Add example code here }}
 
 ## PARAMETERS
 
+### -ApiKey
+{{ Fill ApiKey Description }}
+
+```yaml
+Type: Object
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: 4
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
 ### -FindMatches
-Switch - if set to true, request returns the assets that match the label's definition.
+{{ Fill FindMatches Description }}
 
 ```yaml
 Type: SwitchParameter
@@ -42,13 +56,28 @@ Aliases:
 
 Required: False
 Position: Named
-Default value: False
+Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
 ### -LabelKey
-The key of the label.
+{{ Fill LabelKey Description }}
+
+```yaml
+Type: String
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: 0
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -LabelValue
+{{ Fill LabelValue Description }}
 
 ```yaml
 Type: String
@@ -62,11 +91,11 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -LabelValue
-The value of the label.
+### -Limit
+{{ Fill Limit Description }}
 
 ```yaml
-Type: String
+Type: Int32
 Parameter Sets: (All)
 Aliases:
 
@@ -77,8 +106,8 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -Limit
-The maximum number of labels to return.
+### -Offset
+{{ Fill Offset Description }}
 
 ```yaml
 Type: Int32
@@ -87,36 +116,36 @@ Aliases:
 
 Required: False
 Position: 3
-Default value: 0
+Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -Offset
-The index of the first result to return.
+### -Raw
+{{ Fill Raw Description }}
 
 ```yaml
-Type: Int32
+Type: SwitchParameter
 Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 4
-Default value: 0
+Position: Named
+Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
 ### CommonParameters
-This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable, -InformationAction, -InformationVariable, -OutVariable, -OutBuffer, -PipelineVariable, -Verbose, -WarningAction, and -WarningVariable.
-For more information, see about_CommonParameters (http://go.microsoft.com/fwlink/?LinkID=113216).
+This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable, -InformationAction, -InformationVariable, -OutVariable, -OutBuffer, -PipelineVariable, -Verbose, -WarningAction, and -WarningVariable. For more information, see [about_CommonParameters](http://go.microsoft.com/fwlink/?LinkID=113216).
 
 ## INPUTS
 
-### None. This function accepts no pipeline inputs.
+### None
+
 ## OUTPUTS
 
-### [PSTypeName="GCLabel"] One or more GCLabel objects.
+### System.Object
 ## NOTES
 
 ## RELATED LINKS

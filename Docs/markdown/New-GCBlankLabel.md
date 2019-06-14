@@ -5,7 +5,7 @@ online version:
 schema: 2.0.0
 ---
 
-# New-GCBulkStaticLabel
+# New-GCBlankLabel
 
 ## SYNOPSIS
 {{ Fill in the Synopsis }}
@@ -13,7 +13,7 @@ schema: 2.0.0
 ## SYNTAX
 
 ```
-New-GCBulkStaticLabel [-Path] <FileInfo> [<CommonParameters>]
+New-GCBlankLabel [-LabelKey] <String> [-LabelValue] <String> [[-ApiKey] <Object>] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -30,16 +30,46 @@ PS C:\> {{ Add example code here }}
 
 ## PARAMETERS
 
-### -Path
-{{ Fill Path Description }}
+### -ApiKey
+{{ Fill ApiKey Description }}
 
 ```yaml
-Type: FileInfo
+Type: Object
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: 2
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -LabelKey
+{{ Fill LabelKey Description }}
+
+```yaml
+Type: String
 Parameter Sets: (All)
 Aliases:
 
 Required: True
 Position: 0
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -LabelValue
+{{ Fill LabelValue Description }}
+
+```yaml
+Type: String
+Parameter Sets: (All)
+Aliases:
+
+Required: True
+Position: 1
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False

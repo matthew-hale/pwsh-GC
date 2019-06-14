@@ -1,6 +1,6 @@
 ---
-external help file: GuardiCoreHelper-help.xml
-Module Name: GuardiCoreHelper
+external help file: pwsh-GC-help.xml
+Module Name: pwsh-GC
 online version:
 schema: 2.0.0
 ---
@@ -8,35 +8,131 @@ schema: 2.0.0
 # Get-GCAgent
 
 ## SYNOPSIS
-Encapsulates the "GET /agents" API call.
+Retrieve an agent from the management server.
 
 ## SYNTAX
 
 ```
-Get-GCAgent [[-Version] <Array>] [[-Kernel] <Array>] [[-OS] <Array>] [[-Label] <Object>] [[-Status] <Array>]
- [[-Flag] <Int32>] [[-Enforcement] <Array>] [[-Deception] <Array>] [[-Detection] <Array>] [[-Reveal] <Array>]
- [[-Activity] <Array>] [[-GCFilter] <String>] [[-Limit] <Int32>] [[-Offset] <Int32>] [<CommonParameters>]
+Get-GCAgent [[-Version] <String[]>] [[-Kernel] <String[]>] [[-OS] <String[]>] [[-Label] <Object>]
+ [[-Status] <String[]>] [[-Flag] <Object>] [[-Enforcement] <String[]>] [[-Deception] <String[]>]
+ [[-Detection] <String[]>] [[-Reveal] <String[]>] [[-Activity] <String[]>] [[-Search] <String>]
+ [[-Limit] <Int32>] [[-Offset] <Int32>] [-Raw] [[-ApiKey] <Object>] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
-Gets one or more agents based on the given parameters/filters.
+Pulls one or more agents from the management server based on the given parameters. Agents can be returned based on agent version, kernel version, string search, etc.
 
 ## EXAMPLES
 
 ### Example 1
 ```powershell
-PS C:\> {{ Add example code here }}
+PS C:\> Get-GCAgent -Search Demo-Hostname
 ```
 
-{{ Add example description here }}
+Retrieve all agents that match the "Demo-Hostname" search string.
 
 ## PARAMETERS
 
-### -Version
-\[System.String\] Version of the agent
+### -Activity
+Get agents based on when their last activity was.
 
 ```yaml
-Type: Array
+Type: String[]
+Parameter Sets: (All)
+Aliases:
+Accepted values: last_month, last_week, last_12_hours, last_24_hours, not_active
+
+Required: False
+Position: 10
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -ApiKey
+Provide an external ApiKey, in place of the global GCApiKey variable.
+
+```yaml
+Type: Object
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: 14
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -Deception
+Get agents based on whether the deception module is present.
+
+```yaml
+Type: String[]
+Parameter Sets: (All)
+Aliases:
+Accepted values: Active, Not Deployed
+
+Required: False
+Position: 7
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -Detection
+Get agents based on whether the detection module is present.
+
+```yaml
+Type: String[]
+Parameter Sets: (All)
+Aliases:
+Accepted values: Active, Not Deployed
+
+Required: False
+Position: 8
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -Enforcement
+Get agents based on whether the enforcement module is present.
+
+```yaml
+Type: String[]
+Parameter Sets: (All)
+Aliases:
+Accepted values: Active, Not Deployed, Disabled
+
+Required: False
+Position: 6
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -Flag
+Get agents based on their status flags.
+
+```yaml
+Type: Object
+Parameter Sets: (All)
+Aliases:
+Accepted values: undefined, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14
+
+Required: False
+Position: 5
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -Kernel
+Get agents based on kernel version
+
+```yaml
+Type: String[]
 Parameter Sets: (All)
 Aliases:
 
@@ -47,27 +143,11 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -Kernel
-\[System.String\] Version of the kernel
+### -Label
+Get assets based on one or more GuardiCore label objects.
 
 ```yaml
-Type: Array
-Parameter Sets: (All)
-Aliases:
-
-Required: False
-Position: 2
-Default value: None
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-### -OS
-\[System.String\] General type of OS.
-Allows: "Unknown","Windows","Linux"
-
-```yaml
-Type: Array
+Type: Object
 Parameter Sets: (All)
 Aliases:
 
@@ -78,137 +158,11 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -Label
-\[PSTypeName("GCLabel")\] One or more GCLabel objects, as returned from Get-GCLabel
-
-```yaml
-Type: Object
-Parameter Sets: (All)
-Aliases:
-
-Required: False
-Position: 4
-Default value: None
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-### -Status
-\[System.String\] Status of the agent.
-Allows: "Online","Offline"
-
-```yaml
-Type: Array
-Parameter Sets: (All)
-Aliases:
-
-Required: False
-Position: 5
-Default value: None
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-### -Flag
-= display_status
+### -Limit
+The maximum number of objects to return.
 
 ```yaml
 Type: Int32
-Parameter Sets: (All)
-Aliases:
-
-Required: False
-Position: 6
-Default value: 0
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-### -Enforcement
-\[System.String\] Status of the enforcement module.
-Allows: "Active","Not Deployed","Disabled"
-
-```yaml
-Type: Array
-Parameter Sets: (All)
-Aliases:
-
-Required: False
-Position: 7
-Default value: None
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-### -Deception
-\[System.String\] Status of the deception module.
-Allows: "Active","Not Deployed"
-
-```yaml
-Type: Array
-Parameter Sets: (All)
-Aliases:
-
-Required: False
-Position: 8
-Default value: None
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-### -Detection
-\[System.String\] Status of the detection module.
-Allows: "Active","Not Deployed"
-
-```yaml
-Type: Array
-Parameter Sets: (All)
-Aliases:
-
-Required: False
-Position: 9
-Default value: None
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-### -Reveal
-\[System.String\] Status of the reveal module.
-Allows: "Active","Not Deployed"
-
-```yaml
-Type: Array
-Parameter Sets: (All)
-Aliases:
-
-Required: False
-Position: 10
-Default value: None
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-### -Activity
-\[System.String\] Time period of when the agent was last active.
-Allows: "last_month","last_week","last_12_hours","last_24_hours","not_active"
-
-```yaml
-Type: Array
-Parameter Sets: (All)
-Aliases:
-
-Required: False
-Position: 11
-Default value: None
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-### -GCFilter
-\[System.String\] Filter of Agent ID/Agent Hostname/IP Address.
-
-```yaml
-Type: String
 Parameter Sets: (All)
 Aliases:
 
@@ -219,8 +173,24 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -Limit
-\[Int32\] Max number of returned agents.
+### -OS
+Get agents based on the OS of the machine.
+
+```yaml
+Type: String[]
+Parameter Sets: (All)
+Aliases:
+Accepted values: Unknown, Windows, Linux
+
+Required: False
+Position: 2
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -Offset
+The index of the first result to be returned.
 
 ```yaml
 Type: Int32
@@ -229,36 +199,98 @@ Aliases:
 
 Required: False
 Position: 13
-Default value: 0
+Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -Offset
-\[Int32\] Index of where the query will start returning results.
+### -Raw
+Return the raw result instead of the agent objects directly.
 
 ```yaml
-Type: Int32
+Type: SwitchParameter
 Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 14
-Default value: 0
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -Reveal
+Get agents based on whether the reveal module is present.
+
+```yaml
+Type: String[]
+Parameter Sets: (All)
+Aliases:
+Accepted values: Active, Not Deployed
+
+Required: False
+Position: 9
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -Search
+Get agents based on a search string.
+
+```yaml
+Type: String
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: 11
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -Status
+Get agents based on their status.
+
+```yaml
+Type: String[]
+Parameter Sets: (All)
+Aliases:
+Accepted values: Online, Offline
+
+Required: False
+Position: 4
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -Version
+Get agents based on the agent version.
+
+```yaml
+Type: String[]
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: 0
+Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
 ### CommonParameters
-This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable, -InformationAction, -InformationVariable, -OutVariable, -OutBuffer, -PipelineVariable, -Verbose, -WarningAction, and -WarningVariable.
-For more information, see about_CommonParameters (http://go.microsoft.com/fwlink/?LinkID=113216).
+This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable, -InformationAction, -InformationVariable, -OutVariable, -OutBuffer, -PipelineVariable, -Verbose, -WarningAction, and -WarningVariable. For more information, see [about_CommonParameters](http://go.microsoft.com/fwlink/?LinkID=113216).
 
 ## INPUTS
 
-### None. This function takes no pipeline input.
+### None
+
 ## OUTPUTS
 
-### [PSTypeName("GCAgent")] One or more GCAgent objects.
+### System.Object
 ## NOTES
 
 ## RELATED LINKS

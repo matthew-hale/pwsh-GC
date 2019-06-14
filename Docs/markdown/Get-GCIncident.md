@@ -1,6 +1,6 @@
 ---
-external help file: GuardiCoreHelper-help.xml
-Module Name: GuardiCoreHelper
+external help file: pwsh-GC-help.xml
+Module Name: pwsh-GC
 online version:
 schema: 2.0.0
 ---
@@ -8,112 +8,37 @@ schema: 2.0.0
 # Get-GCIncident
 
 ## SYNOPSIS
-Encapsulates the GET /incidents API request.
+Retrieve an incident from the management server.
 
 ## SYNTAX
 
 ```
 Get-GCIncident [[-StartTime] <DateTime>] [[-EndTime] <DateTime>] [[-Severity] <String[]>]
- [[-IncidentGroup] <Object>] [[-IncidentType] <Object>] [[-SourceAsset] <Object>]
- [[-DestinationAsset] <Object>] [[-AnySideAsset] <Object>] [[-SourceLabel] <Object>]
- [[-DestinationLabel] <Object>] [[-AnySideLabel] <Object>] [[-IncludeTag] <Array>] [[-ExcludeTag] <Array>]
- [[-Limit] <Object>] [[-Offset] <Int32>] [<CommonParameters>]
+ [[-IncidentType] <Object>] [[-SourceAsset] <String>] [[-DestinationAsset] <String>] [[-AnySideAsset] <String>]
+ [[-SourceLabel] <Object>] [[-DestinationLabel] <Object>] [[-AnySideLabel] <Object>] [[-IncludeTag] <Array>]
+ [[-ExcludeTag] <Array>] [[-Limit] <Object>] [[-Offset] <Int32>] [-Raw] [[-ApiKey] <Object>]
+ [<CommonParameters>]
 ```
 
 ## DESCRIPTION
-Requests incidents that are generated on a management server, filtered by given parameters.
+Pulls one or more agents from the management server based on the given parameters. Agents can be returned based on agent version, kernel version, string search, etc.
 
 ## EXAMPLES
 
 ### Example 1
 ```powershell
-PS C:\> {{ Add example code here }}
+PS C:\> Get-GCIncident
 ```
 
 {{ Add example description here }}
 
 ## PARAMETERS
 
-### -StartTime
-The start of the time range.
+### -AnySideAsset
+{{ Fill AnySideAsset Description }}
 
 ```yaml
-Type: DateTime
-Parameter Sets: (All)
-Aliases:
-
-Required: False
-Position: 1
-Default value: None
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-### -EndTime
-The end of the time range.
-
-```yaml
-Type: DateTime
-Parameter Sets: (All)
-Aliases:
-
-Required: False
-Position: 2
-Default value: None
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-### -Severity
-The severity of the incident; accepts "Low","Medium","High"
-
-```yaml
-Type: String[]
-Parameter Sets: (All)
-Aliases:
-
-Required: False
-Position: 3
-Default value: None
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-### -IncidentGroup
-{{Fill IncidentGroup Description}}
-
-```yaml
-Type: Object
-Parameter Sets: (All)
-Aliases:
-
-Required: False
-Position: 4
-Default value: None
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-### -IncidentType
-{{Fill IncidentType Description}}
-
-```yaml
-Type: Object
-Parameter Sets: (All)
-Aliases:
-
-Required: False
-Position: 5
-Default value: None
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-### -SourceAsset
-One or more GCAsset objects in the source of the policy.
-
-```yaml
-Type: Object
+Type: String
 Parameter Sets: (All)
 Aliases:
 
@@ -124,38 +49,8 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -DestinationAsset
-One or more GCAsset objects in the destination of the policy.
-
-```yaml
-Type: Object
-Parameter Sets: (All)
-Aliases:
-
-Required: False
-Position: 7
-Default value: None
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-### -AnySideAsset
-One or more GCAsset objects in the source or the destination of the policy.
-
-```yaml
-Type: Object
-Parameter Sets: (All)
-Aliases:
-
-Required: False
-Position: 8
-Default value: None
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-### -SourceLabel
-One or more GCLabel objects in the source of the policy.
+### -AnySideLabel
+{{ Fill AnySideLabel Description }}
 
 ```yaml
 Type: Object
@@ -169,8 +64,8 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -DestinationLabel
-One or more GCLabel objects in the destination of the policy.
+### -ApiKey
+{{ Fill ApiKey Description }}
 
 ```yaml
 Type: Object
@@ -178,17 +73,62 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 10
+Position: 14
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -AnySideLabel
-One or more GCLabel objects in the source or the destination of the policy.
+### -DestinationAsset
+{{ Fill DestinationAsset Description }}
+
+```yaml
+Type: String
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: 5
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -DestinationLabel
+{{ Fill DestinationLabel Description }}
 
 ```yaml
 Type: Object
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: 8
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -EndTime
+{{ Fill EndTime Description }}
+
+```yaml
+Type: DateTime
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: 1
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -ExcludeTag
+{{ Fill ExcludeTag Description }}
+
+```yaml
+Type: Array
 Parameter Sets: (All)
 Aliases:
 
@@ -199,11 +139,42 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
+### -IncidentType
+{{ Fill IncidentType Description }}
+
+```yaml
+Type: Object
+Parameter Sets: (All)
+Aliases:
+Accepted values: Incident, Deception, Network Scan, Reveal, Experimental
+
+Required: False
+Position: 3
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
 ### -IncludeTag
-One or more tags to include in the request.
+{{ Fill IncludeTag Description }}
 
 ```yaml
 Type: Array
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: 10
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -Limit
+{{ Fill Limit Description }}
+
+```yaml
+Type: Object
 Parameter Sets: (All)
 Aliases:
 
@@ -214,11 +185,11 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -ExcludeTag
-One or more tags to exclude in the request.
+### -Offset
+{{ Fill Offset Description }}
 
 ```yaml
-Type: Array
+Type: Int32
 Parameter Sets: (All)
 Aliases:
 
@@ -229,8 +200,54 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -Limit
-The maximum number of results to return.
+### -Raw
+{{ Fill Raw Description }}
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -Severity
+{{ Fill Severity Description }}
+
+```yaml
+Type: String[]
+Parameter Sets: (All)
+Aliases:
+Accepted values: Low, Medium, High
+
+Required: False
+Position: 2
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -SourceAsset
+{{ Fill SourceAsset Description }}
+
+```yaml
+Type: String
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: 4
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -SourceLabel
+{{ Fill SourceLabel Description }}
 
 ```yaml
 Type: Object
@@ -238,37 +255,37 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 14
-Default value: 20
+Position: 7
+Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -Offset
-The index of the first result to return.
+### -StartTime
+{{ Fill StartTime Description }}
 
 ```yaml
-Type: Int32
+Type: DateTime
 Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 15
-Default value: 0
+Position: 0
+Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
 ### CommonParameters
-This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable, -InformationAction, -InformationVariable, -OutVariable, -OutBuffer, -PipelineVariable, -Verbose, -WarningAction, and -WarningVariable.
-For more information, see about_CommonParameters (http://go.microsoft.com/fwlink/?LinkID=113216).
+This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable, -InformationAction, -InformationVariable, -OutVariable, -OutBuffer, -PipelineVariable, -Verbose, -WarningAction, and -WarningVariable. For more information, see [about_CommonParameters](http://go.microsoft.com/fwlink/?LinkID=113216).
 
 ## INPUTS
 
-### None. This function accepts no pipeline input.
+### None
+
 ## OUTPUTS
 
-### PSTypeName="GCIncident"
+### System.Object
 ## NOTES
 
 ## RELATED LINKS

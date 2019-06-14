@@ -1,6 +1,6 @@
 ---
-external help file: GuardiCoreHelper-help.xml
-Module Name: GuardiCoreHelper
+external help file: pwsh-GC-help.xml
+Module Name: pwsh-GC
 online version:
 schema: 2.0.0
 ---
@@ -8,7 +8,7 @@ schema: 2.0.0
 # Get-GCRawFlow
 
 ## SYNOPSIS
-{{Fill in the Synopsis}}
+{{ Fill in the Synopsis }}
 
 ## SYNTAX
 
@@ -17,11 +17,11 @@ Get-GCRawFlow [[-StartTime] <DateTime>] [[-EndTime] <DateTime>] [[-SourceProcess
  [[-DestinationProcess] <Array>] [[-AnySideProcess] <Array>] [[-SourceAsset] <Array>]
  [[-DestinationAsset] <Array>] [[-AnySideAsset] <Array>] [[-SourceLabel] <Array>] [[-DestinationLabel] <Array>]
  [[-AnySideLabel] <Array>] [-SourceInternet] [-DestinationInternet] [[-Limit] <Int32>] [[-Offset] <Int32>]
- [<CommonParameters>]
+ [-Raw] [[-ApiKey] <Object>] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
-{{Fill in the Description}}
+{{ Fill in the Description }}
 
 ## EXAMPLES
 
@@ -35,7 +35,7 @@ PS C:\> {{ Add example code here }}
 ## PARAMETERS
 
 ### -AnySideAsset
-{{Fill AnySideAsset Description}}
+{{ Fill AnySideAsset Description }}
 
 ```yaml
 Type: Array
@@ -50,7 +50,7 @@ Accept wildcard characters: False
 ```
 
 ### -AnySideLabel
-{{Fill AnySideLabel Description}}
+{{ Fill AnySideLabel Description }}
 
 ```yaml
 Type: Array
@@ -65,7 +65,7 @@ Accept wildcard characters: False
 ```
 
 ### -AnySideProcess
-{{Fill AnySideProcess Description}}
+{{ Fill AnySideProcess Description }}
 
 ```yaml
 Type: Array
@@ -79,8 +79,23 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
+### -ApiKey
+{{ Fill ApiKey Description }}
+
+```yaml
+Type: Object
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: 13
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
 ### -DestinationAsset
-{{Fill DestinationAsset Description}}
+{{ Fill DestinationAsset Description }}
 
 ```yaml
 Type: Array
@@ -95,7 +110,7 @@ Accept wildcard characters: False
 ```
 
 ### -DestinationInternet
-{{Fill DestinationInternet Description}}
+{{ Fill DestinationInternet Description }}
 
 ```yaml
 Type: SwitchParameter
@@ -110,7 +125,7 @@ Accept wildcard characters: False
 ```
 
 ### -DestinationLabel
-{{Fill DestinationLabel Description}}
+{{ Fill DestinationLabel Description }}
 
 ```yaml
 Type: Array
@@ -125,7 +140,7 @@ Accept wildcard characters: False
 ```
 
 ### -DestinationProcess
-{{Fill DestinationProcess Description}}
+{{ Fill DestinationProcess Description }}
 
 ```yaml
 Type: Array
@@ -140,7 +155,7 @@ Accept wildcard characters: False
 ```
 
 ### -EndTime
-{{Fill EndTime Description}}
+{{ Fill EndTime Description }}
 
 ```yaml
 Type: DateTime
@@ -155,7 +170,7 @@ Accept wildcard characters: False
 ```
 
 ### -Limit
-{{Fill Limit Description}}
+{{ Fill Limit Description }}
 
 ```yaml
 Type: Int32
@@ -170,7 +185,7 @@ Accept wildcard characters: False
 ```
 
 ### -Offset
-{{Fill Offset Description}}
+{{ Fill Offset Description }}
 
 ```yaml
 Type: Int32
@@ -184,8 +199,23 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
+### -Raw
+{{ Fill Raw Description }}
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
 ### -SourceAsset
-{{Fill SourceAsset Description}}
+{{ Fill SourceAsset Description }}
 
 ```yaml
 Type: Array
@@ -200,7 +230,7 @@ Accept wildcard characters: False
 ```
 
 ### -SourceInternet
-{{Fill SourceInternet Description}}
+{{ Fill SourceInternet Description }}
 
 ```yaml
 Type: SwitchParameter
@@ -215,7 +245,7 @@ Accept wildcard characters: False
 ```
 
 ### -SourceLabel
-{{Fill SourceLabel Description}}
+{{ Fill SourceLabel Description }}
 
 ```yaml
 Type: Array
@@ -230,7 +260,7 @@ Accept wildcard characters: False
 ```
 
 ### -SourceProcess
-{{Fill SourceProcess Description}}
+{{ Fill SourceProcess Description }}
 
 ```yaml
 Type: Array
@@ -245,7 +275,7 @@ Accept wildcard characters: False
 ```
 
 ### -StartTime
-{{Fill StartTime Description}}
+{{ Fill StartTime Description }}
 
 ```yaml
 Type: DateTime
@@ -260,8 +290,7 @@ Accept wildcard characters: False
 ```
 
 ### CommonParameters
-This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable, -InformationAction, -InformationVariable, -OutVariable, -OutBuffer, -PipelineVariable, -Verbose, -WarningAction, and -WarningVariable.
-For more information, see about_CommonParameters (http://go.microsoft.com/fwlink/?LinkID=113216).
+This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable, -InformationAction, -InformationVariable, -OutVariable, -OutBuffer, -PipelineVariable, -Verbose, -WarningAction, and -WarningVariable. For more information, see [about_CommonParameters](http://go.microsoft.com/fwlink/?LinkID=113216).
 
 ## INPUTS
 

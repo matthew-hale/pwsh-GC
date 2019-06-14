@@ -5,7 +5,7 @@ online version:
 schema: 2.0.0
 ---
 
-# New-GCSavedMap
+# New-GCUser
 
 ## SYNOPSIS
 {{ Fill in the Synopsis }}
@@ -13,10 +13,8 @@ schema: 2.0.0
 ## SYNTAX
 
 ```
-New-GCSavedMap [[-Name] <String>] [-Public] [[-FilterHashTableInclude] <Hashtable>]
- [[-FilterHashTableExclude] <Hashtable>] [[-StartTime] <DateTime>] [[-EndTime] <DateTime>]
- [[-TimeRange] <Array>] [-IncludeProcesses] [-TimeResolution] [-EmailOnProgress] [[-ApiKey] <Object>]
- [<CommonParameters>]
+New-GCUser [-Name] <String> [[-Description] <String>] [-Email] <String> [-Permissions] <String[]> [-TwoFactor]
+ [-Password] <String> [-IncidentPasswordAccess] [[-ApiKey] <Object>] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -42,62 +40,17 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 6
+Position: 5
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -EmailOnProgress
-{{ Fill EmailOnProgress Description }}
+### -Description
+{{ Fill Description Description }}
 
 ```yaml
-Type: SwitchParameter
-Parameter Sets: (All)
-Aliases:
-
-Required: False
-Position: Named
-Default value: None
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-### -EndTime
-{{ Fill EndTime Description }}
-
-```yaml
-Type: DateTime
-Parameter Sets: (All)
-Aliases:
-
-Required: False
-Position: 4
-Default value: None
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-### -FilterHashTableExclude
-{{ Fill FilterHashTableExclude Description }}
-
-```yaml
-Type: Hashtable
-Parameter Sets: (All)
-Aliases:
-
-Required: False
-Position: 2
-Default value: None
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-### -FilterHashTableInclude
-{{ Fill FilterHashTableInclude Description }}
-
-```yaml
-Type: Hashtable
+Type: String
 Parameter Sets: (All)
 Aliases:
 
@@ -108,8 +61,23 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -IncludeProcesses
-{{ Fill IncludeProcesses Description }}
+### -Email
+{{ Fill Email Description }}
+
+```yaml
+Type: String
+Parameter Sets: (All)
+Aliases:
+
+Required: True
+Position: 2
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -IncidentPasswordAccess
+{{ Fill IncidentPasswordAccess Description }}
 
 ```yaml
 Type: SwitchParameter
@@ -131,60 +99,45 @@ Type: String
 Parameter Sets: (All)
 Aliases:
 
-Required: False
+Required: True
 Position: 0
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -Public
-{{ Fill Public Description }}
+### -Password
+{{ Fill Password Description }}
 
 ```yaml
-Type: SwitchParameter
+Type: String
 Parameter Sets: (All)
 Aliases:
 
-Required: False
-Position: Named
+Required: True
+Position: 4
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -StartTime
-{{ Fill StartTime Description }}
+### -Permissions
+{{ Fill Permissions Description }}
 
 ```yaml
-Type: DateTime
+Type: String[]
 Parameter Sets: (All)
 Aliases:
 
-Required: False
+Required: True
 Position: 3
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -TimeRange
-{{ Fill TimeRange Description }}
-
-```yaml
-Type: Array
-Parameter Sets: (All)
-Aliases:
-
-Required: False
-Position: 5
-Default value: None
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-### -TimeResolution
-{{ Fill TimeResolution Description }}
+### -TwoFactor
+{{ Fill TwoFactor Description }}
 
 ```yaml
 Type: SwitchParameter

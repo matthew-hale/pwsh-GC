@@ -1,6 +1,6 @@
 ---
-external help file: GuardiCoreHelper-help.xml
-Module Name: GuardiCoreHelper
+external help file: pwsh-GC-help.xml
+Module Name: pwsh-GC
 online version:
 schema: 2.0.0
 ---
@@ -8,17 +8,17 @@ schema: 2.0.0
 # New-GCDynamicLabel
 
 ## SYNOPSIS
-Encapsulates the "POST /visibility/labels" API request.
+{{ Fill in the Synopsis }}
 
 ## SYNTAX
 
 ```
 New-GCDynamicLabel [[-LabelKey] <String>] [[-LabelValue] <String>] [[-Argument] <String>] [[-Field] <String>]
- [[-Operation] <String>] [[-Criteria] <Array>] [<CommonParameters>]
+ [[-Operation] <String>] [[-Criteria] <Array>] [-Raw] [[-ApiKey] <Object>] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
-{{Fill in the Description}}
+{{ Fill in the Description }}
 
 ## EXAMPLES
 
@@ -31,23 +31,23 @@ PS C:\> {{ Add example code here }}
 
 ## PARAMETERS
 
-### -LabelKey
-The key of the new label.
+### -ApiKey
+{{ Fill ApiKey Description }}
 
 ```yaml
-Type: String
+Type: Object
 Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 1
+Position: 6
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -LabelValue
-The value of the new label.
+### -Argument
+{{ Fill Argument Description }}
 
 ```yaml
 Type: String
@@ -61,14 +61,29 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -Argument
-The argument of the dynamic label definition (e.g.
-"Demo").
+### -Criteria
+{{ Fill Criteria Description }}
+
+```yaml
+Type: Array
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: 5
+Default value: None
+Accept pipeline input: True (ByValue)
+Accept wildcard characters: False
+```
+
+### -Field
+{{ Fill Field Description }}
 
 ```yaml
 Type: String
 Parameter Sets: (All)
 Aliases:
+Accepted values: name, numeric_ip_addresses, id
 
 Required: False
 Position: 3
@@ -77,13 +92,44 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -Field
-The field of the dynamic label definition; accepts "name","numeric_ip_addresses"
+### -LabelKey
+{{ Fill LabelKey Description }}
 
 ```yaml
 Type: String
 Parameter Sets: (All)
 Aliases:
+
+Required: False
+Position: 0
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -LabelValue
+{{ Fill LabelValue Description }}
+
+```yaml
+Type: String
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: 1
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -Operation
+{{ Fill Operation Description }}
+
+```yaml
+Type: String
+Parameter Sets: (All)
+Aliases:
+Accepted values: STARTSWITH, ENDSWITH, EQUALS, CONTAINS, SUBNET, WILDCARDS
 
 Required: False
 Position: 4
@@ -92,53 +138,31 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -Operation
-The operation of the dynamic label definition; accepts "STARTSWITH","ENDSWITH","EQUALS","CONTAINS","SUBNET","WILDCARDS"
+### -Raw
+{{ Fill Raw Description }}
 
 ```yaml
-Type: String
+Type: SwitchParameter
 Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 5
+Position: Named
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -Criteria
-One or more custom objects similar to the above parameters in structure.
-Example:
-
-\[PSCustomObject\]@{
-	field = "name"
-	op = "STARTSWITH"
-	argument = "example"
-}
-
-```yaml
-Type: Array
-Parameter Sets: (All)
-Aliases:
-
-Required: False
-Position: 6
-Default value: None
-Accept pipeline input: True (ByValue)
-Accept wildcard characters: False
-```
-
 ### CommonParameters
-This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable, -InformationAction, -InformationVariable, -OutVariable, -OutBuffer, -PipelineVariable, -Verbose, -WarningAction, and -WarningVariable.
-For more information, see about_CommonParameters (http://go.microsoft.com/fwlink/?LinkID=113216).
+This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable, -InformationAction, -InformationVariable, -OutVariable, -OutBuffer, -PipelineVariable, -Verbose, -WarningAction, and -WarningVariable. For more information, see [about_CommonParameters](http://go.microsoft.com/fwlink/?LinkID=113216).
 
 ## INPUTS
 
-### [PSCustomObject] One or more criteria objects.
+### System.Array
+
 ## OUTPUTS
 
-### application/json data
+### System.Object
 ## NOTES
 
 ## RELATED LINKS
