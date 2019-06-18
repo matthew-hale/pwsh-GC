@@ -21,17 +21,12 @@ function Remove-GCSavedMap {
 		$Body = [PSCustomObject]@{
 			action = "delete"
 		}
-		
-		$Result = [System.Collections.Generic.List[object]]::new()
 	}
 	process {
 		foreach ($ThisMap in $Map) {
 			$Uri = "/visibility/saved-maps/" + $ThisMap.id
 			
-			$Result.Add( $(pwsh-GC-post-request -Raw -Uri $Uri -Body $Body -ApiKey $Key) )
+			pwsh-GC-post-request -Raw -Uri $Uri -Body $Body -ApiKey $Key
 		}
-	}
-	end {
-		$Result
 	}
 }

@@ -21,17 +21,12 @@ function Remove-GCPolicy {
 		$Body = [PSCustomObject]@{
 			action = "delete"
 		}
-		
-		$Result = [System.Collections.Generic.List[object]]::new()
 	}
 	process {
 		foreach ($ThisPolicy in $Policy) {
 			$Uri = "/visibility/policy/rules/" + $ThisPolicy.id
 			
-			$Result.Add( $(pwsh-GC-post-request -Raw -Uri $Uri -Body $Body -ApiKey $Key) )
+			pwsh-GC-post-request -Raw -Uri $Uri -Body $Body -ApiKey $Key
 		}
-	}
-	end {
-		$Result
 	}
 }

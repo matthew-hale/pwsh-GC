@@ -6,15 +6,11 @@ function Get-GCFlowInfo {
 		[Parameter(ValueFromPipeline=$true)][System.Array]$Flows,
 		[System.String]$Title = "Flows"
 	)
-	begin {
-		$InputFlows = [System.Collections.Generic.List[object]]::new()
-	}
 	process {
 		foreach ($Flow in $Flows) {
 			$InputFlows.Add($Flow)
 		}
-	}
-	end {
+
 		$Count = $InputFlows.count
 		$Total = $InputFlows | Get-GCFlowTotal
 		$Sources = $InputFlows.source_ip | Sort-Object -Unique
@@ -23,18 +19,16 @@ function Get-GCFlowInfo {
 		$DestinationProcesses = $InputFlows.destination_process_name | Sort-Object -Unique
 		$DestinationPorts = $InputFlows.destination_port | Sort-Object -Unique
 
-		$Output = [PSCustomObject]@{
+		[PSCustomObject]@{
 			"Title" = $Title
 			"Total Flows" = $Count
 			"Total Connections" = $Total
-			Sources = $Sources
+			"Sources" = $Sources
 			"Source Processes" = $SourceProcesses
-			Destinations = $Destinations
+			"Destinations" = $Destinations
 			"Destination Processes" = $DestinationProcesses
 			"Destination Ports" = $DestinationPorts
 		}
-		
-		$Output
 	}
 }
 
