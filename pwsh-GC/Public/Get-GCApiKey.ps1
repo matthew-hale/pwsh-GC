@@ -1,6 +1,6 @@
 function Get-GCApiKey {
 
-	[CmdletBinding()]
+	[CmdletBinding(SupportsShouldProcess)]
 	param (
 		[Parameter(Mandatory=$true)]
 		[System.String]$Server,
@@ -23,14 +23,16 @@ function Get-GCApiKey {
 		$Body.username = $Credential.UserName
 		$Body.password = $Credential.GetNetworkCredential().Password
 		$BodyJson = $Body | ConvertTo-Json -Depth 99
-		try {
-			$Token = Invoke-RestMethod -Uri $TempUri -Method "Post" -Body $BodyJson -ContentType "application/json" | Select-Object -ExpandProperty "access_token" | ConvertTo-SecureString -AsPlainText -Force
+
+		if ($pscmdlet.ShouldProcess("$Server","Invoke-RestMethod -Uri $TempUri -Method 'Post'")) {
+			try {
+				$Token = Invoke-RestMethod -Uri $TempUri -Method "Post" -Body $BodyJson -ContentType "application/json" | Select-Object -ExpandProperty "access_token" | ConvertTo-SecureString -AsPlainText -Force
+			}
+			catch {
+				throw $_.Exception
+			}
 		}
-		catch {
-			throw $_.Exception
-		}
-	}
-	end {
+
 		if ($Export) {
 			# Returns the object on the pipeline.
 
