@@ -13,8 +13,6 @@ function pwsh-GC-post-request {
 		[Switch]$Raw
 	)
 	
-	$Result = [System.Collections.Generic.List[object]]::new()
-
 	$RequestToken = $ApiKey.Token
 	$RequestUri = $ApiKey.Uri + $Uri
 	$RequestBody = $Body | ConvertTo-Json -Depth 10
@@ -28,15 +26,13 @@ function pwsh-GC-post-request {
 
 	switch ($Raw) {
 		$true {
-			$Result.Add($Request)
+			$Request
 		}
 
 		default {
 			if ( $Request.objects ) {
-				$Result.AddRange($Request.objects)
+				$Request.objects
 			}
 		}
 	}
-
-	$Result
 }

@@ -14,7 +14,6 @@ function pwsh-GC-get-request {
 	)
 	
 	begin {
-		$Result = [System.Collections.Generic.List[object]]::new()
 		$RequestToken = $ApiKey.Token
 		$RequestUri = $ApiKey.Uri + $Uri
 	}
@@ -29,18 +28,14 @@ function pwsh-GC-get-request {
 	
 		switch ($Raw) {
 			$true {
-				$Result.Add($Request)
+				$Request
 			}
 	
 			default {
 				if ( $Request.objects ) {
-					$Result.AddRange($Request.objects)
+					$Request.objects
 				} 
 			}
 		}
-	}
-	
-	end {
-		$Result
 	}
 }

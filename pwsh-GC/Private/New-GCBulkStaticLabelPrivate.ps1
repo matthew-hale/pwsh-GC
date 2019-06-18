@@ -33,14 +33,11 @@ function New-GCBulkStaticLabelPrivate {
 		}
 	}
 	process {
-		$LabelList = [System.Collections.Generic.List[object]]::new()
-		$LabelList.AddRange($Labels)
 		$Body = [PSCustomObject]@{
 			"action" = "add"
-			"labels" = $LabelList
+			"labels" = $Labels
 		}
-	}
-	end {
-		pwsh-GC-post-request -Raw -Uri $Uri -Body $Body -ApiKEy $Key
+
+		pwsh-GC-post-request -Raw -Uri $Uri -Body $Body -ApiKey $Key
 	}
 }

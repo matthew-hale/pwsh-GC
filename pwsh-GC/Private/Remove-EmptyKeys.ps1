@@ -3,7 +3,7 @@ function Remove-EmptyKeys {
 		$Body
 	)
 
-	$KeyList = [System.Collections.Generic.List[string]]::new()
+	$KeyList = New-Object -TypeName System.Collections.Generic.List[string]
 
 	foreach ($HashKey in $Body.Keys) {
 		$KeyList.Add($HashKey)

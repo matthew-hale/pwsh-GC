@@ -17,8 +17,6 @@ function Remove-GCLabel {
 				$Key = $global:GCApiKey
 			} 
 		}
-
-		$Result = [System.Collections.Generic.List[object]]::new()
 	}
 	process {
 		foreach ($ThisLabel in $Label) {
@@ -26,7 +24,5 @@ function Remove-GCLabel {
 			pwsh-GC-delete-request -Uri $Uri -ApiKey $Key
 		}
 	}
-	end {
-		$Result
-	}
 }
+
