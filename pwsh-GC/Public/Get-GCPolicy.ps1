@@ -4,7 +4,7 @@ function Get-GCPolicy {
 	param (
 		[System.String]$Search,
 
-		[ValidateSet("allow","alert","block","override_allow","override_alert","override_block")][System.String[]]$Section = @("allow","alert","block","override_allow","override_alert","override_block"),
+		[ValidateSet("allow","alert","block","override","override_allow","override_alert","override_block")][System.String[]]$Section = @("allow","alert","block"),
 
 		[ValidateSet("TCP","UDP")][System.Array]$Protocol = @("TCP","UDP"),
 
@@ -70,7 +70,7 @@ function Get-GCPolicy {
 
 		[ValidateRange(0,1000)][Int32]$Limit = 20,
 
-		[ValidateRange(0,500000)][Int32]$Offset,
+		[ValidateRange(0,500000)][Int32]$Offset = 0,
 
 		[Switch]$Raw,
 
