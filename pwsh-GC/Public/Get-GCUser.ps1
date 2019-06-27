@@ -1,35 +1,38 @@
 function Get-GCUser {
-	[cmdletbinding()]
+    [cmdletbinding()]
 
-	param (
-		[String[]]$Name,
+    param (
+        [String[]]
+        $Name,
 
-		[Switch]$Raw,
+        [Switch]
+        $Raw,
 
-		[PSTypeName("GCApiKey")]$ApiKey
-	)
+        [PSTypeName("GCApiKey")]
+        $ApiKey
+    )
 
-	if (GCApiKey-present $ApiKey) {
-		if ($ApiKey) {
-			$Key = $ApiKey
-		} else {
-			$Key = $global:GCApiKey
-		} 
-		$Uri = "/system/users"
-	}
+    if ( GCApiKey-present $ApiKey ) {
+        if ( $ApiKey ) {
+            $Key = $ApiKey
+        } else {
+            $Key = $global:GCApiKey
+        } 
+        $Uri = "/system/users"
+    }
 
-	foreach ( $ThisName in $Name ) {
-		$Body = @{
-			username = $ThisName
-		}
+    foreach ( $ThisName in $Name ) {
+        $Body = @{
+            username = $ThisName
+        }
 
-		$RequestBody = Remove-EmptyKeys $Body
-	
-		if ( $Raw ) {
-			pwsh-gc-get-request -Raw -Uri $Uri -Body $RequestBody -ApiKey $Key
-		} else {
-			pwsh-gc-get-request -Uri $Uri -Body $RequestBody -ApiKey $Key | foreach {$_.PSTypeNames.Clear(); $_.PSTypeNames.Add("GCUser"); $_}
-			
-		}
-	}
+        $RequestBody = Remove-EmptyKeys $Body
+    
+        if ( $Raw ) {
+            pwsh-gc-get-request -Raw -Uri $Uri -Body $RequestBody -ApiKey $Key
+        } else {
+            pwsh-gc-get-request -Uri $Uri -Body $RequestBody -ApiKey $Key | foreach {$_.PSTypeNames.Clear(); $_.PSTypeNames.Add("GCUser"); $_}
+            
+        }
+    }
 }
