@@ -1,31 +1,36 @@
 function New-GCBlankLabel {
-	[cmdletbinding()]
+    [cmdletbinding(SupportsShouldProcess)]
 
-	param (
-		[Parameter(Mandatory)]
-		[String]$LabelKey,
+    param (
+        [Parameter(Mandatory)]
+        [String]
+        $LabelKey,
 
-		[Parameter(Mandatory)]
-		[String]$LabelValue,
+        [Parameter(Mandatory)]
+        [String]
+        $LabelValue,
 
-		[PSTypeName("GCApiKey")]$ApiKey
-	)
+        [PSTypeName("GCApiKey")]
+        $ApiKey
+    )
 
-	if ( GCApiKey-present $ApiKey ) {
-		if ( $ApiKey ) {
-			$Key = $ApiKey
-		} else {
-			$Key = $global:GCApiKey
-		} 
-		$Uri = "/visibility/labels"
-	}
+    if ( GCApiKey-present $ApiKey ) {
+        if ( $ApiKey ) {
+            $Key = $ApiKey
+        } else {
+            $Key = $global:GCApiKey
+        } 
+        $Uri = "/visibility/labels"
+    }
 
-	$Body = [PSCustomObject]@{
-		id = $null
-		key = $LabelKey
-		value = $LabelValue
-		criteria = @()
-	}
+    $Body = [PSCustomObject]@{
+        id = $null
+        key = $LabelKey
+        value = $LabelValue
+        criteria = @()
+    }
 
-	pwsh-GC-post-request -Raw -Uri $Uri -Body $Body -ApiKey $Key
+    if ( $PSCmdlet.ShouldProcess($Body,"pwsh-GC-post-request on $Uri with $Key") ) {
+        pwsh-GC-post-request -Raw -Uri $Uri -Body $Body -ApiKey $Key
+    }
 }

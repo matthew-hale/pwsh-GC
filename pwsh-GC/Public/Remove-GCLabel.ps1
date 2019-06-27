@@ -1,28 +1,30 @@
-#Encapsulates the "DELETE visibility/labels/{labelid}" API call (for deletion)
-
 function Remove-GCLabel {
-	
-	[CmdletBinding()]
-	param (
-		[Parameter(ValueFromPipeline)]
-		[PSTypeName("GCLabel")]$Label,
+    [CmdletBinding(SupportsShouldProcess)]
 
-		[PSTypeName("GCApiKey")]$ApiKey
-	)
-	begin {
-		if ( GCApiKey-present $ApiKey ) {
-			if ( $ApiKey ) {
-				$Key = $ApiKey
-			} else {
-				$Key = $global:GCApiKey
-			} 
-		}
-	}
-	process {
-		foreach ($ThisLabel in $Label) {
-			$Uri = "/visibility/labels/" + $ThisLabel.id
-			pwsh-GC-delete-request -Uri $Uri -ApiKey $Key
-		}
-	}
+    param (
+        [Parameter(ValueFromPipeline)]
+        [PSTypeName("GCLabel")]
+        $Label,
+
+        [PSTypeName("GCApiKey")]
+        $ApiKey
+    )
+    begin {
+        if ( GCApiKey-present $ApiKey ) {
+            if ( $ApiKey ) {
+                $Key = $ApiKey
+            } else {
+                $Key = $global:GCApiKey
+            } 
+        }
+    }
+    process {
+        foreach ($ThisLabel in $Label) {
+            $Uri = "/visibility/labels/" + $ThisLabel.id
+            if ( $PSCmdlet.ShouldProcess($ThisLabel, "pwsh-GC-delete-request -Uri $Uri -ApiKey $Key") ) {
+                pwsh-GC-delete-request -Uri $Uri -ApiKey $Key
+            }
+        }
+    }
 }
 

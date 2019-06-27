@@ -1,53 +1,63 @@
 function New-GCUser {
-	[cmdletbinding()]
+    [cmdletbinding(SupportsShouldProcess)]
 
-	param (
-		[Parameter(Mandatory)]
-		[String]$Name,
+    param (
+        [Parameter(Mandatory)]
+        [String]
+        $Name,
 
-		[String]$Description,
+        [String]
+        $Description,
 
-		[Parameter(Mandatory)]
-		[String]$Email,
+        [Parameter(Mandatory)]
+        [String]
+        $Email,
 
-		[Parameter(Mandatory)]
-		[String[]]$Permissions,
+        [Parameter(Mandatory)]
+        [String[]]
+        $Permissions,
 
-		[Switch]$TwoFactor,
+        [Switch]
+        $TwoFactor,
 
-		[Parameter(Mandatory)]
-		[String]$Password,
+        [Parameter(Mandatory)]
+        [String]
+        $Password,
 
-		[Switch]$IncidentPasswordAccess,
+        [Switch]
+        $IncidentPasswordAccess,
 
-		[PSTypeName("GCApiKey")]$ApiKey
-	)
+        [PSTypeName("GCApiKey")]
+        $ApiKey
+    )
 
-	if ( GCApiKey-present $ApiKey ) {
-		if ( $ApiKey ) {
-			$Key = $ApiKey
-		} else {
-			$Key = $global:GCApiKey
-		} 
-		$Uri = "/system/user"
-	}
+    if ( GCApiKey-present $ApiKey ) {
+        if ( $ApiKey ) {
+            $Key = $ApiKey
+        } else {
+            $Key = $global:GCApiKey
+        } 
+        $Uri = "/system/user"
+    }
 
-	if ( -not $Description ) {
-		$Description = "Created by the API"
-	}
+    if ( -not $Description ) {
+        $Description = "Created by the API"
+    }
 
-	$Body = [PSCustomObject]@{
-		action = "create"
-		can_access_passwords = $IncidentPasswordAccess.IsPresent
-		description = $Description
-		email = $Email
-		password = $Password
-		password_confirm = $Password
-		permission_scheme_ids = @($Permissions)
-		two_factor_auth_enabled = $TwoFactor.IsPresent
-		username = $Name
-	}
+    $Body = [PSCustomObject]@{
+        action = "create"
+        can_access_passwords = $IncidentPasswordAccess.IsPresent
+        description = $Description
+        email = $Email
+        password = $Password
+        password_confirm = $Password
+        permission_scheme_ids = @($Permissions)
+        two_factor_auth_enabled = $TwoFactor.IsPresent
+        username = $Name
+    }
 
-	pwsh-gc-post-request -Raw -Uri $Uri -Body $Body -ApiKey $Key
+    if ( $PSCmdlet.ShouldProcess($Body, "pwsh-gc-post-request -Raw -Uri $Uri -ApiKey $Key") ) {
+        pwsh-gc-post-request -Raw -Uri $Uri -Body $Body -ApiKey $Key
+    }
 }
 

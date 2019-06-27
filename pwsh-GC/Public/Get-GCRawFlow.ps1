@@ -1,169 +1,186 @@
 function Get-GCRawFlow {
-	
-	[cmdletbinding()]
-	param (
-		[DateTime]$StartTime,
+    
+    [cmdletbinding()]
+    param (
+        [DateTime]
+        $StartTime,
 
-		[DateTime]$EndTime,
+        [DateTime]
+        $EndTime,
 
-		[System.Array]$SourceProcess,
+        [System.Array]
+        $SourceProcess,
 
-		[System.Array]$DestinationProcess,
+        [System.Array]
+        $DestinationProcess,
 
-		[System.Array]$AnySideProcess,
+        [System.Array]
+        $AnySideProcess,
 
-		[System.Array]$SourceAsset,
+        [System.Array]
+        $SourceAsset,
 
-		[System.Array]$DestinationAsset,
+        [System.Array]
+        $DestinationAsset,
 
-		[System.Array]$AnySideAsset,
+        [System.Array]
+        $AnySideAsset,
 
-		[System.Array]$SourceLabel,
+        [System.Array]
+        $SourceLabel,
 
-		[System.Array]$DestinationLabel,
+        [System.Array]
+        $DestinationLabel,
 
-		[System.Array]$AnySideLabel,
+        [System.Array]
+        $AnySideLabel,
 
-		[Switch]$SourceInternet,
+        [Switch]
+        $SourceInternet,
 
-		[Switch]$DestinationInternet,
+        [Switch]
+        $DestinationInternet,
 
-		[Int32]$Limit = 20,
+        [Int32]
+        $Limit = 20,
 
-		[Int32]$Offset,
+        [Int32]
+        $Offset,
 
-		[Switch]$Raw,
+        [Switch]
+        $Raw,
 
-		[PSTypeName("GCApiKey")]$ApiKey
-	)
+        [PSTypeName("GCApiKey")]
+        $ApiKey
+    )
 
-	if ( GCApiKey-present $ApiKey ) {
-		if ( $ApiKey ) {
-			$Key = $ApiKey
-		} else {
-			$Key = $global:GCApiKey
-		} 
-		$Uri = "/connections?sort=slot_start_time"
-	}
+    if ( GCApiKey-present $ApiKey ) {
+        if ( $ApiKey ) {
+            $Key = $ApiKey
+        } else {
+            $Key = $global:GCApiKey
+        } 
+        $Uri = "/connections?sort=slot_start_time"
+    }
 
-	# Handling default time values
+    # Handling default time values
 
-	if ( -not $StartTime ) {
-		$StartTime = $(Get-Date).AddHours(-1)
-	}
+    if ( -not $StartTime ) {
+        $StartTime = $(Get-Date).AddHours(-1)
+    }
 
-	if ( -not $EndTime ) {
-		$EndTime = Get-Date
-	}
+    if ( -not $EndTime ) {
+        $EndTime = Get-Date
+    }
 
-	# Building the request body
+    # Building the request body
 
 
-	$Body = @{
-		from_time = (ConvertTo-GCUnixTime $StartTime)
-		to_time = (ConvertTo-GCUnixTime $EndTime)
-		offset = $Offset
-		limit = $Limit
-	}
+    $Body = @{
+        from_time = (ConvertTo-GCUnixTime $StartTime)
+        to_time = (ConvertTo-GCUnixTime $EndTime)
+        offset = $Offset
+        limit = $Limit
+    }
 
-	# Removing empty keys
+    # Removing empty keys
 
-	$RequestBody = Remove-EmptyKeys $Body
+    $RequestBody = Remove-EmptyKeys $Body
 
-	# Legacy URI building
+    # Legacy URI building
 
-	### Source ###
+    ### Source ###
 
-	if ($SourceProcess -or $SourceAsset -or $SourceLabel -or $PSBoundParameters.ContainsKey("SourceInternat")) {
-		$Uri += "&source="
-	}
+    if ( $SourceProcess -or $SourceAsset -or $SourceLabel -or $PSBoundParameters.ContainsKey("SourceInternat") ) {
+        $Uri += "&source="
+    }
 
-	if ($SourceInternet -eq $true) {
-		$Uri += "address_classification:Internet"
-	} elseif ($PSBoundParameters.ContainsKey("SourceInternet") -and ($SourceInternet -eq $false) ) {
-		$Uri += "address_classification:Private"
-	}
+    if ( $SourceInternet -eq $true ) {
+        $Uri += "address_classification:Internet"
+    } elseif ( $PSBoundParameters.ContainsKey("SourceInternet") -and ($SourceInternet -eq $false) ) {
+        $Uri += "address_classification:Private"
+    }
 
-	if ($SourceProcess) {
-		$Uri += "processes:"
-		$Uri += $SourceProcess -Join ","
-	}
+    if ( $SourceProcess ) {
+        $Uri += "processes:"
+        $Uri += $SourceProcess -Join ","
+    }
 
-	if ($SourceAsset) {
-		$Uri += "assets:"
-		$Uri += $SourceAsset.id -Join ","
-	}
+    if ( $SourceAsset ) {
+        $Uri += "assets:"
+        $Uri += $SourceAsset.id -Join ","
+    }
 
-	if ($SourceLabel) { #2D array; outer group is OR, inner groups are AND
-		$Uri += "labels:"
-		foreach ($Group in $SourceLabel) {
-			$Uri += $Group.id -Join ">"
-			$Uri += "|"
-		}
+    if ( $SourceLabel ) { #2D array; outer group is OR, inner groups are AND
+        $Uri += "labels:"
+        foreach ($Group in $SourceLabel) {
+            $Uri += $Group.id -Join ">"
+            $Uri += "|"
+        }
 
-		$Uri = $Uri.SubString(0,$Uri.Length-1) #Removing last "|"
-	}
+        $Uri = $Uri.SubString(0,$Uri.Length-1) #Removing last "|"
+    }
 
-	### Destination ###
+    ### Destination ###
 
-	if ($DestinationProcess -or $DestinationAsset -or $DestinationLabel -or $PSBoundParameters.ContainsKey("DestinationInternet")) {
-		$Uri += "&destination="
-	}
+    if ( $DestinationProcess -or $DestinationAsset -or $DestinationLabel -or $PSBoundParameters.ContainsKey("DestinationInternet") ) {
+        $Uri += "&destination="
+    }
 
-	if ($DestinationInternet -eq $true) {
-		$Uri += "address_classification:Internet"
-	} elseif ($PSBoundParameters.ContainsKey("DestinationInternet") -and ($DestinationInternet -eq $false) ) {
-		$Uri += "address_classification:Private"
-	}
+    if ( $DestinationInternet -eq $true ) {
+        $Uri += "address_classification:Internet"
+    } elseif ( $PSBoundParameters.ContainsKey("DestinationInternet") -and ($DestinationInternet -eq $false) ) {
+        $Uri += "address_classification:Private"
+    }
 
-	if ($DestinationProcess) {
-		$Uri += "processes:"
-		$Uri += $DestinationProcess -Join ","
-	}
+    if ( $DestinationProcess ) {
+        $Uri += "processes:"
+        $Uri += $DestinationProcess -Join ","
+    }
 
-	if ($DestinationAsset) {
-		$Uri += "assets:"
-		$Uri += $DestinationAsset.id -Join ","
-	}
+    if ( $DestinationAsset ) {
+        $Uri += "assets:"
+        $Uri += $DestinationAsset.id -Join ","
+    }
 
-	if ($DestinationLabel) {
-		$Uri += "labels:"
-		foreach ($Group in $DestinationLabel) {
-			$Uri += $Group.id -Join ">"
-			$Uri += "|"
-		}
+    if ( $DestinationLabel ) {
+        $Uri += "labels:"
+        foreach ($Group in $DestinationLabel) {
+            $Uri += $Group.id -Join ">"
+            $Uri += "|"
+        }
 
-		$Uri = $Uri.SubString(0,$Uri.Length-1) #Removing last "|"
-	}
+        $Uri = $Uri.SubString(0,$Uri.Length-1) #Removing last "|"
+    }
 
-	### Any Side ###
+    ### Any Side ###
 
-	if ($AnySideProcess -or $AnySideAsset -or $AnySideLabel) {
-		$Uri += "&any_side="
-	}
+    if ( $AnySideProcess -or $AnySideAsset -or $AnySideLabel ) {
+        $Uri += "&any_side="
+    }
 
-	if ($AnySideProcess) {
-		$Uri += "processes:"
-		$Uri += $AnySideProcess -Join ","
-	}
+    if ( $AnySideProcess ) {
+        $Uri += "processes:"
+        $Uri += $AnySideProcess -Join ","
+    }
 
-	if ($AnySideAsset) {
-		$Uri += "assets:"
-		$Uri += $AnySideAsset.id -Join ","
-	}
+    if ( $AnySideAsset ) {
+        $Uri += "assets:"
+        $Uri += $AnySideAsset.id -Join ","
+    }
 
-	if ($AnySideLabel) {
-		$Uri += "labels:"
-		foreach ($Group in $AnySideLabel) {
-			$Uri += $Group.id -Join ">"
-			$Uri += "|"
-		}
-		$Uri = $Uri.SubString(0,$Uri.Length-1) #Removing last "|"
-	}
+    if ( $AnySideLabel ) {
+        $Uri += "labels:"
+        foreach ($Group in $AnySideLabel) {
+            $Uri += $Group.id -Join ">"
+            $Uri += "|"
+        }
+        $Uri = $Uri.SubString(0,$Uri.Length-1) #Removing last "|"
+    }
 
-	if ( $Raw ) {
-		pwsh-GC-get-request -Raw -Uri $Uri -Body $RequestBody -ApiKey $Key
-	} else {
-		pwsh-GC-get-request -Uri $Uri -Body $RequestBody -ApiKey $Key | foreach {$_.PSTypeNames.Clear(); $_.PSTypeNames.Add("GCRawFlow"); $_}
-	}
+    if ( $Raw ) {
+        pwsh-GC-get-request -Raw -Uri $Uri -Body $RequestBody -ApiKey $Key
+    } else {
+        pwsh-GC-get-request -Uri $Uri -Body $RequestBody -ApiKey $Key | foreach {$_.PSTypeNames.Clear(); $_.PSTypeNames.Add("GCRawFlow"); $_}
+    }
 }
