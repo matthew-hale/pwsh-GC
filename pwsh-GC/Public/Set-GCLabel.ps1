@@ -1,6 +1,6 @@
 function Set-GCLabel {
-    
-    [CmdletBinding()]
+    [CmdletBinding(SupportsShouldProcess)]
+
     param(
         [Parameter(ValueFromPipeline)]
         [PSTypeName("GCLabel")]
@@ -22,7 +22,9 @@ function Set-GCLabel {
             $Uri = "/visibility/labels/" + $ThisLabel.id
             $RequestBody = $ThisLabel | select -ExcludeProperty id,_id
 
-            pwsh-GC-post-request -Raw -Uri $Uri -Body $RequestBody -Method Put -ApiKey $Key
+            if ( $PSCmdlet.ShouldProcess($ThisLabel, "pwsh-GC-post-request -Raw -Uri $Uri -Method Put -ApiKey $Key") ) {
+                pwsh-GC-post-request -Raw -Uri $Uri -Body $RequestBody -Method Put -ApiKey $Key
+            }
         }
     }
 }

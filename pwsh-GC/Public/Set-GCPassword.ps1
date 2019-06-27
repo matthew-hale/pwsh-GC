@@ -1,5 +1,5 @@
 function Set-GCPassword {
-    [cmdletbinding()]
+    [cmdletbinding(SupportsShouldProcess)]
 
     param(
         [Parameter(ValueFromPipeline)]
@@ -34,7 +34,9 @@ function Set-GCPassword {
             $RequestUser | Add-Member -MemberType NoteProperty -Name "password_confirm" -Value $Password
             $RequestBody = $RequestUser | Select-Object -Property action,can_access_passwords,description,email,id,permission_scheme_ids,two_factor_auth_enabled,username,password,password_confirm
 
-            pwsh-GC-post-request -Raw -Uri $Uri -Body $RequestBody -Method Post -ApiKey $Key
+            if ( $PSCmdlet.ShouldProcess($ThisUser.username,"pwsh-GC-post-request -Raw -Uri $Uri -Method Post -ApiKey $Key") ) {
+                pwsh-GC-post-request -Raw -Uri $Uri -Body $RequestBody -Method Post -ApiKey $Key
+            }
         }
     }
 }

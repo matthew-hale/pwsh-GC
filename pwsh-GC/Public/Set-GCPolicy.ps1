@@ -1,6 +1,6 @@
 function Set-GCPolicy {
-    
-    [CmdletBinding()]
+    [CmdletBinding(SupportsShouldProcess)]
+
     param (
         [Parameter(ValueFromPipeline)]
         [PSTypeName("GCPolicy")]
@@ -51,7 +51,9 @@ function Set-GCPolicy {
             
             $RequestBody = $PCopy
 
-            pwsh-GC-post-request -Raw -Uri $Uri -Body $RequestBody -Method Put -ApiKey $Key
+            if ( $PSCmdlet.ShouldProcess($RequestBody,"pwsh-GC-post-request -Raw -Uri $Uri -Method Put -ApiKey $Key") ) {
+                pwsh-GC-post-request -Raw -Uri $Uri -Body $RequestBody -Method Put -ApiKey $Key
+            }
         }
     }
 }
