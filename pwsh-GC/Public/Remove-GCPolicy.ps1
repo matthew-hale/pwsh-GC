@@ -1,11 +1,13 @@
 function Remove-GCPolicy {
-    
-    [CmdletBinding()]
+    [CmdletBinding(SupportsShouldProcess)]
+
     param (
         [Parameter(ValueFromPipeline)]
-        [System.Array]$Policy,
+        [System.Array]
+        $Policy,
 
-        [PSTypeName("GCApiKey")]$ApiKey
+        [PSTypeName("GCApiKey")]
+        $ApiKey
     )
     begin {
         if ( GCApiKey-present $ApiKey ) {
@@ -24,7 +26,9 @@ function Remove-GCPolicy {
         foreach ($ThisPolicy in $Policy) {
             $Uri = "/visibility/policy/rules/" + $ThisPolicy.id
             
-            pwsh-GC-post-request -Raw -Uri $Uri -Body $Body -ApiKey $Key
+            if ( $PSCmdlet.ShouldProcess($ThisPolicy, "pwsh-GC-post-request -Raw -Uri $Uri -Body $Body -ApiKey $Key") ) {
+                pwsh-GC-post-request -Raw -Uri $Uri -Body $Body -ApiKey $Key
+            }
         }
     }
 }

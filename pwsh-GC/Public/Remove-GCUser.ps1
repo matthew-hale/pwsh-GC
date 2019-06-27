@@ -1,5 +1,5 @@
 function Remove-GCUser {
-    [cmdletbinding()]
+    [cmdletbinding(SupportShouldProcess)]
 
     param (
         [Parameter(ValueFromPipelineByPropertyName)]
@@ -14,8 +14,8 @@ function Remove-GCUser {
     )
 
     begin {
-        if (GCApiKey-present $ApiKey) {
-            if ($ApiKey) {
+        if ( GCApiKey-present $ApiKey ) {
+            if ( $ApiKey ) {
                 $Key = $ApiKey
             } else {
                 $Key = $global:GCApiKey
@@ -32,7 +32,9 @@ function Remove-GCUser {
                 username = $ThisUser
             }
 
-            pwsh-gc-post-request -Uri $Uri -Body $Body -ApiKey $Key -Raw:$Raw.IsPresent
+            if ( $PSCmdlet.ShouldProcess($ThisUser, "pwsh-gc-post-request -Uri $Uri -Body $Body -ApiKey $Key -Raw:$Raw.IsPresent") ) {
+                pwsh-gc-post-request -Uri $Uri -Body $Body -ApiKey $Key -Raw:$Raw.IsPresent
+            }
         }
     }
 }

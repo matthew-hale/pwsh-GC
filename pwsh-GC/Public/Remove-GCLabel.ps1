@@ -1,6 +1,6 @@
 function Remove-GCLabel {
-    
-    [CmdletBinding()]
+    [CmdletBinding(SupportsShouldProcess)]
+
     param (
         [Parameter(ValueFromPipeline)]
         [PSTypeName("GCLabel")]
@@ -21,7 +21,9 @@ function Remove-GCLabel {
     process {
         foreach ($ThisLabel in $Label) {
             $Uri = "/visibility/labels/" + $ThisLabel.id
-            pwsh-GC-delete-request -Uri $Uri -ApiKey $Key
+            if ( $PSCmdlet.ShouldProcess($ThisLabel, "pwsh-GC-delete-request -Uri $Uri -ApiKey $Key") ) {
+                pwsh-GC-delete-request -Uri $Uri -ApiKey $Key
+            }
         }
     }
 }

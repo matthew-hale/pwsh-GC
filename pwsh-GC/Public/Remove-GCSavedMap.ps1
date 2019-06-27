@@ -1,6 +1,6 @@
 function Remove-GCSavedMap {
-    
-    [CmdletBinding()]
+    [CmdletBinding(SupportsShouldProcess)]
+
     param (
         [Parameter(ValueFromPipeline)]
         [PSTypeName("GCSavedMap")]
@@ -26,7 +26,9 @@ function Remove-GCSavedMap {
         foreach ($ThisMap in $Map) {
             $Uri = "/visibility/saved-maps/" + $ThisMap.id
             
-            pwsh-GC-post-request -Raw -Uri $Uri -Body $Body -ApiKey $Key
+            if ( $PSCmdlet.ShouldProcess($ThisMap, "pwsh-GC-post-request -Raw -Uri $Uri -Body $Body -ApiKey $Key") ) {
+                pwsh-GC-post-request -Raw -Uri $Uri -Body $Body -ApiKey $Key
+            }
         }
     }
 }
