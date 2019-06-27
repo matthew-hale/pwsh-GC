@@ -1,5 +1,5 @@
 function New-GCBulkStaticLabel {
-    [CmdletBinding()]
+    [CmdletBinding(SupportsShouldProcess)]
 
     param (
         [Parameter(Mandatory=$true)]
@@ -53,5 +53,7 @@ function New-GCBulkStaticLabel {
     }
 
     # Now we can make the API call
-    $Labels | New-GCBulkStaticLabelPrivate -ApiKey $ApiKey
+    if ( $PSCmdlet.ShouldProcess($Labels, "New-BulkStaticLabelPrivate -ApiKey $ApiKey") ) {
+        $Labels | New-GCBulkStaticLabelPrivate -ApiKey $ApiKey
+    }
 }

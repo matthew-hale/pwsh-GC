@@ -1,5 +1,5 @@
 function New-GCUser {
-    [cmdletbinding()]
+    [cmdletbinding(SupportsShouldProcess)]
 
     param (
         [Parameter(Mandatory)]
@@ -56,6 +56,8 @@ function New-GCUser {
         username = $Name
     }
 
-    pwsh-gc-post-request -Raw -Uri $Uri -Body $Body -ApiKey $Key
+    if ( $PSCmdlet.ShouldProcess($Body, "pwsh-gc-post-request -Raw -Uri $Uri -ApiKey $Key") ) {
+        pwsh-gc-post-request -Raw -Uri $Uri -Body $Body -ApiKey $Key
+    }
 }
 

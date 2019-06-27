@@ -1,6 +1,6 @@
 function New-GCPolicy {
 
-    [CmdletBinding()]
+    [CmdletBinding(SupportsShouldProcess)]
     param (
         [Parameter(Mandatory=$true)]
         [ValidateSet("allow","alert","block","override_allow","override_alert","override_block")]
@@ -237,5 +237,7 @@ function New-GCPolicy {
         $Body.rule | Add-Member -MemberType NoteProperty -Name ruleset_name -Value $Ruleset
     }
     
-    pwsh-GC-post-request -Raw -Uri $Uri -Body $Body -ApiKey $Key
+    if ( $PSCmdlet.ShouldProcess($Body, "pwsh-GC-post-request -Raw -Uri $Uri -ApiKey $Key") ) {
+        pwsh-GC-post-request -Raw -Uri $Uri -Body $Body -ApiKey $Key
+    }
 }

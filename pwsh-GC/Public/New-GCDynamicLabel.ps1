@@ -1,6 +1,6 @@
 function New-GCDynamicLabel {
 
-    [CmdletBinding()]
+    [CmdletBinding(SupportsShouldProcess)]
     param (
         [System.String]
         $LabelKey,
@@ -61,6 +61,8 @@ function New-GCDynamicLabel {
         }
     }
     end {
-        pwsh-GC-get-request -Raw -Uri $Uri -Body $RequestBody -ApiKey $Key
+        if ( $PSCmdlet.ShouldProcess($RequestBody, "pwsh-GC-get-request -Raw -Uri $Uri -ApiKey $Key") ) {
+            pwsh-GC-get-request -Raw -Uri $Uri -Body $RequestBody -ApiKey $Key
+        }
     }
 }

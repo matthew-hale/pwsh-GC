@@ -1,5 +1,3 @@
-# POST /visibility/saved-maps
-
 function New-GCSavedMap{
     
     [CmdletBinding()]
@@ -108,5 +106,7 @@ function New-GCSavedMap{
         $Body.end_time_filter = $End
     }
 
-    pwsh-GC-post-request -Raw -Uri $Uri -Body $Body -ApiKey $Key
+    if ( $PSCmdlet.ShouldProcess($Body, "pwsh-GC-post-request -Raw -Uri $Uri -ApiKey $Key") ) {
+        pwsh-GC-post-request -Raw -Uri $Uri -Body $Body -ApiKey $Key
+    }
 }
