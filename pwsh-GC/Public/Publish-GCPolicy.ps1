@@ -1,14 +1,16 @@
 function Publish-GCPolicy {
-    
-    [CmdletBinding()]
+    [CmdletBinding(SupportsShouldProcess)]
+
     param(
         [Parameter(Mandatory)]
         [System.String]
         $Comments,
 
-        [Switch]$Audit,
+        [Switch]
+        $Audit,
 
-        [PSTypeName("GCApiKey")]$ApiKey
+        [PSTypeName("GCApiKey")]
+        $ApiKey
     )
 
     if ( GCApiKey-present $ApiKey ) {
@@ -27,6 +29,8 @@ function Publish-GCPolicy {
         comments = $Comments
     }
     
-    pwsh-GC-post-request -Raw -Uri $Uri -Body $Body -ApiKey $Key
+    if ( $PSCmdlet.ShouldProcess($Body, "pwsh-GC-post-request -Raw -Uri $Uri -ApiKey $Key") ) {
+        pwsh-GC-post-request -Raw -Uri $Uri -Body $Body -ApiKey $Key
+    }
 }
 
