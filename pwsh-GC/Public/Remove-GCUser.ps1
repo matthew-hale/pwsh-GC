@@ -1,35 +1,38 @@
 function Remove-GCUser {
-	[cmdletbinding()]
+    [cmdletbinding()]
 
-	param (
-		[Parameter(ValueFromPipelineByPropertyName)]
-		[String[]]$username,
+    param (
+        [Parameter(ValueFromPipelineByPropertyName)]
+        [String[]]
+        $username,
 
-		[Switch]$Raw,
+        [Switch]
+        $Raw,
 
-		[PSTypeName("GCApiKey")]$ApiKey
-	)
+        [PSTypeName("GCApiKey")]
+        $ApiKey
+    )
 
-	begin {
-		if (GCApiKey-present $ApiKey) {
-			if ($ApiKey) {
-				$Key = $ApiKey
-			} else {
-				$Key = $global:GCApiKey
-			} 
-			$Uri = "/system/user"
-		}
-	}
+    begin {
+        if (GCApiKey-present $ApiKey) {
+            if ($ApiKey) {
+                $Key = $ApiKey
+            } else {
+                $Key = $global:GCApiKey
+            } 
+            $Uri = "/system/user"
+        }
+    }
 
-	process {
-		foreach ( $ThisUser in $Username ) {
-			$Body = [PSCustomObject]@{
-				action = "delete"
-				confirm = $true
-				username = $ThisUser
-			}
+    process {
+        foreach ( $ThisUser in $Username ) {
+            $Body = [PSCustomObject]@{
+                action = "delete"
+                confirm = $true
+                username = $ThisUser
+            }
 
-			pwsh-gc-post-request -Uri $Uri -Body $Body -ApiKey $Key -Raw:$Raw.IsPresent
-		}
-	}
+            pwsh-gc-post-request -Uri $Uri -Body $Body -ApiKey $Key -Raw:$Raw.IsPresent
+        }
+    }
 }
