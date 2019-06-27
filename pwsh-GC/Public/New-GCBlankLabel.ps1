@@ -1,14 +1,17 @@
 function New-GCBlankLabel {
-	[cmdletbinding()]
+	[cmdletbinding(SupportsShouldProcess)]
 
 	param (
 		[Parameter(Mandatory)]
-		[String]$LabelKey,
+		[String]
+        $LabelKey,
 
 		[Parameter(Mandatory)]
-		[String]$LabelValue,
+		[String]
+        $LabelValue,
 
-		[PSTypeName("GCApiKey")]$ApiKey
+		[PSTypeName("GCApiKey")]
+        $ApiKey
 	)
 
 	if ( GCApiKey-present $ApiKey ) {
@@ -27,5 +30,7 @@ function New-GCBlankLabel {
 		criteria = @()
 	}
 
-	pwsh-GC-post-request -Raw -Uri $Uri -Body $Body -ApiKey $Key
+    if ( $PSCmdlet.ShouldProcess($Body,"pwsh-GC-post-request on $Uri with $Key") ) {
+	    pwsh-GC-post-request -Raw -Uri $Uri -Body $Body -ApiKey $Key
+    }
 }
