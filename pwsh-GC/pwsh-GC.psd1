@@ -33,7 +33,7 @@ Copyright = '(c) Matthew Hale. All rights reserved.'
 Description = 'A collection of Powershell Core modules and scripts for GuardiCore Centra administration and management.'
 
 # Minimum version of the PowerShell engine required by this module
-PowerShellVersion = '6.1'
+PowerShellVersion = '6.0'
 
 # Name of the PowerShell host required by this module
 # PowerShellHostName = ''
