@@ -5,19 +5,21 @@ A collection of Powershell Core functions and scripts for GuardiCore Centra admi
 The pwsh-GC module is essentially a wrapper for GuardiCore's management server API. It also contains functions that help in using the API, such as ConvertTo/ConvertFrom-GCUnixTime, Get-GCFlowTotal, etc. The other scripts in this repository are used when working with data from the API - for example, Copy-GCLabel.ps1 can copy an existing label to a new one. The module is written for PowerShell Core (PS 6.x); you will need to install PowerShell Core in order to use this module.
 
 ## Installation
-
-### PowerShellGet
 Install PowerShell Core from the PowerShell github repository, here:\
 https://github.com/powershell/powershell \
-Then instal the pwsh-GC module with PowerShellGet:
+
+### PowerShellGet
+pwsh-GC is available on the PowerShell Gallery, and can thus be installed using PowerShellGet.
+
+Install the pwsh-GC module with PowerShellGet:
 ```PowerShell
 Install-Module pwsh-GC
 ```
 
 ### Manual
-Install PowerShell Core from the PowerShell github repository, here:\
-https://github.com/powershell/powershell \
-Then download/clone the pwsh-GC repository, and import the module:
+To manually use the module, you can simply import the module file directly.
+
+Download/clone the pwsh-GC repository, and import the module:
 ```PowerShell
 Import-Module ./pwsh-GC.psd1.
 ```
