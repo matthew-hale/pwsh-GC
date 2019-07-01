@@ -30,7 +30,8 @@ function New-GCBlankLabel {
         criteria = @()
     }
 
-    if ( $PSCmdlet.ShouldProcess($Body,"pwsh-GC-post-request on $Uri with $Key") ) {
+    $Should = $Body.key + ": " + $Body.value
+    if ( $PSCmdlet.ShouldProcess($Should,"pwsh-GC-post-request on $Uri with $Key") ) {
         pwsh-GC-post-request -Raw -Uri $Uri -Body $Body -ApiKey $Key
     }
 }

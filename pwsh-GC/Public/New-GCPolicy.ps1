@@ -237,7 +237,8 @@ function New-GCPolicy {
         $Body.rule | Add-Member -MemberType NoteProperty -Name ruleset_name -Value $Ruleset
     }
     
-    if ( $PSCmdlet.ShouldProcess($Body, "pwsh-GC-post-request -Raw -Uri $Uri -ApiKey $Key") ) {
+    $Should = $Ruleset
+    if ( $PSCmdlet.ShouldProcess($Should, "pwsh-GC-post-request -Raw -Uri $Uri -ApiKey $Key") ) {
         pwsh-GC-post-request -Raw -Uri $Uri -Body $Body -ApiKey $Key
     }
 }

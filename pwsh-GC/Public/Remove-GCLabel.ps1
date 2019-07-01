@@ -21,7 +21,8 @@ function Remove-GCLabel {
     process {
         foreach ($ThisLabel in $Label) {
             $Uri = "/visibility/labels/" + $ThisLabel.id
-            if ( $PSCmdlet.ShouldProcess($ThisLabel, "pwsh-GC-delete-request -Uri $Uri -ApiKey $Key") ) {
+            $Should = $Uri
+            if ( $PSCmdlet.ShouldProcess($Should, "pwsh-GC-delete-request -Uri $Uri -ApiKey $Key") ) {
                 pwsh-GC-delete-request -Uri $Uri -ApiKey $Key
             }
         }

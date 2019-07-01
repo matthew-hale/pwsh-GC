@@ -56,7 +56,8 @@ function New-GCUser {
         username = $Name
     }
 
-    if ( $PSCmdlet.ShouldProcess($Body, "pwsh-gc-post-request -Raw -Uri $Uri -ApiKey $Key") ) {
+    $Should = $Name
+    if ( $PSCmdlet.ShouldProcess($Should, "pwsh-gc-post-request -Raw -Uri $Uri -ApiKey $Key") ) {
         pwsh-gc-post-request -Raw -Uri $Uri -Body $Body -ApiKey $Key
     }
 }

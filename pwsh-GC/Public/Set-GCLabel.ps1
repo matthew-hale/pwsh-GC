@@ -22,7 +22,8 @@ function Set-GCLabel {
             $Uri = "/visibility/labels/" + $ThisLabel.id
             $RequestBody = $ThisLabel | select -ExcludeProperty id,_id
 
-            if ( $PSCmdlet.ShouldProcess($ThisLabel, "pwsh-GC-post-request -Raw -Uri $Uri -Method Put -ApiKey $Key") ) {
+            $Should = $Uri
+            if ( $PSCmdlet.ShouldProcess($Should, "pwsh-GC-post-request -Raw -Uri $Uri -Method Put -ApiKey $Key") ) {
                 pwsh-GC-post-request -Raw -Uri $Uri -Body $RequestBody -Method Put -ApiKey $Key
             }
         }

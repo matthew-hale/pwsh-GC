@@ -26,7 +26,8 @@ function Remove-GCSavedMap {
         foreach ($ThisMap in $Map) {
             $Uri = "/visibility/saved-maps/" + $ThisMap.id
             
-            if ( $PSCmdlet.ShouldProcess($ThisMap, "pwsh-GC-post-request -Raw -Uri $Uri -Body $Body -ApiKey $Key") ) {
+            $Should = $Uri
+            if ( $PSCmdlet.ShouldProcess($Should, "pwsh-GC-post-request -Raw -Uri $Uri -Body $Body -ApiKey $Key") ) {
                 pwsh-GC-post-request -Raw -Uri $Uri -Body $Body -ApiKey $Key
             }
         }
