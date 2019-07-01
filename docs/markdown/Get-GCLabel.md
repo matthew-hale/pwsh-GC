@@ -8,7 +8,7 @@ schema: 2.0.0
 # Get-GCLabel
 
 ## SYNOPSIS
-{{ Fill in the Synopsis }}
+Retrieve a label from the management server.
 
 ## SYNTAX
 
@@ -18,21 +18,35 @@ Get-GCLabel [-FindMatches] [[-LabelKey] <String>] [[-LabelValue] <String>] [[-Li
 ```
 
 ## DESCRIPTION
-{{ Fill in the Description }}
+Pulls one or more labels from the management server based on the given parameters. Labels can be returned based on label key and value.
 
 ## EXAMPLES
 
 ### Example 1
 ```powershell
-PS C:\> {{ Add example code here }}
+PS C:\> Get-GCLabel -LabelKey Test -LabelValue Value
 ```
 
-{{ Add example description here }}
+Retrieve the label with a key of "Test" and a value of "Value".
+
+### Example 2
+```powershell
+PS C:\> Get-GCLabel -LabelKey Test
+```
+
+Retrieve all labels with the "Test" key.
+
+### Example 3
+```powershell
+PS C:\> Get-GCLabel -LabelKey Test -LabelValue Value -FindMatches
+```
+
+Retrieve the Test: Value label, and include the matching assets.
 
 ## PARAMETERS
 
 ### -ApiKey
-{{ Fill ApiKey Description }}
+Provide an external ApiKey, in place of the global GCApiKey variable.
 
 ```yaml
 Type: Object
@@ -47,7 +61,7 @@ Accept wildcard characters: False
 ```
 
 ### -FindMatches
-{{ Fill FindMatches Description }}
+Return additional label data, including all matching assets.
 
 ```yaml
 Type: SwitchParameter
@@ -62,7 +76,7 @@ Accept wildcard characters: False
 ```
 
 ### -LabelKey
-{{ Fill LabelKey Description }}
+Get labels based on key.
 
 ```yaml
 Type: String
@@ -77,7 +91,7 @@ Accept wildcard characters: False
 ```
 
 ### -LabelValue
-{{ Fill LabelValue Description }}
+Get labels based on value.
 
 ```yaml
 Type: String
@@ -92,7 +106,7 @@ Accept wildcard characters: False
 ```
 
 ### -Limit
-{{ Fill Limit Description }}
+The maximum number of objects to return.
 
 ```yaml
 Type: Int32
@@ -107,7 +121,7 @@ Accept wildcard characters: False
 ```
 
 ### -Offset
-{{ Fill Offset Description }}
+The index of the first result to be returned.
 
 ```yaml
 Type: Int32
@@ -122,7 +136,7 @@ Accept wildcard characters: False
 ```
 
 ### -Raw
-{{ Fill Raw Description }}
+Return the raw result instead of the label objects directly.
 
 ```yaml
 Type: SwitchParameter
