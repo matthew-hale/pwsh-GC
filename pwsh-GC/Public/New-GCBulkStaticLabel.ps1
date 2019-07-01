@@ -53,7 +53,11 @@ function New-GCBulkStaticLabel {
     }
 
     # Now we can make the API call
-    if ( $PSCmdlet.ShouldProcess($Labels, "New-BulkStaticLabelPrivate -ApiKey $ApiKey") ) {
+    $Should = foreach ($ThisLabel in $Labels) {
+        $ThisLabel.key + ": " + $ThisLabel.value
+    }
+    $Should = $Should -join ", "
+    if ( $PSCmdlet.ShouldProcess($Should, "New-BulkStaticLabelPrivate -ApiKey $ApiKey") ) {
         $Labels | New-GCBulkStaticLabelPrivate -ApiKey $ApiKey
     }
 }

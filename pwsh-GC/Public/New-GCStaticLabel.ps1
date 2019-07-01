@@ -39,7 +39,8 @@ function New-GCStaticLabel {
         }
     }
     end {
-        if ( $PSCmdlet.ShouldProcess($Body, "pwsh-GC-post-request -Raw -Uri $Uri -ApiKey $Key") ) {
+        $Should = $LabelKey + ": " + $LabelValue
+        if ( $PSCmdlet.ShouldProcess($Should, "pwsh-GC-post-request -Raw -Uri $Uri -ApiKey $Key") ) {
             pwsh-GC-post-request -Raw -Uri $Uri -Body $Body -ApiKey $Key
         }
     }

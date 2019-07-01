@@ -51,6 +51,7 @@ function Set-GCPolicy {
             
             $RequestBody = $PCopy
 
+            $Should = $RequestBody.ruleset_name
             if ( $PSCmdlet.ShouldProcess($RequestBody,"pwsh-GC-post-request -Raw -Uri $Uri -Method Put -ApiKey $Key") ) {
                 pwsh-GC-post-request -Raw -Uri $Uri -Body $RequestBody -Method Put -ApiKey $Key
             }

@@ -32,7 +32,8 @@ function Remove-GCUser {
                 username = $ThisUser
             }
 
-            if ( $PSCmdlet.ShouldProcess($ThisUser, "pwsh-gc-post-request -Uri $Uri -Body $Body -ApiKey $Key -Raw:$Raw.IsPresent") ) {
+            $Should = $Body.username
+            if ( $PSCmdlet.ShouldProcess($Should, "pwsh-gc-post-request -Uri $Uri -Body $Body -ApiKey $Key -Raw:$Raw.IsPresent") ) {
                 pwsh-gc-post-request -Uri $Uri -Body $Body -ApiKey $Key -Raw:$Raw.IsPresent
             }
         }
