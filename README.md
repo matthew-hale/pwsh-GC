@@ -1,6 +1,21 @@
 # pwsh-GC
 A collection of Powershell Core functions and scripts for GuardiCore Centra administration and management.
 
+## Roadmap
++ Complete help files & pester tests
++ Implement Windows PowerShell compatibility (if possible without significant issue)
++ Rework pipeline and parameter functionality (heavily utilize ValueFromPipelineByPropertyName)
+
+    Currently, lots of parameters aren't in an ideal state. Ideally, any time you want to refer to a known object, you should be able to do so by ID, Name, or by passing in the object itself. The best way to accomplish this is to utilize ValueFromPipelineByPropertyName, and named parameter sets.
+
++ Complete implementation of map functionality
++ Complete implementation of the following API endpoints:
+    + /agent\_aggregators
+    + /collectors
+    + /system-events
+    + /system/audit-log
+    + /rbac/\*
+
 ## What is this?
 The pwsh-GC module is essentially a wrapper for GuardiCore's management server API. It also contains functions that help in using the API, such as ConvertTo/ConvertFrom-GCUnixTime, Get-GCFlowTotal, etc. The other scripts in this repository are used when working with data from the API - for example, Copy-GCLabel.ps1 can copy an existing label to a new one. The module is written for PowerShell Core (PS 6.x); you will need to install PowerShell Core in order to use this module.
 
