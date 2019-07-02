@@ -8,7 +8,7 @@ schema: 2.0.0
 # Get-GCPolicy
 
 ## SYNOPSIS
-{{ Fill in the Synopsis }}
+Retrieve a policy from the management server.
 
 ## SYNTAX
 
@@ -23,7 +23,7 @@ Get-GCPolicy [[-Search] <String>] [[-Section] <String[]>] [[-Protocol] <Array>] 
 ```
 
 ## DESCRIPTION
-{{ Fill in the Description }}
+Pulls one or more policy from the management server based on the given parameters. Policies can be returned based on any of their criteria, including a generic search string.
 
 ## EXAMPLES
 
