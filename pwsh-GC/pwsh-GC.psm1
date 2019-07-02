@@ -1,10 +1,10 @@
-#using module $PSScriptRoot\Class\GuardiCoreHelper.Class1.psm1
+#using module $PSScriptRoot\class\pwsh-GC.Class1.psm1
 # Above needs to remain the first line to import Classes
 # Remove the comment when using classes
 
 # Get public and private function definition files.
-[array]$Public = Get-ChildItem -Path "$PSScriptRoot/Public/*.ps1" -Recurse -ErrorAction SilentlyContinue
-[array]$Private = Get-ChildItem -Path "$PSScriptRoot/Private/*.ps1" -Recurse -ErrorAction SilentlyContinue
+[array]$Public = Get-ChildItem -Path "$PSScriptRoot/public/*.ps1" -Recurse -ErrorAction SilentlyContinue
+[array]$Private = Get-ChildItem -Path "$PSScriptRoot/private/*.ps1" -Recurse -ErrorAction SilentlyContinue
 
 # Dot source the files
 Foreach ($Import in @($Public + $Private)) {
