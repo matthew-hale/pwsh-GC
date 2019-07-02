@@ -30,12 +30,19 @@ Pulls one or more agents from the management server based on the given parameter
 PS C:\> Get-GCIncident
 ```
 
-{{ Add example description here }}
+Get incidents using default parameters.
+
+### Example 2
+```powershell
+PS C:\> Get-GCIncident -IncludeTag "Policy Violation"
+```
+
+Get all incidents with the "Policy Violation" tag.
 
 ## PARAMETERS
 
 ### -AnySideAsset
-{{ Fill AnySideAsset Description }}
+Get incidents by asset on either side.
 
 ```yaml
 Type: String
@@ -50,7 +57,7 @@ Accept wildcard characters: False
 ```
 
 ### -AnySideLabel
-{{ Fill AnySideLabel Description }}
+Get incidents by label on either side.
 
 ```yaml
 Type: Object
@@ -65,7 +72,7 @@ Accept wildcard characters: False
 ```
 
 ### -ApiKey
-{{ Fill ApiKey Description }}
+Provide an external ApiKey, in place of the global GCApiKey variable.
 
 ```yaml
 Type: Object
@@ -80,7 +87,7 @@ Accept wildcard characters: False
 ```
 
 ### -DestinationAsset
-{{ Fill DestinationAsset Description }}
+Get incidents by asset in the destination.
 
 ```yaml
 Type: String
@@ -95,7 +102,7 @@ Accept wildcard characters: False
 ```
 
 ### -DestinationLabel
-{{ Fill DestinationLabel Description }}
+Get incidents by label in the destination.
 
 ```yaml
 Type: Object
@@ -110,7 +117,7 @@ Accept wildcard characters: False
 ```
 
 ### -EndTime
-{{ Fill EndTime Description }}
+The end of the time window.
 
 ```yaml
 Type: DateTime
@@ -125,7 +132,7 @@ Accept wildcard characters: False
 ```
 
 ### -ExcludeTag
-{{ Fill ExcludeTag Description }}
+Get incidents that do not have tags that match this parameter.
 
 ```yaml
 Type: Array
@@ -140,7 +147,7 @@ Accept wildcard characters: False
 ```
 
 ### -IncidentType
-{{ Fill IncidentType Description }}
+Get incidents by type.
 
 ```yaml
 Type: Object
@@ -156,7 +163,7 @@ Accept wildcard characters: False
 ```
 
 ### -IncludeTag
-{{ Fill IncludeTag Description }}
+Get incidents that have tags that match this parameter.
 
 ```yaml
 Type: Array
@@ -171,7 +178,7 @@ Accept wildcard characters: False
 ```
 
 ### -Limit
-{{ Fill Limit Description }}
+The maximum number of objects to return.
 
 ```yaml
 Type: Object
@@ -186,7 +193,7 @@ Accept wildcard characters: False
 ```
 
 ### -Offset
-{{ Fill Offset Description }}
+The index of the first result to be returned.
 
 ```yaml
 Type: Int32
@@ -201,7 +208,7 @@ Accept wildcard characters: False
 ```
 
 ### -Raw
-{{ Fill Raw Description }}
+Return the raw result instead of the incident objects directly.
 
 ```yaml
 Type: SwitchParameter
@@ -216,7 +223,7 @@ Accept wildcard characters: False
 ```
 
 ### -Severity
-{{ Fill Severity Description }}
+Get incidents by severity.
 
 ```yaml
 Type: String[]
@@ -232,7 +239,7 @@ Accept wildcard characters: False
 ```
 
 ### -SourceAsset
-{{ Fill SourceAsset Description }}
+Get incidents by asset in the source.
 
 ```yaml
 Type: String
@@ -247,7 +254,7 @@ Accept wildcard characters: False
 ```
 
 ### -SourceLabel
-{{ Fill SourceLabel Description }}
+Get incidents by label in the source.
 
 ```yaml
 Type: Object
@@ -262,7 +269,7 @@ Accept wildcard characters: False
 ```
 
 ### -StartTime
-{{ Fill StartTime Description }}
+The beginning of the time window.
 
 ```yaml
 Type: DateTime
