@@ -5,6 +5,12 @@ function Get-GCUser {
         [String[]]
         $Name,
 
+        [int]
+        $Limit = 20,
+
+        [int]
+        $Offset,
+
         [Switch]
         $Raw,
 
@@ -21,18 +27,18 @@ function Get-GCUser {
         $Uri = "/system/users"
     }
 
-    foreach ( $ThisName in $Name ) {
-        $Body = @{
-            username = $ThisName
-        }
+    $Body = @{
+        username = $Name -join ","
+        limit = $Limit
+        offset = $Offset
+    }
 
-        $RequestBody = Remove-EmptyKeys $Body
-    
-        if ( $Raw ) {
-            pwsh-gc-get-request -Raw -Uri $Uri -Body $RequestBody -ApiKey $Key
-        } else {
-            pwsh-gc-get-request -Uri $Uri -Body $RequestBody -ApiKey $Key | foreach {$_.PSTypeNames.Clear(); $_.PSTypeNames.Add("GCUser"); $_}
-            
-        }
+    $RequestBody = Remove-EmptyKeys $Body
+
+    if ( $Raw ) {
+        pwsh-gc-get-request -Raw -Uri $Uri -Body $RequestBody -ApiKey $Key
+    } else {
+        pwsh-gc-get-request -Uri $Uri -Body $RequestBody -ApiKey $Key | foreach {$_.PSTypeNames.Clear(); $_.PSTypeNames.Add("GCUser"); $_}
+        
     }
 }
