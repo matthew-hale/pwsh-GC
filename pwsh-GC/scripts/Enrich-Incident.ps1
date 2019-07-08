@@ -20,17 +20,10 @@ process {
 
         $AffectedAssetIPs = $IncidentCopy.affected_assets.ip
 
-        if ( $ApiKey ) {
-            $AffectedAssets = foreach ( $Asset in $AffectedAssetIPs ) {
-                Get-GCAsset -Search $Asset -ApiKey $ApiKey
-            }
-            $Flows = Get-GCRawFlow -Limit 100 -StartTime $StartTime -EndTime $EndTime -AnySideAsset $AffectedAssets -ApiKey $ApiKey
-        } else {
-            $AffectedAssets = foreach ( $Asset in $AffectedAssetIPs ) {
-                Get-GCAsset -Search $Asset
-            }
-            $Flows = Get-GCRawFlow -Limit 100 -StartTime $StartTime -EndTime $EndTime -AnySideAsset $AffectedAssets
+        $AffectedAssets = foreach ( $Asset in $AffectedAssetIPs ) {
+            Get-GCAsset -Search $Asset -ApiKey $ApiKey
         }
+        $Flows = Get-GCRawFlow -Limit 100 -StartTime $StartTime -EndTime $EndTime -AnySideAsset $AffectedAssets -ApiKey $ApiKey
 
         $IncidentIDs = $IncidentCopy.flow_ids
 
