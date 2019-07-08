@@ -64,6 +64,19 @@ process {
                 # or if any of the defined assets match the flow asset,
                 # or if any of the defined subnets contain the flow IP
                 if ( $PolicySource.labels ) {
+                    $AndGroups = $PolicySource.labels.or_labels
+                    
+                    foreach ( $AndGroup in $AndGroups ) {
+                        $Labels = foreach ( $Label in $AndGroup ) {
+                            Get-GCLabel -LabelKey $Label.key -LabelValue $Label.value -FindMatches
+                        }
+
+                        if ( $SourceAsset ) {
+                            foreach ( $Label in $Labels ) {
+                                
+                            }
+                        }
+                    }
                 } elseif ( $PolicySource.assets ) {
                 } elseif ( $PolicySource.subnets ) {
                 }
