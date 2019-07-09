@@ -2,14 +2,17 @@ function Get-GCLabel {
     
     [CmdletBinding()]
     param (
-        [Switch]
-        $FindMatches,
+		[String]
+		$Search,
 
         [System.String]
         $LabelKey,
 
         [System.String]
         $LabelValue,
+
+        [Switch]
+        $FindMatches,
 
         [ValidateRange(0,1000)]
         [Int32]
@@ -39,6 +42,7 @@ function Get-GCLabel {
     
     $Body = @{
         find_matches = $FindMatches:isPresent
+		text_search = $Search
         key = $LabelKey
         value = $LabelValue
         limit = $Limit
