@@ -9,8 +9,8 @@ function Get-GCAsset {
         [System.String]
         $Status,
 
-        [ValidateRange(0,3)]
-        [Int32]
+        [ValidateSet("0","1","2","3")]
+        [string[]]
         $Risk,
 
         [Parameter(Mandatory=$false,ValueFromPipeline=$true)]
