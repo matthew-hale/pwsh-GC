@@ -14,6 +14,9 @@ function Get-GCLabel {
         [Switch]
         $FindMatches,
 
+        [Int32]
+        $DynamicCriteriaLimit = 10,
+
         [ValidateRange(0,1000)]
         [Int32]
         $Limit = 20,
@@ -45,6 +48,7 @@ function Get-GCLabel {
 		text_search = $Search
         key = $LabelKey
         value = $LabelValue
+        dynamic_criteria_limit = $DynamicCriteriaLimit
         limit = $Limit
         offset = $Offset
     }
