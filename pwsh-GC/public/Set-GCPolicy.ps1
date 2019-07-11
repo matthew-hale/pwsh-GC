@@ -4,7 +4,10 @@ function Set-GCPolicy {
     param (
         [Parameter(ValueFromPipeline)]
         [PSTypeName("GCPolicy")]
-        $Policy 
+        $Policy, 
+
+        [PSTypeName("GCApiKey")]
+        $ApiKey
     )
     begin {
         if ( GCApiKey-present $ApiKey ) {

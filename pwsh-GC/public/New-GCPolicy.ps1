@@ -60,10 +60,10 @@ function New-GCPolicy {
         [System.Array]
         $DestinationAsset,
 
-        [System.String]
+        [string[]]
         $SourceSubnet,
 
-        [System.String]
+        [string[]]
         $DestinationSubnet,
 
         [System.String]
@@ -206,11 +206,11 @@ function New-GCPolicy {
     }
     
     if ( $SourceSubnet ) {
-        $Body.rule.source | Add-Member -MemberType NoteProperty -Name subnet -Value $SourceSubnet
+        $Body.rule.source | Add-Member -MemberType NoteProperty -Name subnets -Value $SourceSubnet
     }
     
     if ( $DestinationSubnet ) {
-        $Body.rule.destination | Add-Member -MemberType NoteProperty -Name subnet -Value $DestinationSubnet
+        $Body.rule.destination | Add-Member -MemberType NoteProperty -Name subnets -Value $DestinationSubnet
     }
     
     if ( $PSBoundParameters.ContainsKey("SourceInternet") ) { #checks for the existence of the parameter
