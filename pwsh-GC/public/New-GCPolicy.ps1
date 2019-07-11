@@ -4,6 +4,11 @@ function New-GCPolicy {
     param (
         [Parameter(Mandatory=$true)]
         [ValidateSet("allow","alert","block","override_allow","override_alert","override_block")]
+        [string]
+        $Section,
+
+        [Parameter(Mandatory=$true)]
+        [ValidateSet("allow","alert","block","block_and_alert")]
         [System.String]
         $Action,
 
@@ -88,7 +93,7 @@ function New-GCPolicy {
         } else {
             $Key = $global:GCApiKey
         } 
-        $Uri = "/visibility/policy/sections/" + $Action + "/rules"
+        $Uri = "/visibility/policy/sections/" + $Section + "/rules"
     }
 
     if ( $SourceLabelFile ) {
