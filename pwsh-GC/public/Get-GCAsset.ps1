@@ -61,8 +61,8 @@ function Get-GCAsset {
         # Handling strange asset case
 
         if ( $Asset ) {
-            if ( $Asset[0].id ) {
-                $Body.asset = "vm:" + $Asset[0].id
+            if ( $Asset[0]._id ) {
+                $Body.asset = "vm:" + $Asset[0]._id
             } else {
                 $Body.asset = "vm:" + $Asset
             }
