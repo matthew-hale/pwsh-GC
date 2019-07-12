@@ -17,7 +17,7 @@ function Get-GCAsset {
         [PSTypeName("GCLabel")]
         $Label,
 
-        [PSTypeName("GCAsset")]
+        [Alias("Assets","ID")]
         $Asset,
 
         [ValidateRange(0,1000)]
@@ -53,9 +53,19 @@ function Get-GCAsset {
             status = $Status
             risk_level = $Risk
             labels = $LabelIDs -join ","
-            asset = $Asset.id -join ","
+            asset = ""
             limit = $Limit
             offset = $Offset
+        }
+
+        # Handling strange asset case
+
+        if ( $Asset ) {
+            if ( $Asset[0].id ) {
+                $Body.asset = "vm:" + $Asset[0].id
+            } else {
+                $Body.asset = "vm:" + $Asset
+            }
         }
 
         # Removing empty hashtable keys
