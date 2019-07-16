@@ -8,7 +8,7 @@ schema: 2.0.0
 # New-GCStaticLabel
 
 ## SYNOPSIS
-{{ Fill in the Synopsis }}
+Create a new label defined with manually added assets on the management server.
 
 ## SYNTAX
 
@@ -18,21 +18,21 @@ New-GCStaticLabel [[-Asset] <Object>] [-LabelKey] <String> [-LabelValue] <String
 ```
 
 ## DESCRIPTION
-{{ Fill in the Description }}
+Create a new label defined with one or more manually added assets on the management server. Assets are defined as asset objects, as returned by the GuardiCore API.
 
 ## EXAMPLES
 
 ### Example 1
 ```powershell
-PS C:\> {{ Add example code here }}
+PS C:\> New-GCStaticLabel -Asset (Get-GCAsset -Search "demo") -LabelKey Test -LabelValue Example
 ```
 
-{{ Add example description here }}
+Create a label at Test: Example containing all assets that match the search string "demo".
 
 ## PARAMETERS
 
 ### -ApiKey
-{{ Fill ApiKey Description }}
+Provide an external ApiKey, in place of the global GCApiKey variable.
 
 ```yaml
 Type: Object
@@ -47,7 +47,7 @@ Accept wildcard characters: False
 ```
 
 ### -Asset
-{{ Fill Asset Description }}
+One or more assets to manually add to the label.
 
 ```yaml
 Type: Object
@@ -77,7 +77,7 @@ Accept wildcard characters: False
 ```
 
 ### -LabelKey
-{{ Fill LabelKey Description }}
+The key for the new label.
 
 ```yaml
 Type: String
@@ -92,7 +92,7 @@ Accept wildcard characters: False
 ```
 
 ### -LabelValue
-{{ Fill LabelValue Description }}
+The value for the new label.
 
 ```yaml
 Type: String
