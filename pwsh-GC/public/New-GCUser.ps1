@@ -9,7 +9,6 @@ function New-GCUser {
         [String]
         $Description,
 
-        [Parameter(Mandatory)]
         [String]
         $Email,
 
