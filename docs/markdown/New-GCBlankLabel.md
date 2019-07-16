@@ -8,7 +8,7 @@ schema: 2.0.0
 # New-GCBlankLabel
 
 ## SYNOPSIS
-{{ Fill in the Synopsis }}
+Create a new blank label on the management server.
 
 ## SYNTAX
 
@@ -18,21 +18,21 @@ New-GCBlankLabel [-LabelKey] <String> [-LabelValue] <String> [[-ApiKey] <Object>
 ```
 
 ## DESCRIPTION
-{{ Fill in the Description }}
+Create a new label with no criteria or added assets using the given key and value.
 
 ## EXAMPLES
 
 ### Example 1
 ```powershell
-PS C:\> {{ Add example code here }}
+PS C:\> New-GCBlankLabel -LabelKey Test -LabelValue Example
 ```
 
-{{ Add example description here }}
+Create a blank label called "Test: Example".
 
 ## PARAMETERS
 
 ### -ApiKey
-{{ Fill ApiKey Description }}
+Provide an external ApiKey, in place of the global GCApiKey variable.
 
 ```yaml
 Type: Object
@@ -62,7 +62,7 @@ Accept wildcard characters: False
 ```
 
 ### -LabelKey
-{{ Fill LabelKey Description }}
+The key of the new label.
 
 ```yaml
 Type: String
@@ -77,7 +77,7 @@ Accept wildcard characters: False
 ```
 
 ### -LabelValue
-{{ Fill LabelValue Description }}
+The value of the new label.
 
 ```yaml
 Type: String
