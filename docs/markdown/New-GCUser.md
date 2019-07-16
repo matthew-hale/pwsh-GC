@@ -24,15 +24,15 @@ Create a new user on the management server, specifying permission scheme, userna
 
 ### Example 1
 ```powershell
-PS C:\> New-GCUser -Name example
+PS C:\> New-GCUser -Name example -Permissions "guest" -Password "temppass"
 ```
 
-{{ Add example description here }}
+Create a new guest user named "example".
 
 ## PARAMETERS
 
 ### -ApiKey
-{{ Fill ApiKey Description }}
+Provide an external ApiKey, in place of the global GCApiKey variable.
 
 ```yaml
 Type: Object
@@ -62,7 +62,7 @@ Accept wildcard characters: False
 ```
 
 ### -Description
-{{ Fill Description Description }}
+The description for the user.
 
 ```yaml
 Type: String
@@ -77,14 +77,14 @@ Accept wildcard characters: False
 ```
 
 ### -Email
-{{ Fill Email Description }}
+The email account for the user. Used by GuardiCore for functionality such as email-on-map-completion.
 
 ```yaml
 Type: String
 Parameter Sets: (All)
 Aliases:
 
-Required: True
+Required: False
 Position: 2
 Default value: None
 Accept pipeline input: False
@@ -92,7 +92,7 @@ Accept wildcard characters: False
 ```
 
 ### -IncidentPasswordAccess
-{{ Fill IncidentPasswordAccess Description }}
+If true, the user will have permissions to view passwords used in incidents.
 
 ```yaml
 Type: SwitchParameter
@@ -107,7 +107,7 @@ Accept wildcard characters: False
 ```
 
 ### -Name
-{{ Fill Name Description }}
+The username that the user will use to log in.
 
 ```yaml
 Type: String
@@ -122,7 +122,7 @@ Accept wildcard characters: False
 ```
 
 ### -Password
-{{ Fill Password Description }}
+A temporary password that will be assigned to the account; upon first login, the user will be prompted to change their password.
 
 ```yaml
 Type: String
@@ -137,7 +137,7 @@ Accept wildcard characters: False
 ```
 
 ### -Permissions
-{{ Fill Permissions Description }}
+The permission scheme(s) to apply to the user. Accepts either built-in schemes, or custom created schemes.
 
 ```yaml
 Type: String[]
@@ -152,7 +152,7 @@ Accept wildcard characters: False
 ```
 
 ### -TwoFactor
-{{ Fill TwoFactor Description }}
+If true, the user will be required to set up two-factor authentication upon login.
 
 ```yaml
 Type: SwitchParameter
