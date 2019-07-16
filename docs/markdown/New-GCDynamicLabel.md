@@ -8,7 +8,7 @@ schema: 2.0.0
 # New-GCDynamicLabel
 
 ## SYNOPSIS
-{{ Fill in the Synopsis }}
+Create a new label with given dynamic criteria on the management server.
 
 ## SYNTAX
 
@@ -19,21 +19,21 @@ New-GCDynamicLabel [[-LabelKey] <String>] [[-LabelValue] <String>] [[-Argument] 
 ```
 
 ## DESCRIPTION
-{{ Fill in the Description }}
+Create a new label with the given dynamic criteria. Labels can have as many dynamic criteria as provided.
 
 ## EXAMPLES
 
 ### Example 1
 ```powershell
-PS C:\> {{ Add example code here }}
+PS C:\> New-GCDynamicLabel -LabelKey Test -LabelValue Example -Argument demo -Field name -Operation STARTSWITH
 ```
 
-{{ Add example description here }}
+Create a new label at Test: Example with one dynamic criteria: Name starts with "demo".
 
 ## PARAMETERS
 
 ### -ApiKey
-{{ Fill ApiKey Description }}
+Provide an external ApiKey, in place of the global GCApiKey variable.
 
 ```yaml
 Type: Object
@@ -48,7 +48,7 @@ Accept wildcard characters: False
 ```
 
 ### -Argument
-{{ Fill Argument Description }}
+The value in the criteria that the asset must match (e.g. "falcon" for a name match).
 
 ```yaml
 Type: String
@@ -78,7 +78,7 @@ Accept wildcard characters: False
 ```
 
 ### -Criteria
-{{ Fill Criteria Description }}
+One or more custom objects containing operation, argument, and field.
 
 ```yaml
 Type: Array
@@ -93,7 +93,7 @@ Accept wildcard characters: False
 ```
 
 ### -Field
-{{ Fill Field Description }}
+
 
 ```yaml
 Type: String
@@ -109,7 +109,7 @@ Accept wildcard characters: False
 ```
 
 ### -LabelKey
-{{ Fill LabelKey Description }}
+The key of the label to be created.
 
 ```yaml
 Type: String
@@ -124,7 +124,7 @@ Accept wildcard characters: False
 ```
 
 ### -LabelValue
-{{ Fill LabelValue Description }}
+The value of the label to be created.
 
 ```yaml
 Type: String
@@ -139,7 +139,7 @@ Accept wildcard characters: False
 ```
 
 ### -Operation
-{{ Fill Operation Description }}
+The type of comparison to make (e.g. startswith, endswith, contains).
 
 ```yaml
 Type: String
@@ -155,7 +155,7 @@ Accept wildcard characters: False
 ```
 
 ### -Raw
-{{ Fill Raw Description }}
+Return the raw result of the post request.
 
 ```yaml
 Type: SwitchParameter

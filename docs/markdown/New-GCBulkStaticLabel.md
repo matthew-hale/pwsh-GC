@@ -8,7 +8,7 @@ schema: 2.0.0
 # New-GCBulkStaticLabel
 
 ## SYNOPSIS
-{{ Fill in the Synopsis }}
+Create one or more labels containing statically-assigned assets.
 
 ## SYNTAX
 
