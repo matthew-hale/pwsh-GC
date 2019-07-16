@@ -8,7 +8,7 @@ schema: 2.0.0
 # Get-GCSavedMap
 
 ## SYNOPSIS
-{{ Fill in the Synopsis }}
+Retrieve a saved map from the management server.
 
 ## SYNTAX
 
@@ -19,21 +19,21 @@ Get-GCSavedMap [[-Search] <String>] [[-State] <String>] [[-Features] <Object>] [
 ```
 
 ## DESCRIPTION
-{{ Fill in the Description }}
+Pulls one or more saved maps from the management server based on the given parameters.
 
 ## EXAMPLES
 
 ### Example 1
 ```powershell
-PS C:\> {{ Add example code here }}
+PS C:\> Get-GCSavedMap -Search "Test map"
 ```
 
-{{ Add example description here }}
+Get all saved maps that match the search string "Test map"
 
 ## PARAMETERS
 
 ### -ApiKey
-{{ Fill ApiKey Description }}
+Provide an external ApiKey, in place of the global GCApiKey variable.
 
 ```yaml
 Type: Object
@@ -48,7 +48,7 @@ Accept wildcard characters: False
 ```
 
 ### -Asset
-{{ Fill Asset Description }}
+Get maps based on the presence of one or more assets in the filter.
 
 ```yaml
 Type: Object
@@ -63,7 +63,7 @@ Accept wildcard characters: False
 ```
 
 ### -AuthorID
-{{ Fill AuthorID Description }}
+Get maps based on the map's author.
 
 ```yaml
 Type: String
@@ -78,7 +78,7 @@ Accept wildcard characters: False
 ```
 
 ### -Features
-{{ Fill Features Description }}
+Get maps based on their included features (time resolution, include processes).
 
 ```yaml
 Type: Object
@@ -94,7 +94,7 @@ Accept wildcard characters: False
 ```
 
 ### -Label
-{{ Fill Label Description }}
+Get maps based on the presence of one or more labels in the filter.
 
 ```yaml
 Type: Object
@@ -109,7 +109,7 @@ Accept wildcard characters: False
 ```
 
 ### -Limit
-{{ Fill Limit Description }}
+The maximum number of objects to return.
 
 ```yaml
 Type: Int32
@@ -124,7 +124,7 @@ Accept wildcard characters: False
 ```
 
 ### -Offset
-{{ Fill Offset Description }}
+The index of the first result to be returned.
 
 ```yaml
 Type: Int32
@@ -139,7 +139,7 @@ Accept wildcard characters: False
 ```
 
 ### -Raw
-{{ Fill Raw Description }}
+Return the raw result instead of the map objects directly.
 
 ```yaml
 Type: SwitchParameter
@@ -154,7 +154,7 @@ Accept wildcard characters: False
 ```
 
 ### -Search
-{{ Fill Search Description }}
+Get maps based on a search string.
 
 ```yaml
 Type: String
@@ -169,7 +169,7 @@ Accept wildcard characters: False
 ```
 
 ### -State
-{{ Fill State Description }}
+Get maps based on state (ready, in-progresss, queued, etc.)
 
 ```yaml
 Type: String
@@ -185,7 +185,7 @@ Accept wildcard characters: False
 ```
 
 ### -TimeRange
-{{ Fill TimeRange Description }}
+Get maps based on their set time range.
 
 ```yaml
 Type: DateTime[]
