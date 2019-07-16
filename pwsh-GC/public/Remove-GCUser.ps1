@@ -1,5 +1,5 @@
 function Remove-GCUser {
-    [cmdletbinding(SupportShouldProcess)]
+    [cmdletbinding(SupportsShouldProcess)]
 
     param (
         [Parameter(ValueFromPipelineByPropertyName)]
@@ -32,7 +32,7 @@ function Remove-GCUser {
                 username = $ThisUser
             }
 
-            $Should = $Body.username
+            $Should = $username
             if ( $PSCmdlet.ShouldProcess($Should, "pwsh-gc-post-request -Uri $Uri -Body $Body -ApiKey $Key -Raw:$Raw.IsPresent") ) {
                 pwsh-gc-post-request -Uri $Uri -Body $Body -ApiKey $Key -Raw:$Raw.IsPresent
             }
