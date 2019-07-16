@@ -8,7 +8,7 @@ schema: 2.0.0
 # Set-GCPolicy
 
 ## SYNOPSIS
-{{ Fill in the Synopsis }}
+Update a policy on the management server based on a policy object input.
 
 ## SYNTAX
 
@@ -17,21 +17,21 @@ Set-GCPolicy [[-Policy] <Object>] [[-ApiKey] <Object>] [-WhatIf] [-Confirm] [<Co
 ```
 
 ## DESCRIPTION
-{{ Fill in the Description }}
+Given a policy object as input, set the corresponding policy on the management server to be equal to the input policy. Changes are not pushed through until the policy is published.
 
 ## EXAMPLES
 
 ### Example 1
 ```powershell
-PS C:\> {{ Add example code here }}
+PS C:\> Get-GCPolicy -Search "set me" | Set-GCPolicy
 ```
 
-{{ Add example description here }}
+Set the "set me" policy to be equal to itself.
 
 ## PARAMETERS
 
 ### -ApiKey
-{{ Fill ApiKey Description }}
+Provide an external ApiKey, in place of the global GCApiKey variable.
 
 ```yaml
 Type: Object
@@ -61,7 +61,7 @@ Accept wildcard characters: False
 ```
 
 ### -Policy
-{{ Fill Policy Description }}
+One or more policy objects to be set.
 
 ```yaml
 Type: Object
