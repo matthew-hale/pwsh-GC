@@ -1,4 +1,8 @@
 function Get-GCIncident{
+    <#
+        .ExternalHelp pwsh-GC-help.xml
+    #>
+
     
     [CmdletBinding()]
     param (

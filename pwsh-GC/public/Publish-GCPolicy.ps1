@@ -1,6 +1,10 @@
 function Publish-GCPolicy {
-    [CmdletBinding(SupportsShouldProcess)]
+    <#
+        .ExternalHelp pwsh-GC-help.xml
+    #>
 
+    
+    [CmdletBinding(SupportsShouldProcess)]
     param(
         [Parameter(Mandatory)]
         [System.String]

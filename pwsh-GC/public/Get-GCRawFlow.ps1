@@ -1,4 +1,8 @@
 function Get-GCRawFlow {
+    <#
+        .ExternalHelp pwsh-GC-help.xml
+    #>
+
     
     [cmdletbinding()]
     param (

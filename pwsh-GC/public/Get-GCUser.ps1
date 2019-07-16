@@ -1,6 +1,10 @@
 function Get-GCUser {
-    [cmdletbinding()]
+    <#
+        .ExternalHelp pwsh-GC-help.xml
+    #>
 
+
+    [cmdletbinding()]
     param (
         [String[]]
         $Name,

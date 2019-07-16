@@ -1,6 +1,10 @@
 function Set-GCUser {
-    [cmdletbinding(SupportsShouldProcess)]
+    <#
+        .ExternalHelp pwsh-GC-help.xml
+    #>
 
+
+    [cmdletbinding(SupportsShouldProcess)]
     param(
         [Parameter(ValueFromPipeline)]
         [PSTypeName("GCUser")]

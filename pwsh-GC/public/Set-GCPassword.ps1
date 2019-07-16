@@ -1,6 +1,10 @@
 function Set-GCPassword {
-    [cmdletbinding(SupportsShouldProcess)]
+    <#
+        .ExternalHelp pwsh-GC-help.xml
+    #>
 
+
+    [cmdletbinding(SupportsShouldProcess)]
     param(
         [Parameter(ValueFromPipeline)]
         [PSTypeName("GCUser")]$User,

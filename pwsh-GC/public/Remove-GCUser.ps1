@@ -1,6 +1,10 @@
 function Remove-GCUser {
-    [cmdletbinding(SupportsShouldProcess)]
+    <#
+        .ExternalHelp pwsh-GC-help.xml
+    #>
 
+
+    [cmdletbinding(SupportsShouldProcess)]
     param (
         [Parameter(ValueFromPipelineByPropertyName)]
         [String[]]

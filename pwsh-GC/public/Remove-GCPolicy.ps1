@@ -1,6 +1,10 @@
 function Remove-GCPolicy {
-    [CmdletBinding(SupportsShouldProcess)]
+    <#
+        .ExternalHelp pwsh-GC-help.xml
+    #>
 
+
+    [CmdletBinding(SupportsShouldProcess)]
     param (
         [Parameter(ValueFromPipeline)]
         [System.Array]

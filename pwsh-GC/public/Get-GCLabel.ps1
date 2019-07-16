@@ -1,4 +1,8 @@
 function Get-GCLabel {
+    <#
+        .ExternalHelp pwsh-GC-help.xml
+    #>
+
     
     [CmdletBinding()]
     param (

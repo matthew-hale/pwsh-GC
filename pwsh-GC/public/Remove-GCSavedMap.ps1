@@ -1,6 +1,10 @@
 function Remove-GCSavedMap {
-    [CmdletBinding(SupportsShouldProcess)]
+    <#
+        .ExternalHelp pwsh-GC-help.xml
+    #>
 
+
+    [CmdletBinding(SupportsShouldProcess)]
     param (
         [Parameter(ValueFromPipeline)]
         [PSTypeName("GCSavedMap")]

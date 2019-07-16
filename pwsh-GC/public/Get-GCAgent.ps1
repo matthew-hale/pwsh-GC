@@ -1,4 +1,8 @@
 function Get-GCAgent {
+    <#
+        .ExternalHelp pwsh-GC-help.xml
+    #>
+
 
     [CmdletBinding()]
     param (

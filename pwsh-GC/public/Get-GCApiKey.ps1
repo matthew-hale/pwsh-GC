@@ -1,4 +1,8 @@
 function Get-GCApiKey {
+    <#
+        .ExternalHelp pwsh-GC-help.xml
+    #>
+
 
     [CmdletBinding(SupportsShouldProcess)]
     param (
