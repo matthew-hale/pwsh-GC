@@ -6,9 +6,6 @@ function Publish-GCPolicy {
         [System.String]
         $Comments,
 
-        [Switch]
-        $Audit,
-
         [PSTypeName("GCApiKey")]
         $ApiKey
     )
