@@ -8,7 +8,7 @@ schema: 2.0.0
 # Set-GCLabel
 
 ## SYNOPSIS
-{{ Fill in the Synopsis }}
+Update a label on the management server based on a label object input.
 
 ## SYNTAX
 
@@ -17,16 +17,16 @@ Set-GCLabel [[-Label] <Object>] [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
-{{ Fill in the Description }}
+Given a label object as input, set the corresponding label on the management server to be equal to the input label.
 
 ## EXAMPLES
 
 ### Example 1
 ```powershell
-PS C:\> {{ Add example code here }}
+PS C:\> Get-GCLabel -LabelKey Copy -LabelValue Me | Set-GCLabel
 ```
 
-{{ Add example description here }}
+Set the Copy: Me label to be equal to itself.
 
 ## PARAMETERS
 
@@ -46,7 +46,7 @@ Accept wildcard characters: False
 ```
 
 ### -Label
-{{ Fill Label Description }}
+A label object, as given from the API.
 
 ```yaml
 Type: Object
