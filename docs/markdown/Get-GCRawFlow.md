@@ -8,7 +8,7 @@ schema: 2.0.0
 # Get-GCRawFlow
 
 ## SYNOPSIS
-{{ Fill in the Synopsis }}
+Retrieve an unaggregated flow from the management server.
 
 ## SYNTAX
 
@@ -21,21 +21,28 @@ Get-GCRawFlow [[-StartTime] <DateTime>] [[-EndTime] <DateTime>] [[-SourceProcess
 ```
 
 ## DESCRIPTION
-{{ Fill in the Description }}
+Pulls one or more raw flow objects from the management server based on given parameters.
 
 ## EXAMPLES
 
 ### Example 1
 ```powershell
-PS C:\> {{ Add example code here }}
+PS C:\> Get-GCRawFlow
 ```
 
-{{ Add example description here }}
+Get raw flows using default parameters.
+
+### Example 2
+```powershell
+PS C:\> Get-GCRawFlow -DestinationProcess nginx -SourceProcess chrome.exe -StartTime "1/1/2000" -EndTime "2/1/2000" -Limit 5000
+```
+
+Get up to 5000 raw flows that occurred between 1/1/2000 and 2/1/2000, where the source process is chrome.exe and the destination process is nginx.
 
 ## PARAMETERS
 
 ### -AnySideAsset
-{{ Fill AnySideAsset Description }}
+Get flows based on the presence of one or more assets in either the source or the destination.
 
 ```yaml
 Type: Array
@@ -50,7 +57,7 @@ Accept wildcard characters: False
 ```
 
 ### -AnySideLabel
-{{ Fill AnySideLabel Description }}
+Get flows based on the presence of one or more labels in either the source or the destination.
 
 ```yaml
 Type: Array
@@ -65,7 +72,7 @@ Accept wildcard characters: False
 ```
 
 ### -AnySideProcess
-{{ Fill AnySideProcess Description }}
+Get flows based on the presence of one or more processes in either the source or the destination.
 
 ```yaml
 Type: Array
@@ -80,7 +87,7 @@ Accept wildcard characters: False
 ```
 
 ### -ApiKey
-{{ Fill ApiKey Description }}
+Provide an external ApiKey, in place of the global GCApiKey variable.
 
 ```yaml
 Type: Object
@@ -95,7 +102,7 @@ Accept wildcard characters: False
 ```
 
 ### -DestinationAsset
-{{ Fill DestinationAsset Description }}
+Get flows based on the presence of one or more assets in the destination.
 
 ```yaml
 Type: Array
@@ -110,7 +117,7 @@ Accept wildcard characters: False
 ```
 
 ### -DestinationInternet
-{{ Fill DestinationInternet Description }}
+Get flows based on the destination address being either internal or external.
 
 ```yaml
 Type: SwitchParameter
@@ -125,7 +132,7 @@ Accept wildcard characters: False
 ```
 
 ### -DestinationLabel
-{{ Fill DestinationLabel Description }}
+Get flows based on the presence of one or more labels in the destination.
 
 ```yaml
 Type: Array
@@ -140,7 +147,7 @@ Accept wildcard characters: False
 ```
 
 ### -DestinationProcess
-{{ Fill DestinationProcess Description }}
+Get flows based on the presence of one or more processes in the destination.
 
 ```yaml
 Type: Array
@@ -155,7 +162,7 @@ Accept wildcard characters: False
 ```
 
 ### -EndTime
-{{ Fill EndTime Description }}
+Get flows that occurred before this time.
 
 ```yaml
 Type: DateTime
@@ -170,7 +177,7 @@ Accept wildcard characters: False
 ```
 
 ### -Limit
-{{ Fill Limit Description }}
+The maximum number of objects to return.
 
 ```yaml
 Type: Int32
@@ -185,7 +192,7 @@ Accept wildcard characters: False
 ```
 
 ### -Offset
-{{ Fill Offset Description }}
+The index of the first result to be returned.
 
 ```yaml
 Type: Int32
@@ -200,7 +207,7 @@ Accept wildcard characters: False
 ```
 
 ### -Raw
-{{ Fill Raw Description }}
+Return the raw result instead of the flow objects directly.
 
 ```yaml
 Type: SwitchParameter
@@ -215,7 +222,7 @@ Accept wildcard characters: False
 ```
 
 ### -SourceAsset
-{{ Fill SourceAsset Description }}
+Get flows based on the presence of one or more assets in the source.
 
 ```yaml
 Type: Array
@@ -230,7 +237,7 @@ Accept wildcard characters: False
 ```
 
 ### -SourceInternet
-{{ Fill SourceInternet Description }}
+Get flows based on the source address being either internal or external.
 
 ```yaml
 Type: SwitchParameter
@@ -245,7 +252,7 @@ Accept wildcard characters: False
 ```
 
 ### -SourceLabel
-{{ Fill SourceLabel Description }}
+Get flows based on the presence of one or more labels in the source.
 
 ```yaml
 Type: Array
@@ -260,7 +267,7 @@ Accept wildcard characters: False
 ```
 
 ### -SourceProcess
-{{ Fill SourceProcess Description }}
+Get flows based on the presence of one or more processes in the destination.
 
 ```yaml
 Type: Array
@@ -275,7 +282,7 @@ Accept wildcard characters: False
 ```
 
 ### -StartTime
-{{ Fill StartTime Description }}
+Get flows that occurred after this time.
 
 ```yaml
 Type: DateTime
