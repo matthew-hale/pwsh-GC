@@ -8,7 +8,7 @@ schema: 2.0.0
 # New-GCSavedMap
 
 ## SYNOPSIS
-{{ Fill in the Synopsis }}
+Create a saved map on the management server.
 
 ## SYNTAX
 
@@ -20,7 +20,7 @@ New-GCSavedMap [[-Name] <String>] [-Public] [[-FilterHashTableInclude] <Hashtabl
 ```
 
 ## DESCRIPTION
-{{ Fill in the Description }}
+Create a saved map on the management server, based on the given parameters.
 
 ## EXAMPLES
 
