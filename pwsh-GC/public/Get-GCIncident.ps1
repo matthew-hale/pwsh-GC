@@ -46,6 +46,9 @@ function Get-GCIncident{
         [Int32]
         $Offset = 0,
 
+        [String]
+        $ID,
+
         [Switch]
         $Raw,
 
@@ -85,6 +88,7 @@ function Get-GCIncident{
         incident_type = $IncidentType
         tag = $IncludeTag -join ","
         tags__not = $ExcludeTag -join ","
+        id = $ID
         limit = $Limit
         offset = $Offset
     }

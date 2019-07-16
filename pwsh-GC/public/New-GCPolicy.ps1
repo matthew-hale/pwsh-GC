@@ -4,6 +4,11 @@ function New-GCPolicy {
     param (
         [Parameter(Mandatory=$true)]
         [ValidateSet("allow","alert","block","override_allow","override_alert","override_block")]
+        [string]
+        $Section,
+
+        [Parameter(Mandatory=$true)]
+        [ValidateSet("allow","alert","block","block_and_alert")]
         [System.String]
         $Action,
 
@@ -60,10 +65,10 @@ function New-GCPolicy {
         [System.Array]
         $DestinationAsset,
 
-        [System.String]
+        [string[]]
         $SourceSubnet,
 
-        [System.String]
+        [string[]]
         $DestinationSubnet,
 
         [System.String]
@@ -88,7 +93,7 @@ function New-GCPolicy {
         } else {
             $Key = $global:GCApiKey
         } 
-        $Uri = "/visibility/policy/sections/" + $Action + "/rules"
+        $Uri = "/visibility/policy/sections/" + $Section + "/rules"
     }
 
     if ( $SourceLabelFile ) {
@@ -206,11 +211,11 @@ function New-GCPolicy {
     }
     
     if ( $SourceSubnet ) {
-        $Body.rule.source | Add-Member -MemberType NoteProperty -Name subnet -Value $SourceSubnet
+        $Body.rule.source | Add-Member -MemberType NoteProperty -Name subnets -Value $SourceSubnet
     }
     
     if ( $DestinationSubnet ) {
-        $Body.rule.destination | Add-Member -MemberType NoteProperty -Name subnet -Value $DestinationSubnet
+        $Body.rule.destination | Add-Member -MemberType NoteProperty -Name subnets -Value $DestinationSubnet
     }
     
     if ( $PSBoundParameters.ContainsKey("SourceInternet") ) { #checks for the existence of the parameter

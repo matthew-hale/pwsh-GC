@@ -2,14 +2,20 @@ function Get-GCLabel {
     
     [CmdletBinding()]
     param (
-        [Switch]
-        $FindMatches,
+		[String]
+		$Search,
 
         [System.String]
         $LabelKey,
 
         [System.String]
         $LabelValue,
+
+        [Switch]
+        $FindMatches,
+
+        [Int32]
+        $DynamicCriteriaLimit = 10,
 
         [ValidateRange(0,1000)]
         [Int32]
@@ -39,8 +45,10 @@ function Get-GCLabel {
     
     $Body = @{
         find_matches = $FindMatches:isPresent
+		text_search = $Search
         key = $LabelKey
         value = $LabelValue
+        dynamic_criteria_limit = $DynamicCriteriaLimit
         limit = $Limit
         offset = $Offset
     }
