@@ -8,7 +8,7 @@ schema: 2.0.0
 # Remove-GCLabel
 
 ## SYNOPSIS
-{{ Fill in the Synopsis }}
+Remove a label from the management server.
 
 ## SYNTAX
 
@@ -17,21 +17,21 @@ Remove-GCLabel [[-Label] <Object>] [[-ApiKey] <Object>] [-WhatIf] [-Confirm] [<C
 ```
 
 ## DESCRIPTION
-{{ Fill in the Description }}
+Deletes a label from the management server, given a label object input.
 
 ## EXAMPLES
 
 ### Example 1
 ```powershell
-PS C:\> {{ Add example code here }}
+PS C:\> Get-GCLabel -LabelKey Test -LabelValue Example | Remove-GCLabel
 ```
 
-{{ Add example description here }}
+Remove the Test: Example label using the piped output from Get-GCLabel
 
 ## PARAMETERS
 
 ### -ApiKey
-{{ Fill ApiKey Description }}
+Provide an external ApiKey, in place of the global GCApiKey variable.
 
 ```yaml
 Type: Object
@@ -61,7 +61,7 @@ Accept wildcard characters: False
 ```
 
 ### -Label
-{{ Fill Label Description }}
+One or more label objects, as returned from the API.
 
 ```yaml
 Type: Object
