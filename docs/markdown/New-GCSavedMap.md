@@ -26,15 +26,15 @@ Create a saved map on the management server, based on the given parameters.
 
 ### Example 1
 ```powershell
-PS C:\> {{ Add example code here }}
+PS C:\> New-GCSavedMap -Name "Example" -StartTime "6/1/2000" -EndTime "7/1/2000"
 ```
 
-{{ Add example description here }}
+Create an unfiltered map containing traffic from 6/1/2000 to 7/1/2000.
 
 ## PARAMETERS
 
 ### -ApiKey
-{{ Fill ApiKey Description }}
+Provide an external ApiKey, in place of the global GCApiKey variable.
 
 ```yaml
 Type: Object
@@ -49,7 +49,7 @@ Accept wildcard characters: False
 ```
 
 ### -EmailOnProgress
-{{ Fill EmailOnProgress Description }}
+If true, the management server will send an email to the user account that created the map when the map is finished being generated.
 
 ```yaml
 Type: SwitchParameter
@@ -64,7 +64,7 @@ Accept wildcard characters: False
 ```
 
 ### -EndTime
-{{ Fill EndTime Description }}
+The end of the time range for the map.
 
 ```yaml
 Type: DateTime
@@ -79,7 +79,7 @@ Accept wildcard characters: False
 ```
 
 ### -FilterHashTableExclude
-{{ Fill FilterHashTableExclude Description }}
+A filter hashtable of what to exclude from the map.
 
 ```yaml
 Type: Hashtable
@@ -94,7 +94,7 @@ Accept wildcard characters: False
 ```
 
 ### -FilterHashTableInclude
-{{ Fill FilterHashTableInclude Description }}
+A filter hashtable of what to include in the map.
 
 ```yaml
 Type: Hashtable
@@ -109,7 +109,7 @@ Accept wildcard characters: False
 ```
 
 ### -IncludeProcesses
-{{ Fill IncludeProcesses Description }}
+If true, the map will include process information.
 
 ```yaml
 Type: SwitchParameter
@@ -124,7 +124,7 @@ Accept wildcard characters: False
 ```
 
 ### -Name
-{{ Fill Name Description }}
+The name of the map.
 
 ```yaml
 Type: String
@@ -139,7 +139,7 @@ Accept wildcard characters: False
 ```
 
 ### -Public
-{{ Fill Public Description }}
+If true, this map is available to all users. By default, the map is only visible to admins.
 
 ```yaml
 Type: SwitchParameter
@@ -154,7 +154,7 @@ Accept wildcard characters: False
 ```
 
 ### -StartTime
-{{ Fill StartTime Description }}
+The start of the time range for the map.
 
 ```yaml
 Type: DateTime
@@ -169,7 +169,7 @@ Accept wildcard characters: False
 ```
 
 ### -TimeRange
-{{ Fill TimeRange Description }}
+An array of two DateTime objects, indicating the start/end time.
 
 ```yaml
 Type: Array
@@ -184,7 +184,7 @@ Accept wildcard characters: False
 ```
 
 ### -TimeResolution
-{{ Fill TimeResolution Description }}
+If true, the map will resolve accurate times for connections within the time range.
 
 ```yaml
 Type: SwitchParameter
