@@ -61,7 +61,7 @@ Accept wildcard characters: False
 ```
 
 ### -Raw
-{{ Fill Raw Description }}
+Return the raw result of the request.
 
 ```yaml
 Type: SwitchParameter
@@ -92,7 +92,7 @@ Accept wildcard characters: False
 ```
 
 ### -username
-{{ Fill username Description }}
+The username of the user to be removed, either from string or from pipeline input of user objects.
 
 ```yaml
 Type: String[]
