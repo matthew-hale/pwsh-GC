@@ -1,9 +1,9 @@
-function Publish-GCPolicy {
-    <#
-        .ExternalHelp pwsh-GC-help.xml
-    #>
+<#
+    .ExternalHelp pwsh-GC-help.xml
+#>
 
-    
+
+function Publish-GCPolicy {
     [CmdletBinding(SupportsShouldProcess)]
     param(
         [Parameter(Mandatory)]

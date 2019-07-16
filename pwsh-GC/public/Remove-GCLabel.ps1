@@ -1,9 +1,9 @@
+<#
+    .ExternalHelp pwsh-GC-help.xml
+#>
+
+
 function Remove-GCLabel {
-    <#
-        .ExternalHelp pwsh-GC-help.xml
-    #>
-
-
     [CmdletBinding(SupportsShouldProcess)]
     param (
         [Parameter(ValueFromPipeline)]

@@ -1,9 +1,9 @@
-function Get-GCIncident{
-    <#
-        .ExternalHelp pwsh-GC-help.xml
-    #>
+<#
+    .ExternalHelp pwsh-GC-help.xml
+#>
 
-    
+
+function Get-GCIncident{
     [CmdletBinding()]
     param (
         [DateTime]

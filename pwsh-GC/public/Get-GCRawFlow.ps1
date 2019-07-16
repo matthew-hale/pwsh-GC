@@ -1,9 +1,9 @@
-function Get-GCRawFlow {
-    <#
-        .ExternalHelp pwsh-GC-help.xml
-    #>
+<#
+    .ExternalHelp pwsh-GC-help.xml
+#>
 
-    
+
+function Get-GCRawFlow {
     [cmdletbinding()]
     param (
         [DateTime]

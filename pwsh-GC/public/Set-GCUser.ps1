@@ -1,9 +1,9 @@
+<#
+    .ExternalHelp pwsh-GC-help.xml
+#>
+
+
 function Set-GCUser {
-    <#
-        .ExternalHelp pwsh-GC-help.xml
-    #>
-
-
     [cmdletbinding(SupportsShouldProcess)]
     param(
         [Parameter(ValueFromPipeline)]

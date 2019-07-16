@@ -1,9 +1,9 @@
+<#
+    .ExternalHelp pwsh-GC-help.xml
+#>
+
+
 function Set-GCPolicy {
-    <#
-        .ExternalHelp pwsh-GC-help.xml
-    #>
-
-
     [CmdletBinding(SupportsShouldProcess)]
     param (
         [Parameter(ValueFromPipeline)]

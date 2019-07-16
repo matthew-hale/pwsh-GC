@@ -1,9 +1,9 @@
-function New-GCSavedMap{
-    <#
-        .ExternalHelp pwsh-GC-help.xml
-    #>
+<#
+    .ExternalHelp pwsh-GC-help.xml
+#>
 
-    
+
+function New-GCSavedMap{
     [CmdletBinding()]
     param (
         [System.String]

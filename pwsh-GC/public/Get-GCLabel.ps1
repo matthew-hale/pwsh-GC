@@ -1,9 +1,9 @@
-function Get-GCLabel {
-    <#
-        .ExternalHelp pwsh-GC-help.xml
-    #>
+<#
+    .ExternalHelp pwsh-GC-help.xml
+#>
 
-    
+
+function Get-GCLabel {
     [CmdletBinding()]
     param (
 		[String]
