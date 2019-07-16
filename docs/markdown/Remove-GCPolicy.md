@@ -8,7 +8,7 @@ schema: 2.0.0
 # Remove-GCPolicy
 
 ## SYNOPSIS
-{{ Fill in the Synopsis }}
+Delete a segmentation policy from the management server.
 
 ## SYNTAX
 
@@ -17,21 +17,21 @@ Remove-GCPolicy [[-Policy] <Array>] [[-ApiKey] <Object>] [-WhatIf] [-Confirm] [<
 ```
 
 ## DESCRIPTION
-{{ Fill in the Description }}
+Marks a policy for removal; the changes will not go through until policy changes are published.
 
 ## EXAMPLES
 
 ### Example 1
 ```powershell
-PS C:\> {{ Add example code here }}
+PS C:\> Get-GCPolicy -Comments "Remove me" | Remove-GCPolicy
 ```
 
-{{ Add example description here }}
+Remove the "Remove me" policy using the pipeline output from Get-GCPolicy.
 
 ## PARAMETERS
 
 ### -ApiKey
-{{ Fill ApiKey Description }}
+Provide an external ApiKey, in place of the global GCApiKey variable.
 
 ```yaml
 Type: Object
@@ -61,7 +61,7 @@ Accept wildcard characters: False
 ```
 
 ### -Policy
-{{ Fill Policy Description }}
+One or more policy objects to be deleted.
 
 ```yaml
 Type: Array
