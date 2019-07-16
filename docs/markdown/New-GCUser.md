@@ -8,7 +8,7 @@ schema: 2.0.0
 # New-GCUser
 
 ## SYNOPSIS
-{{ Fill in the Synopsis }}
+Create a new user on the management server.
 
 ## SYNTAX
 
@@ -18,13 +18,13 @@ New-GCUser [-Name] <String> [[-Description] <String>] [-Email] <String> [-Permis
 ```
 
 ## DESCRIPTION
-{{ Fill in the Description }}
+Create a new user on the management server, specifying permission scheme, username, email, etc.
 
 ## EXAMPLES
 
 ### Example 1
 ```powershell
-PS C:\> {{ Add example code here }}
+PS C:\> New-GCUser -Name example
 ```
 
 {{ Add example description here }}
