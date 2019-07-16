@@ -63,7 +63,7 @@ function New-GCDynamicLabel {
     end {
         $Should = $Body.key + ": " + $Body.value
         if ( $PSCmdlet.ShouldProcess($Should, "pwsh-GC-get-request -Raw -Uri $Uri -ApiKey $Key") ) {
-            pwsh-GC-get-request -Raw -Uri $Uri -Body $Body -ApiKey $Key
+            pwsh-GC-post-request -Raw -Uri $Uri -Body $Body -ApiKey $Key
         }
     }
 }
