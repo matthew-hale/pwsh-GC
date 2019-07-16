@@ -32,7 +32,7 @@ Get all users.
 ## PARAMETERS
 
 ### -ApiKey
-{{ Fill ApiKey Description }}
+Provide an external ApiKey, in place of the global GCApiKey variable.
 
 ```yaml
 Type: Object
@@ -47,7 +47,7 @@ Accept wildcard characters: False
 ```
 
 ### -Limit
-{{ Fill Limit Description }}
+The maximum number of objects to return.
 
 ```yaml
 Type: Int32
@@ -62,7 +62,7 @@ Accept wildcard characters: False
 ```
 
 ### -Name
-{{ Fill Name Description }}
+Get users based on username.
 
 ```yaml
 Type: String[]
@@ -77,7 +77,7 @@ Accept wildcard characters: False
 ```
 
 ### -Offset
-{{ Fill Offset Description }}
+The index of the first object to be returned.
 
 ```yaml
 Type: Int32
@@ -92,7 +92,7 @@ Accept wildcard characters: False
 ```
 
 ### -Raw
-{{ Fill Raw Description }}
+Return the raw result instead of the user objects directly.
 
 ```yaml
 Type: SwitchParameter
