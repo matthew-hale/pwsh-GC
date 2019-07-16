@@ -147,7 +147,7 @@ Accept wildcard characters: False
 ```
 
 ### -ID
-{{ Fill ID Description }}
+Get incidents based on incident ID. Supports partial match.
 
 ```yaml
 Type: String

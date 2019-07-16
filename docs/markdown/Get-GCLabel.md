@@ -62,7 +62,7 @@ Accept wildcard characters: False
 ```
 
 ### -DynamicCriteriaLimit
-{{ Fill DynamicCriteriaLimit Description }}
+Maximum number of dynamic criteria to return, per label.
 
 ```yaml
 Type: Int32
@@ -167,7 +167,7 @@ Accept wildcard characters: False
 ```
 
 ### -Search
-{{ Fill Search Description }}
+Get labels based on a generic search string.
 
 ```yaml
 Type: String
