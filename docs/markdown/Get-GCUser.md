@@ -8,7 +8,7 @@ schema: 2.0.0
 # Get-GCUser
 
 ## SYNOPSIS
-{{ Fill in the Synopsis }}
+Retrieve a user from the management server.
 
 ## SYNTAX
 
@@ -17,16 +17,16 @@ Get-GCUser [[-Name] <String[]>] [-Raw] [[-ApiKey] <Object>] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
-{{ Fill in the Description }}
+Pulls one or more users from the management server based on the given parameters.
 
 ## EXAMPLES
 
 ### Example 1
 ```powershell
-PS C:\> {{ Add example code here }}
+PS C:\> Get-GCUser
 ```
 
-{{ Add example description here }}
+Get all users.
 
 ## PARAMETERS
 
