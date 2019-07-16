@@ -13,7 +13,8 @@ Retrieve a user from the management server.
 ## SYNTAX
 
 ```
-Get-GCUser [[-Name] <String[]>] [-Raw] [[-ApiKey] <Object>] [<CommonParameters>]
+Get-GCUser [[-Name] <String[]>] [[-Limit] <Int32>] [[-Offset] <Int32>] [-Raw] [[-ApiKey] <Object>]
+ [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -39,6 +40,21 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
+Position: 3
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -Limit
+{{ Fill Limit Description }}
+
+```yaml
+Type: Int32
+Parameter Sets: (All)
+Aliases:
+
+Required: False
 Position: 1
 Default value: None
 Accept pipeline input: False
@@ -55,6 +71,21 @@ Aliases:
 
 Required: False
 Position: 0
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -Offset
+{{ Fill Offset Description }}
+
+```yaml
+Type: Int32
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: 2
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False

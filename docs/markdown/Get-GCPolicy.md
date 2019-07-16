@@ -336,7 +336,7 @@ Get policies based on one or more policy sections.
 Type: String[]
 Parameter Sets: (All)
 Aliases:
-Accepted values: allow, alert, block, override_allow, override_alert, override_block
+Accepted values: allow, alert, block, override, override_allow, override_alert, override_block
 
 Required: False
 Position: 1

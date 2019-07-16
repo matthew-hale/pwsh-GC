@@ -5,7 +5,7 @@ online version:
 schema: 2.0.0
 ---
 
-# Remove-GCUser
+# Remove-GCSavedMap
 
 ## SYNOPSIS
 {{ Fill in the Synopsis }}
@@ -13,7 +13,7 @@ schema: 2.0.0
 ## SYNTAX
 
 ```
-Remove-GCUser [[-username] <String[]>] [-Raw] [[-ApiKey] <Object>] [<CommonParameters>]
+Remove-GCSavedMap [[-Map] <Object>] [[-ApiKey] <Object>] [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -45,13 +45,13 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -Raw
-{{ Fill Raw Description }}
+### -Confirm
+Prompts you for confirmation before running the cmdlet.
 
 ```yaml
 Type: SwitchParameter
 Parameter Sets: (All)
-Aliases:
+Aliases: cf
 
 Required: False
 Position: Named
@@ -60,18 +60,33 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -username
-{{ Fill username Description }}
+### -Map
+{{ Fill Map Description }}
 
 ```yaml
-Type: String[]
+Type: Object
 Parameter Sets: (All)
 Aliases:
 
 Required: False
 Position: 0
 Default value: None
-Accept pipeline input: True (ByPropertyName)
+Accept pipeline input: True (ByValue)
+Accept wildcard characters: False
+```
+
+### -WhatIf
+Shows what would happen if the cmdlet runs. The cmdlet is not run.
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases: wi
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
@@ -80,7 +95,7 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 
 ## INPUTS
 
-### System.String[]
+### System.Object
 
 ## OUTPUTS
 

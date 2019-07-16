@@ -14,7 +14,8 @@ Alternatively, returns a portable key object on the pipeline for future use.
 ## SYNTAX
 
 ```
-Get-GCApiKey [-Server] <String> [-Credential] <PSCredential> [-Export] [<CommonParameters>]
+Get-GCApiKey [-Server] <String> [-Credential] <PSCredential> [-Export] [-WhatIf] [-Confirm]
+ [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -31,7 +32,6 @@ If using the key as a portable object, functions can optionally take this key as
 ```powershell
 PS C:\> Get-GCApiKey -Server cus-XXXX -Credential api
 Password for user api: ******
-
 ```
 
 Authenticate to the "cus-XXXX" server using the username "api". Prompts for password.
@@ -48,16 +48,16 @@ Authenticate to the "cus-XXXX" server using a credential object, and store the r
 
 ## PARAMETERS
 
-### -Server
-GuardiCore management server, in the format: "cus-XXXX".
+### -Confirm
+Prompts you for confirmation before running the cmdlet.
 
 ```yaml
-Type: String
+Type: SwitchParameter
 Parameter Sets: (All)
-Aliases:
+Aliases: cf
 
-Required: True
-Position: 1
+Required: False
+Position: Named
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -72,7 +72,7 @@ Parameter Sets: (All)
 Aliases: Credentials, Cred
 
 Required: True
-Position: 2
+Position: 1
 Default value: None
 Accept pipeline input: True (ByValue)
 Accept wildcard characters: False
@@ -89,6 +89,36 @@ Aliases:
 Required: False
 Position: Named
 Default value: False
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -Server
+GuardiCore management server, in the format: "cus-XXXX".
+
+```yaml
+Type: String
+Parameter Sets: (All)
+Aliases:
+
+Required: True
+Position: 0
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -WhatIf
+Shows what would happen if the cmdlet runs. The cmdlet is not run.
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases: wi
+
+Required: False
+Position: Named
+Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
 ```

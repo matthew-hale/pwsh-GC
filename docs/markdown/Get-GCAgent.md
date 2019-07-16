@@ -13,9 +13,9 @@ Retrieve an agent from the management server.
 ## SYNTAX
 
 ```
-Get-GCAgent [[-Version] <String[]>] [[-Kernel] <String[]>] [[-OS] <String[]>] [[-Label] <Object>]
- [[-Status] <String[]>] [[-Flag] <Object>] [[-Enforcement] <String[]>] [[-Deception] <String[]>]
- [[-Detection] <String[]>] [[-Reveal] <String[]>] [[-Activity] <String[]>] [[-Search] <String>]
+Get-GCAgent [[-Search] <String>] [[-Version] <String[]>] [[-Kernel] <String[]>] [[-OS] <String[]>]
+ [[-Label] <Object>] [[-Status] <String[]>] [[-Flag] <Object>] [[-Enforcement] <String[]>]
+ [[-Deception] <String[]>] [[-Detection] <String[]>] [[-Reveal] <String[]>] [[-Activity] <String[]>]
  [[-Limit] <Int32>] [[-Offset] <Int32>] [-Raw] [[-ApiKey] <Object>] [<CommonParameters>]
 ```
 
@@ -43,7 +43,7 @@ Aliases:
 Accepted values: last_month, last_week, last_12_hours, last_24_hours, not_active
 
 Required: False
-Position: 10
+Position: 11
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -74,7 +74,7 @@ Aliases:
 Accepted values: Active, Not Deployed
 
 Required: False
-Position: 7
+Position: 8
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -90,7 +90,7 @@ Aliases:
 Accepted values: Active, Not Deployed
 
 Required: False
-Position: 8
+Position: 9
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -106,7 +106,7 @@ Aliases:
 Accepted values: Active, Not Deployed, Disabled
 
 Required: False
-Position: 6
+Position: 7
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -122,7 +122,7 @@ Aliases:
 Accepted values: undefined, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14
 
 Required: False
-Position: 5
+Position: 6
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -137,7 +137,7 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 1
+Position: 2
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -152,7 +152,7 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 3
+Position: 4
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -183,7 +183,7 @@ Aliases:
 Accepted values: Unknown, Windows, Linux
 
 Required: False
-Position: 2
+Position: 3
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -229,7 +229,7 @@ Aliases:
 Accepted values: Active, Not Deployed
 
 Required: False
-Position: 9
+Position: 10
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -244,7 +244,7 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 11
+Position: 0
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -260,7 +260,7 @@ Aliases:
 Accepted values: Online, Offline
 
 Required: False
-Position: 4
+Position: 5
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -275,7 +275,7 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 0
+Position: 1
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
