@@ -13,7 +13,7 @@ Publish the current policy set on the management server, including pending chang
 ## SYNTAX
 
 ```
-Publish-GCPolicy [-Comments] <String> [-Audit] [[-ApiKey] <Object>] [-WhatIf] [-Confirm] [<CommonParameters>]
+Publish-GCPolicy [-Comments] <String>  [[-ApiKey] <Object>] [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -45,23 +45,8 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -Audit
-{{ Fill Audit Description }}
-
-```yaml
-Type: SwitchParameter
-Parameter Sets: (All)
-Aliases:
-
-Required: False
-Position: Named
-Default value: None
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
 ### -Comments
-{{ Fill Comments Description }}
+The comments for the policy revision.
 
 ```yaml
 Type: String
