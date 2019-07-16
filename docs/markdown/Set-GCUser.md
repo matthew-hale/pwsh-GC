@@ -8,7 +8,7 @@ schema: 2.0.0
 # Set-GCUser
 
 ## SYNOPSIS
-{{ Fill in the Synopsis }}
+Update a user on the management server based on a user object input.
 
 ## SYNTAX
 
@@ -17,21 +17,21 @@ Set-GCUser [[-User] <Object>] [[-ApiKey] <Object>] [-WhatIf] [-Confirm] [<Common
 ```
 
 ## DESCRIPTION
-{{ Fill in the Description }}
+Given a user object as input, set the corresponding user on the management server to be equal to the input user.
 
 ## EXAMPLES
 
 ### Example 1
 ```powershell
-PS C:\> {{ Add example code here }}
+PS C:\> Get-GCUser "setme" | Set-GCUser
 ```
 
-{{ Add example description here }}
+Set the "setme" user to be equal to itself.
 
 ## PARAMETERS
 
 ### -ApiKey
-{{ Fill ApiKey Description }}
+Provide an external ApiKey, in place of the global GCApiKey variable.
 
 ```yaml
 Type: Object
@@ -61,7 +61,7 @@ Accept wildcard characters: False
 ```
 
 ### -User
-{{ Fill User Description }}
+One or more user objects to set.
 
 ```yaml
 Type: Object
