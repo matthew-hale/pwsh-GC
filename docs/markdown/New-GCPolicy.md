@@ -8,7 +8,7 @@ schema: 2.0.0
 # New-GCPolicy
 
 ## SYNOPSIS
-{{ Fill in the Synopsis }}
+Create a segmentation policy on the management server.
 
 ## SYNTAX
 
@@ -22,21 +22,21 @@ New-GCPolicy [-Section] <String> [-Action] <String> [[-Protocol] <Array>] [[-Por
 ```
 
 ## DESCRIPTION
-{{ Fill in the Description }}
+Create a segmentation policy based on the given parameters on the management server. Policies can be based on label, asset, process, port, protocol, etc.
 
 ## EXAMPLES
 
 ### Example 1
 ```powershell
-PS C:\> {{ Add example code here }}
+PS C:\> New-GCPolicy -Section allow -Action allow -SourceInternet -DestinationAsset (Get-GCAsset "dc1") -Ruleset "Example" -Comments "Example allow policy"
 ```
 
-{{ Add example description here }}
+Create an allow policy for internet traffic going to the "dc1" asset on any port, to any process.
 
 ## PARAMETERS
 
 ### -Action
-{{ Fill Action Description }}
+The action that the policy should take. For block rules, this can be either Block or Block and Alert.
 
 ```yaml
 Type: String
@@ -52,7 +52,7 @@ Accept wildcard characters: False
 ```
 
 ### -ApiKey
-{{ Fill ApiKey Description }}
+Provide an external ApiKey, in place of the global GCApiKey variable.
 
 ```yaml
 Type: Object
@@ -67,7 +67,7 @@ Accept wildcard characters: False
 ```
 
 ### -Comments
-{{ Fill Comments Description }}
+The comments field in the policy. Takes an arbitrary string.
 
 ```yaml
 Type: String
@@ -97,7 +97,7 @@ Accept wildcard characters: False
 ```
 
 ### -DestinationAsset
-{{ Fill DestinationAsset Description }}
+One or more assets in the destination (multiple assets create an "or" relationship).
 
 ```yaml
 Type: Array
@@ -112,7 +112,7 @@ Accept wildcard characters: False
 ```
 
 ### -DestinationInternet
-{{ Fill DestinationInternet Description }}
+The type of destination address; if true, the destination is an internet address. If false, the destination is a private address.
 
 ```yaml
 Type: SwitchParameter
@@ -127,7 +127,7 @@ Accept wildcard characters: False
 ```
 
 ### -DestinationLabel
-{{ Fill DestinationLabel Description }}
+The label(s) in the destination. Takes a 2-dimensional array of labels. Inner groups represent an "and" relationship, while the outer group is an "or" relationship.
 
 ```yaml
 Type: Array
@@ -142,7 +142,7 @@ Accept wildcard characters: False
 ```
 
 ### -DestinationLabelFile
-{{ Fill DestinationLabelFile Description }}
+Specify destination labels from a file.
 
 ```yaml
 Type: String[]
@@ -157,7 +157,7 @@ Accept wildcard characters: False
 ```
 
 ### -DestinationProcesses
-{{ Fill DestinationProcesses Description }}
+The process(es) in the destination. Multiple processes represent an "or" relationship.
 
 ```yaml
 Type: Array
@@ -172,7 +172,7 @@ Accept wildcard characters: False
 ```
 
 ### -DestinationSubnet
-{{ Fill DestinationSubnet Description }}
+The subnet(s) in the destination. Multiple subnets represent an "or" relationship.
 
 ```yaml
 Type: String[]
@@ -187,7 +187,7 @@ Accept wildcard characters: False
 ```
 
 ### -Port
-{{ Fill Port Description }}
+The port(s) in the destination. Multiple ports represent an "or" relationship.
 
 ```yaml
 Type: Array
@@ -202,7 +202,7 @@ Accept wildcard characters: False
 ```
 
 ### -PortRange
-{{ Fill PortRange Description }}
+The port range(s) in the destination. Takes one or more arrays containing 2 integer values, representing the start and the end of each range. Multiple port ranges represent an "or" relationship.
 
 ```yaml
 Type: Array
@@ -217,7 +217,7 @@ Accept wildcard characters: False
 ```
 
 ### -Protocol
-{{ Fill Protocol Description }}
+The IP protocol(s). If both TCP and UDP are provided, the policy will match either protocol for all given ports.
 
 ```yaml
 Type: Array
@@ -233,7 +233,7 @@ Accept wildcard characters: False
 ```
 
 ### -Ruleset
-{{ Fill Ruleset Description }}
+The name of the ruleset. Alert/block rules will add this ruleset as a tag on any generated incidents.
 
 ```yaml
 Type: String
@@ -248,7 +248,7 @@ Accept wildcard characters: False
 ```
 
 ### -Section
-{{ Fill Section Description }}
+The section that this policy belongs.
 
 ```yaml
 Type: String
@@ -264,7 +264,7 @@ Accept wildcard characters: False
 ```
 
 ### -SourceAsset
-{{ Fill SourceAsset Description }}
+One or more assets in the source (multiple assets create an "or" relationship).
 
 ```yaml
 Type: Array
@@ -279,7 +279,7 @@ Accept wildcard characters: False
 ```
 
 ### -SourceInternet
-{{ Fill SourceInternet Description }}
+The type of source address; if true, the destination is an internet address. If false, the destination is a private address.
 
 ```yaml
 Type: SwitchParameter
@@ -294,7 +294,7 @@ Accept wildcard characters: False
 ```
 
 ### -SourceLabel
-{{ Fill SourceLabel Description }}
+The label(s) in the source. Takes a 2-dimensional array of labels. Inner groups represent an "and" relationship, while the outer group is an "or" relationship.
 
 ```yaml
 Type: Array
@@ -309,7 +309,7 @@ Accept wildcard characters: False
 ```
 
 ### -SourceLabelFile
-{{ Fill SourceLabelFile Description }}
+Specify source labels from a file.
 
 ```yaml
 Type: String[]
@@ -324,7 +324,7 @@ Accept wildcard characters: False
 ```
 
 ### -SourceProcesses
-{{ Fill SourceProcesses Description }}
+The process(es) in the source. Multiple processes represent an "or" relationship.
 
 ```yaml
 Type: Array
@@ -339,7 +339,7 @@ Accept wildcard characters: False
 ```
 
 ### -SourceSubnet
-{{ Fill SourceSubnet Description }}
+The subnet(s) in the source. Multiple subnets represent an "or" relationship.
 
 ```yaml
 Type: String[]
