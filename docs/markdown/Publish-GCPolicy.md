@@ -8,7 +8,7 @@ schema: 2.0.0
 # Publish-GCPolicy
 
 ## SYNOPSIS
-{{ Fill in the Synopsis }}
+Publish the current policy set on the management server, including pending changes.
 
 ## SYNTAX
 
@@ -17,21 +17,21 @@ Publish-GCPolicy [-Comments] <String> [-Audit] [[-ApiKey] <Object>] [-WhatIf] [-
 ```
 
 ## DESCRIPTION
-{{ Fill in the Description }}
+Publishes all pending changes on the management server, using the provided comments as the publish comments. This changes the state of any in-progress policy changes to "unchanged," and creates a new policy revision.
 
 ## EXAMPLES
 
 ### Example 1
 ```powershell
-PS C:\> {{ Add example code here }}
+PS C:\> Publish-Policy -Comments "Example comments"
 ```
 
-{{ Add example description here }}
+Publish the current policy set with "Example comments" as the publish comments.
 
 ## PARAMETERS
 
 ### -ApiKey
-{{ Fill ApiKey Description }}
+Provide an external ApiKey, in place of the global GCApiKey variable.
 
 ```yaml
 Type: Object
