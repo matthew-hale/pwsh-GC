@@ -1,8 +1,3 @@
-<#
-    .ExternalHelp pwsh-GC-help.xml
-#>
-
-
 function New-GCDynamicLabel {
     [CmdletBinding(SupportsShouldProcess)]
     param (

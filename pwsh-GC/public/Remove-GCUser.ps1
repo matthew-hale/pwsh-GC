@@ -1,8 +1,3 @@
-<#
-    .ExternalHelp pwsh-GC-help.xml
-#>
-
-
 function Remove-GCUser {
     [cmdletbinding(SupportsShouldProcess)]
     param (
