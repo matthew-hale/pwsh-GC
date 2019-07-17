@@ -39,10 +39,10 @@ function New-GCDynamicLabel {
                 $Key = $ApiKey
             } else {
                 $Key = $global:GCApiKey
-            } 
+            }
             $Uri = "/visibility/labels"
         }
-        
+
         $Body = [PSCustomObject]@{
             id = $null
             key = $LabelKey

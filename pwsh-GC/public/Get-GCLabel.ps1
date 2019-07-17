@@ -41,12 +41,12 @@ function Get-GCLabel {
             $Key = $ApiKey
         } else {
             $Key = $global:GCApiKey
-        } 
+        }
         $Uri = "/visibility/labels"
     }
-    
+
     # Building the request body with given parameters
-    
+
     $Body = @{
         find_matches = $FindMatches:isPresent
 		text_search = $Search

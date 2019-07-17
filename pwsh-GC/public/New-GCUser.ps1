@@ -40,7 +40,7 @@ function New-GCUser {
             $Key = $ApiKey
         } else {
             $Key = $global:GCApiKey
-        } 
+        }
         $Uri = "/system/user"
     }
 

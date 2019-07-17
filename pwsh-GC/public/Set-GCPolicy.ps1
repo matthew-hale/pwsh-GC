@@ -8,7 +8,7 @@ function Set-GCPolicy {
     param (
         [Parameter(ValueFromPipeline)]
         [PSTypeName("GCPolicy")]
-        $Policy, 
+        $Policy,
 
         [PSTypeName("GCApiKey")]
         $ApiKey
@@ -19,7 +19,7 @@ function Set-GCPolicy {
                 $Key = $ApiKey
             } else {
                 $Key = $global:GCApiKey
-            } 
+            }
         }
     }
     process {
@@ -27,13 +27,13 @@ function Set-GCPolicy {
             # Serialize/deserialize data
             $PCopy = $ThisPolicy | ConvertTo-Json -Depth 99 | ConvertFrom-Json
             $Uri = "/visibility/policy/rules/" + $PCopy.id
-            
+
             # Have to parse the source/destination labels to only contain IDs,
             # instead of all the other info that they come with from Get-GCLabel
             # Passing that extra info to the API errors out,
             # because this api call is just like the one for creating new policy,
             # and only uses label IDs for the source/destination
-            
+
             if ( $PCopy.source.labels ) {
                 $OrCount = $PCopy.source.labels.or_labels.count
                 for ($i = 0; $i -lt $OrCount; $i++) {
@@ -44,7 +44,7 @@ function Set-GCPolicy {
                     }
                 }
             }
-            
+
             if ( $PCopy.destination.labels ) {
                 $OrCount = $PCopy.destination.labels.or_labels.count
                 for ($i = 0; $i -lt $OrCount; $i++) {
@@ -55,7 +55,7 @@ function Set-GCPolicy {
                     }
                 }
             }
-            
+
             $RequestBody = $PCopy
 
             $Should = $RequestBody.ruleset_name

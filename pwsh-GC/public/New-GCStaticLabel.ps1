@@ -28,10 +28,10 @@ function New-GCStaticLabel {
                 $Key = $ApiKey
             } else {
                 $Key = $global:GCApiKey
-            } 
+            }
             $Uri = "/assets/labels/" + $LabelKey + "/" + $LabelValue
         }
-        
+
         $Body = [PSCustomObject]@{
             "vms" = @()
         }

@@ -19,7 +19,7 @@ function Remove-GCLabel {
                 $Key = $ApiKey
             } else {
                 $Key = $global:GCApiKey
-            } 
+            }
         }
     }
     process {

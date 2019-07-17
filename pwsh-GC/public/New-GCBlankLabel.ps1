@@ -23,7 +23,7 @@ function New-GCBlankLabel {
             $Key = $ApiKey
         } else {
             $Key = $global:GCApiKey
-        } 
+        }
         $Uri = "/visibility/labels"
     }
 

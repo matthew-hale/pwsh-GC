@@ -39,7 +39,7 @@ function Get-GCApiKey {
         if ( $Export ) {
             # Returns the object on the pipeline.
 
-            [PSCustomObject]@{ 
+            [PSCustomObject]@{
                 PSTypeName = "GCApiKey"
                 Token = $Token
                 Uri = $Uri
@@ -47,7 +47,7 @@ function Get-GCApiKey {
         } else {
             # Saves the object in a global (session scope) variable called GCApiKey, so other functions don't need a key input.
 
-            $Global:GCApiKey = [PSCustomObject]@{ 
+            $Global:GCApiKey = [PSCustomObject]@{
                 PSTypeName = "GCApiKey"
                 Token = $Token
                 Uri = $Uri

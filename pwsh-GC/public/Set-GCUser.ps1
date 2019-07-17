@@ -13,14 +13,14 @@ function Set-GCUser {
         [PSTypeName("GCApiKey")]
         $ApiKey
     )
-    
+
     begin {
         if ( GCApiKey-present $ApiKey ) {
             if ( $ApiKey ) {
                 $Key = $ApiKey
             } else {
                 $Key = $global:GCApiKey
-            } 
+            }
             $Uri = "/system/user"
         }
     }

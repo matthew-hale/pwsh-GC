@@ -63,7 +63,7 @@ function Get-GCRawFlow {
             $Key = $ApiKey
         } else {
             $Key = $global:GCApiKey
-        } 
+        }
         $Uri = "/connections?sort=slot_start_time"
     }
 
