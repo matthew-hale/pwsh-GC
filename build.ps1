@@ -1,6 +1,6 @@
 [cmdletbinding()]
 param (
-    $Task = "Default",
+    $Task = "Default"
 )
 
 $Modules = @(
@@ -13,6 +13,8 @@ $Modules = @(
 $ModuleInstallScope = "CurrentUser"
 
 Install-Module -Name $Modules -Scope $ModuleInstallScope -Force
+
+Import-Module psake
 
 Invoke-psake -taskList $Task
 

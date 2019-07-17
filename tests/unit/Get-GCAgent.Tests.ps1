@@ -1,20 +1,12 @@
-# Import the function
-. "$PWD/../../pwsh-GC/Public/Get-GCAgent.ps1"
-
-# Import private functions
-. "$PWD/../../pwsh-GC/Private/pwsh-GC-get-request.ps1"
-. "$PWD/../../pwsh-GC/Private/GCApiKey-present.ps1"
-. "$PWD/../../pwsh-GC/Private/Remove-EmptyKeys.ps1"
-
-# Import test function
-. "$PWD/functions/unrollhash.ps1"
-
 Describe Get-GCAgent {
+    function pwsh-GC-get-request {}
+    function GCApiKey-present {}
+
     Context "No input" {
         Mock pwsh-GC-get-request {
             @($Uri,$Body,$ApiKey)
         }
-    
+
         Mock GCApiKey-present {
             $true
         }

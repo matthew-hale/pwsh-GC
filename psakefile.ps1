@@ -8,11 +8,13 @@ Properties {
 Task Default -Depends Publish
 
 Task Init {
+    Import-Module pester,platyPS,PSScriptAnalyzer
     $Lines
+    "Make required output folders"
     Set-Location $ProjectRoot
     mkdir "out"
     mkdir "out/pwsh-GC"
-    mkdir "out/en-US"
+    mkdir "out/pwsh-GC/en-US"
     "`n"
 }
 
@@ -42,7 +44,10 @@ Task Build -Depends Init {
     }
 
     "Creating en-US maml help file"
-    New-ExternalHelp -Path "$ProjectRoot/docs/markdown" -OutputPath "$ProjectRoot/out/en-US"
+    New-ExternalHelp -Path "$ProjectRoot/docs/markdown" -OutputPath "$ProjectRoot/out/pwsh-GC/en-US"
+
+    "Copying manifest"
+    Copy-Item "$ProjectRoot/pwsh-GC/pwsh-GC.psd1" "$ProjectRoot/out/pwsh-GC/pwsh-GC.psd1"
 
     "`n"
 }
@@ -50,10 +55,18 @@ Task Build -Depends Init {
 Task Pester -Depends Build {
     $Lines
     "Running unit tests"
-    $UnitTestResults = Invoke-Pester "$ProjectRoot/tests/unit"
+
+    Import-Module "$ProjectRoot/out/pwsh-GC/pwsh-GC.psd1"
+    $TestFunctions = Get-ChildItem "$ProjectRoot/tests/unit/functions/*.ps1"
+    foreach ( $File in $TestFunctions ) {
+        $FilePath = $File.FullName
+        . $FilePath
+    }
+
+    $UnitTestResults = Invoke-Pester "$ProjectRoot/tests/unit" -PassThru
 
     if ( $UnitTestResults.FailedCount -gt 0 ) {
-        Write-Error "Failed '$($UnitTestResults.FailedCount)' tests, build failed"
+        throw "Failed '$($UnitTestResults.FailedCount)' tests, build failed"
     }
 
     "`n"
@@ -67,5 +80,7 @@ Task Analyze -Depends Build {
 Task Test -Depends Analyze,Pester
 
 Task Publish -Depends Test {
+    $Lines
+    "Publishing not yet implemented"
 }
 
