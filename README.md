@@ -21,7 +21,7 @@ The pwsh-GC module is essentially a wrapper for GuardiCore's management server A
 
 ## Installation
 Install PowerShell Core from the PowerShell github repository, here:\
-https://github.com/powershell/powershell \
+https://github.com/powershell/powershell
 
 ### PowerShellGet
 pwsh-GC is available on the PowerShell Gallery, and can thus be installed using PowerShellGet.
@@ -36,7 +36,7 @@ To manually use the module, you can simply import the module file directly.
 
 Download/clone the pwsh-GC repository, and import the module:
 ```PowerShell
-Import-Module ./pwsh-GC.psd1.
+Import-Module ./pwsh-GC.psd1
 ```
 
 ## Use
