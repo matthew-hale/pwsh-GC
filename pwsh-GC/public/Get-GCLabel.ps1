@@ -64,3 +64,4 @@ function Get-GCLabel {
         pwsh-GC-get-request -Uri $Uri -Body $RequestBody -ApiKey $Key | foreach {$_.PSTypeNames.Clear(); $_.PSTypeNames.Add("GCLabel"); $_}
     }
 }
+

@@ -34,3 +34,4 @@ function New-GCBlankLabel {
         pwsh-GC-post-request -Raw -Uri $Uri -Body $Body -ApiKey $Key
     }
 }
+

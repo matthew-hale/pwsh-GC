@@ -110,3 +110,4 @@ function New-GCSavedMap{
         pwsh-GC-post-request -Raw -Uri $Uri -Body $Body -ApiKey $Key
     }
 }
+

@@ -36,3 +36,4 @@ function pwsh-GC-post-request {
 		}
 	}
 }
+

@@ -40,3 +40,4 @@ function Get-GCUser {
         pwsh-gc-get-request -Uri $Uri -Body $RequestBody -ApiKey $Key | foreach {$_.PSTypeNames.Clear(); $_.PSTypeNames.Add("GCUser"); $_}
     }
 }
+
