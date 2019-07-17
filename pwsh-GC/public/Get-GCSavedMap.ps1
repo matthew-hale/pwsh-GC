@@ -33,7 +33,7 @@ function Get-GCSavedMap {
 
         [Int32]
         $Offset,
-        
+
         [Switch]
         $Raw,
 
@@ -46,7 +46,7 @@ function Get-GCSavedMap {
             $Key = $ApiKey
         } else {
             $Key = $global:GCApiKey
-        } 
+        }
         $Uri = "/visibility/saved-maps"
     }
 
@@ -63,27 +63,28 @@ function Get-GCSavedMap {
         limit = $Limit
         offset = $Offset
     }
-    
+
     # Weird parameter
 
     if ( $TimeRange ) {
         if ( $TimeRange.count -ne 2 ) {
             throw "Incorrect time range syntax"
         }
-        
+
         $Range0 = $TimeRange[0] | ConvertTo-GCUnixTime
         $Range1 = $TimeRange[1] | ConvertTo-GCUnixTime
-        
+
         $Body.time_range_filter = $Range0 + "," + $Range1
     }
 
     # Removing empty keys
 
     $RequestBody = Remove-EmptyKeys $Body
-    
+
     if ( $Raw ) {
         pwsh-GC-get-request -Raw -Uri $Uri -Body $RequestBody -ApiKey $Key
     } else {
         pwsh-GC-get-request -Uri $Uri -Body $RequestBody -ApiKey $Key | foreach {$_.PSTypeNames.Clear(); $_.PSTypeNames.Add("GCSavedMap"); $_}
     }
 }
+

@@ -14,7 +14,7 @@ function pwsh-GC-get-request {
 	)
 	
 	begin {
-		$RequestToken = $ApiKey.Token
+		$RequestToken = $ApiKey.Token | ConvertTo-SecureString -AsPlainText -Force
 		$RequestUri = $ApiKey.Uri + $Uri
 	}
 	

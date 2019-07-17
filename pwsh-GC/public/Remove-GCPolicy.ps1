@@ -31,7 +31,7 @@ function Remove-GCPolicy {
             $Uri = "/visibility/policy/rules/" + $ThisPolicy.id
 
             $Should = $Uri
-            if ( $PSCmdlet.ShouldProcess($Uri, "pwsh-GC-post-request -Raw -Uri $Uri -Body $Body -ApiKey $Key") ) {
+            if ( $PSCmdlet.ShouldProcess($Should, "pwsh-GC-post-request -Raw -Uri $Uri -Body $Body -ApiKey $Key") ) {
                 pwsh-GC-post-request -Raw -Uri $Uri -Body $Body -ApiKey $Key
             }
         }

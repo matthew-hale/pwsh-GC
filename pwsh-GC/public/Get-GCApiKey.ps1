@@ -29,7 +29,7 @@ function Get-GCApiKey {
 
         if ( $pscmdlet.ShouldProcess("$Server","Invoke-RestMethod -Uri $TempUri -Method 'Post'") ) {
             try {
-                $Token = Invoke-RestMethod -Uri $TempUri -Method "Post" -Body $BodyJson -ContentType "application/json" | Select-Object -ExpandProperty "access_token" | ConvertTo-SecureString -AsPlainText -Force
+                $Token = Invoke-RestMethod -Uri $TempUri -Method "Post" -Body $BodyJson -ContentType "application/json" | Select-Object -ExpandProperty "access_token"
             }
             catch {
                 throw $_.Exception

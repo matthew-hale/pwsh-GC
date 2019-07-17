@@ -7,7 +7,8 @@ function Set-GCPassword {
     [cmdletbinding(SupportsShouldProcess)]
     param(
         [Parameter(ValueFromPipeline)]
-        [PSTypeName("GCUser")]$User,
+        [Alias("Username","User")]
+        [PSTypeName("GCUser")]$Name,
 
         [Parameter(Mandatory)]
         [String]$Password,
