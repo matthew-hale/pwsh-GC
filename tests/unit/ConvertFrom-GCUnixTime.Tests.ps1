@@ -1,5 +1,5 @@
 # Import the function
-. "$PWD/../pwsh-GC/Public/ConvertFrom-GCUnixTime.ps1"
+. "$PWD/../../pwsh-GC/Public/ConvertFrom-GCUnixTime.ps1"
 
 Describe ConvertFrom-GCunixTime {
     It "Given a Unix timestamp in milliseconds, it returns the matching date." {

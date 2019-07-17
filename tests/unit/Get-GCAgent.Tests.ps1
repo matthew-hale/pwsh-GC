@@ -1,10 +1,10 @@
 # Import the function
-. "$PWD/../pwsh-GC/Public/Get-GCAgent.ps1"
+. "$PWD/../../pwsh-GC/Public/Get-GCAgent.ps1"
 
 # Import private functions
-. "$PWD/../pwsh-GC/Private/pwsh-GC-get-request.ps1"
-. "$PWD/../pwsh-GC/Private/GCApiKey-present.ps1"
-. "$PWD/../pwsh-GC/Private/Remove-EmptyKeys.ps1"
+. "$PWD/../../pwsh-GC/Private/pwsh-GC-get-request.ps1"
+. "$PWD/../../pwsh-GC/Private/GCApiKey-present.ps1"
+. "$PWD/../../pwsh-GC/Private/Remove-EmptyKeys.ps1"
 
 # Import test function
 . "$PWD/functions/unrollhash.ps1"
