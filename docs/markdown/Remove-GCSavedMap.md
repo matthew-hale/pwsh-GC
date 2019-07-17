@@ -8,30 +8,30 @@ schema: 2.0.0
 # Remove-GCSavedMap
 
 ## SYNOPSIS
-{{ Fill in the Synopsis }}
+Remove a saved map from the management server.
 
 ## SYNTAX
 
 ```
-Remove-GCSavedMap [[-Map] <Object>] [[-ApiKey] <Object>] [<CommonParameters>]
+Remove-GCSavedMap [[-Map] <Object>] [[-ApiKey] <Object>] [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
-{{ Fill in the Description }}
+Delete one or more saved maps from the management server.
 
 ## EXAMPLES
 
 ### Example 1
 ```powershell
-PS C:\> {{ Add example code here }}
+PS C:\> Get-GCSavedMap "delete me" | Remove-GCSavedMap
 ```
 
-{{ Add example description here }}
+Delete the "delete me" saved map using the pipeline output from Get-GCSavedMap.
 
 ## PARAMETERS
 
 ### -ApiKey
-{{ Fill ApiKey Description }}
+Provide an external ApiKey, in place of the global GCApiKey variable.
 
 ```yaml
 Type: Object
@@ -45,8 +45,23 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
+### -Confirm
+Prompts you for confirmation before running the cmdlet.
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases: cf
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
 ### -Map
-{{ Fill Map Description }}
+One or more map objects as returned from the API.
 
 ```yaml
 Type: Object
@@ -57,6 +72,21 @@ Required: False
 Position: 0
 Default value: None
 Accept pipeline input: True (ByValue)
+Accept wildcard characters: False
+```
+
+### -WhatIf
+Shows what would happen if the cmdlet runs. The cmdlet is not run.
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases: wi
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
 Accept wildcard characters: False
 ```
 

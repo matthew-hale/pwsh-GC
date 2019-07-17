@@ -1,3 +1,8 @@
+<#
+    .ExternalHelp pwsh-GC-help.xml
+#>
+
+
 function New-GCUser {
     [cmdletbinding(SupportsShouldProcess)]
 
@@ -9,7 +14,6 @@ function New-GCUser {
         [String]
         $Description,
 
-        [Parameter(Mandatory)]
         [String]
         $Email,
 

@@ -8,30 +8,31 @@ schema: 2.0.0
 # New-GCBlankLabel
 
 ## SYNOPSIS
-{{ Fill in the Synopsis }}
+Create a new blank label on the management server.
 
 ## SYNTAX
 
 ```
-New-GCBlankLabel [-LabelKey] <String> [-LabelValue] <String> [[-ApiKey] <Object>] [<CommonParameters>]
+New-GCBlankLabel [-LabelKey] <String> [-LabelValue] <String> [[-ApiKey] <Object>] [-WhatIf] [-Confirm]
+ [<CommonParameters>]
 ```
 
 ## DESCRIPTION
-{{ Fill in the Description }}
+Create a new label with no criteria or added assets using the given key and value.
 
 ## EXAMPLES
 
 ### Example 1
 ```powershell
-PS C:\> {{ Add example code here }}
+PS C:\> New-GCBlankLabel -LabelKey Test -LabelValue Example
 ```
 
-{{ Add example description here }}
+Create a blank label called "Test: Example".
 
 ## PARAMETERS
 
 ### -ApiKey
-{{ Fill ApiKey Description }}
+Provide an external ApiKey, in place of the global GCApiKey variable.
 
 ```yaml
 Type: Object
@@ -45,8 +46,23 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
+### -Confirm
+Prompts you for confirmation before running the cmdlet.
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases: cf
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
 ### -LabelKey
-{{ Fill LabelKey Description }}
+The key of the new label.
 
 ```yaml
 Type: String
@@ -61,7 +77,7 @@ Accept wildcard characters: False
 ```
 
 ### -LabelValue
-{{ Fill LabelValue Description }}
+The value of the new label.
 
 ```yaml
 Type: String
@@ -70,6 +86,21 @@ Aliases:
 
 Required: True
 Position: 1
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -WhatIf
+Shows what would happen if the cmdlet runs. The cmdlet is not run.
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases: wi
+
+Required: False
+Position: Named
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False

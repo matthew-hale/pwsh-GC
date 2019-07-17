@@ -1,5 +1,9 @@
-function Get-GCAsset {
+<#
+    .ExternalHelp pwsh-GC-help.xml
+#>
 
+
+function Get-GCAsset {
     [CmdletBinding()]
     param (
         [System.String]

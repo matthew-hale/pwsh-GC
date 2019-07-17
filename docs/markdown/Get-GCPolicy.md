@@ -23,21 +23,28 @@ Get-GCPolicy [[-Search] <String>] [[-Section] <String[]>] [[-Protocol] <Array>] 
 ```
 
 ## DESCRIPTION
-Pulls one or more policy from the management server based on the given parameters. Policies can be returned based on any of their criteria, including a generic search string.
+Pulls one or more policies from the management server based on the given parameters. Policies can be returned based on any of their criteria, including a generic search string.
 
 ## EXAMPLES
 
 ### Example 1
 ```powershell
-PS C:\> {{ Add example code here }}
+PS C:\> Get-GCPolicy
 ```
 
-{{ Add example description here }}
+Get policies using default parameters.
+
+### Example 2
+```powershell
+PS C:\> Get-GCPolicy -Limit 5 -SourceInternet
+```
+
+Get up to 5 policies that define source as an Internet address.
 
 ## PARAMETERS
 
 ### -AnySideAsset
-{{ Fill AnySideAsset Description }}
+Get policies based on the presence of one or more assets in either the source or the destination.
 
 ```yaml
 Type: Object
@@ -52,7 +59,7 @@ Accept wildcard characters: False
 ```
 
 ### -AnySideInternet
-{{ Fill AnySideInternet Description }}
+Get policies that define either the source or the destination as being either an internet or private address.
 
 ```yaml
 Type: SwitchParameter
@@ -67,7 +74,7 @@ Accept wildcard characters: False
 ```
 
 ### -AnySideLabel
-{{ Fill AnySideLabel Description }}
+Get policies based on the presence of one or more labels in either the source or the destination.
 
 ```yaml
 Type: Object
@@ -82,7 +89,7 @@ Accept wildcard characters: False
 ```
 
 ### -AnySideProcess
-{{ Fill AnySideProcess Description }}
+Get policies based on the presence of one or more processes in either the source or the destination.
 
 ```yaml
 Type: Array
@@ -97,7 +104,7 @@ Accept wildcard characters: False
 ```
 
 ### -AnySideSubnet
-{{ Fill AnySideSubnet Description }}
+Get policies based on the presence of one or more subnets in either the source or the destination.
 
 ```yaml
 Type: String
@@ -112,7 +119,7 @@ Accept wildcard characters: False
 ```
 
 ### -ApiKey
-{{ Fill ApiKey Description }}
+Provide an external ApiKey, in place of the global GCApiKey variable.
 
 ```yaml
 Type: Object
@@ -127,7 +134,7 @@ Accept wildcard characters: False
 ```
 
 ### -Comments
-{{ Fill Comments Description }}
+Get policies based on their comments.
 
 ```yaml
 Type: String
@@ -142,7 +149,7 @@ Accept wildcard characters: False
 ```
 
 ### -DestinationAsset
-{{ Fill DestinationAsset Description }}
+Get policies based on the presence of one or more assets in the destination.
 
 ```yaml
 Type: Object
@@ -157,7 +164,7 @@ Accept wildcard characters: False
 ```
 
 ### -DestinationInternet
-{{ Fill DestinationInternet Description }}
+Get policies that define the destinatino as being either an internet or private address.
 
 ```yaml
 Type: SwitchParameter
@@ -172,7 +179,7 @@ Accept wildcard characters: False
 ```
 
 ### -DestinationLabel
-{{ Fill DestinationLabel Description }}
+Get policies based on the presence of one or more labels in the destination.
 
 ```yaml
 Type: Object
@@ -187,7 +194,7 @@ Accept wildcard characters: False
 ```
 
 ### -DestinationProcess
-{{ Fill DestinationProcess Description }}
+Get policies based on the presence of one or more processes in the destination.
 
 ```yaml
 Type: Array
@@ -202,7 +209,7 @@ Accept wildcard characters: False
 ```
 
 ### -DestinationSubnet
-{{ Fill DestinationSubnet Description }}
+Get policies based on the presence of one or more subnets in the destination.
 
 ```yaml
 Type: String
@@ -217,7 +224,7 @@ Accept wildcard characters: False
 ```
 
 ### -Limit
-{{ Fill Limit Description }}
+The maximum number of objects to return.
 
 ```yaml
 Type: Int32
@@ -232,7 +239,7 @@ Accept wildcard characters: False
 ```
 
 ### -Offset
-{{ Fill Offset Description }}
+The index of the first result to be returned.
 
 ```yaml
 Type: Int32
@@ -247,7 +254,7 @@ Accept wildcard characters: False
 ```
 
 ### -Port
-{{ Fill Port Description }}
+Get policies based on the presence of one or more destination ports.
 
 ```yaml
 Type: Array
@@ -262,7 +269,7 @@ Accept wildcard characters: False
 ```
 
 ### -Protocol
-{{ Fill Protocol Description }}
+Get policies based on the presence of TCP/UCP in the port protocol.
 
 ```yaml
 Type: Array
@@ -278,7 +285,7 @@ Accept wildcard characters: False
 ```
 
 ### -Raw
-{{ Fill Raw Description }}
+Return the raw result instead of the policy objects directly.
 
 ```yaml
 Type: SwitchParameter
@@ -293,7 +300,7 @@ Accept wildcard characters: False
 ```
 
 ### -Ruleset
-{{ Fill Ruleset Description }}
+Get policies based on their ruleset.
 
 ```yaml
 Type: String
@@ -308,7 +315,7 @@ Accept wildcard characters: False
 ```
 
 ### -Search
-{{ Fill Search Description }}
+Get policies based on a search string.
 
 ```yaml
 Type: String
@@ -323,13 +330,13 @@ Accept wildcard characters: False
 ```
 
 ### -Section
-{{ Fill Section Description }}
+Get policies based on one or more policy sections.
 
 ```yaml
 Type: String[]
 Parameter Sets: (All)
 Aliases:
-Accepted values: allow, alert, block, override_allow, override_alert, override_block
+Accepted values: allow, alert, block, override, override_allow, override_alert, override_block
 
 Required: False
 Position: 1
@@ -339,7 +346,7 @@ Accept wildcard characters: False
 ```
 
 ### -SourceAsset
-{{ Fill SourceAsset Description }}
+Get policies based on the presence of one or more assets in the source.
 
 ```yaml
 Type: Object
@@ -354,7 +361,7 @@ Accept wildcard characters: False
 ```
 
 ### -SourceInternet
-{{ Fill SourceInternet Description }}
+Get policies that define the source as being either an internet or private address.
 
 ```yaml
 Type: SwitchParameter
@@ -369,7 +376,7 @@ Accept wildcard characters: False
 ```
 
 ### -SourceLabel
-{{ Fill SourceLabel Description }}
+Get policies based on the presence of one or more labels in the source.
 
 ```yaml
 Type: Object
@@ -384,7 +391,7 @@ Accept wildcard characters: False
 ```
 
 ### -SourceProcess
-{{ Fill SourceProcess Description }}
+Get policies based on the presence of one or more processes in the source.
 
 ```yaml
 Type: Array
@@ -399,7 +406,7 @@ Accept wildcard characters: False
 ```
 
 ### -SourceSubnet
-{{ Fill SourceSubnet Description }}
+Get policies based on the presence of one or more subnets in the destination.
 
 ```yaml
 Type: Array

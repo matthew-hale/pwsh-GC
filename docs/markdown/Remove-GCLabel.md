@@ -8,30 +8,30 @@ schema: 2.0.0
 # Remove-GCLabel
 
 ## SYNOPSIS
-{{ Fill in the Synopsis }}
+Remove a label from the management server.
 
 ## SYNTAX
 
 ```
-Remove-GCLabel [[-Label] <Object>] [[-ApiKey] <Object>] [<CommonParameters>]
+Remove-GCLabel [[-Label] <Object>] [[-ApiKey] <Object>] [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
-{{ Fill in the Description }}
+Deletes a label from the management server, given a label object input.
 
 ## EXAMPLES
 
 ### Example 1
 ```powershell
-PS C:\> {{ Add example code here }}
+PS C:\> Get-GCLabel -LabelKey Test -LabelValue Example | Remove-GCLabel
 ```
 
-{{ Add example description here }}
+Remove the Test: Example label using the piped output from Get-GCLabel
 
 ## PARAMETERS
 
 ### -ApiKey
-{{ Fill ApiKey Description }}
+Provide an external ApiKey, in place of the global GCApiKey variable.
 
 ```yaml
 Type: Object
@@ -45,8 +45,23 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
+### -Confirm
+Prompts you for confirmation before running the cmdlet.
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases: cf
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
 ### -Label
-{{ Fill Label Description }}
+One or more label objects, as returned from the API.
 
 ```yaml
 Type: Object
@@ -57,6 +72,21 @@ Required: False
 Position: 0
 Default value: None
 Accept pipeline input: True (ByValue)
+Accept wildcard characters: False
+```
+
+### -WhatIf
+Shows what would happen if the cmdlet runs. The cmdlet is not run.
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases: wi
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
 Accept wildcard characters: False
 ```
 

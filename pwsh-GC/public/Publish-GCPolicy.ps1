@@ -1,13 +1,14 @@
+<#
+    .ExternalHelp pwsh-GC-help.xml
+#>
+
+
 function Publish-GCPolicy {
     [CmdletBinding(SupportsShouldProcess)]
-
     param(
         [Parameter(Mandatory)]
         [System.String]
         $Comments,
-
-        [Switch]
-        $Audit,
 
         [PSTypeName("GCApiKey")]
         $ApiKey

@@ -1,5 +1,9 @@
-function Get-GCPolicy {
+<#
+    .ExternalHelp pwsh-GC-help.xml
+#>
 
+
+function Get-GCPolicy {
     [CmdletBinding()]
     param (
         [System.String]

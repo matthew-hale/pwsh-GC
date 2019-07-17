@@ -13,8 +13,9 @@ Retrieve a label from the management server.
 ## SYNTAX
 
 ```
-Get-GCLabel [-FindMatches] [[-LabelKey] <String>] [[-LabelValue] <String>] [[-Limit] <Int32>]
- [[-Offset] <Int32>] [-Raw] [[-ApiKey] <Object>] [<CommonParameters>]
+Get-GCLabel [[-Search] <String>] [[-LabelKey] <String>] [[-LabelValue] <String>] [-FindMatches]
+ [[-DynamicCriteriaLimit] <Int32>] [[-Limit] <Int32>] [[-Offset] <Int32>] [-Raw] [[-ApiKey] <Object>]
+ [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -54,7 +55,22 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 4
+Position: 6
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -DynamicCriteriaLimit
+Maximum number of dynamic criteria to return, per label.
+
+```yaml
+Type: Int32
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: 3
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -84,7 +100,7 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 0
+Position: 1
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -99,7 +115,7 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 1
+Position: 2
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -114,7 +130,7 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 2
+Position: 4
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -129,7 +145,7 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 3
+Position: 5
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -145,6 +161,21 @@ Aliases:
 
 Required: False
 Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -Search
+Get labels based on a generic search string.
+
+```yaml
+Type: String
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: 0
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False

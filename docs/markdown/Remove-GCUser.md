@@ -8,30 +8,30 @@ schema: 2.0.0
 # Remove-GCUser
 
 ## SYNOPSIS
-{{ Fill in the Synopsis }}
+Remove a user from the management server.
 
 ## SYNTAX
 
 ```
-Remove-GCUser [[-username] <String[]>] [-Raw] [[-ApiKey] <Object>] [<CommonParameters>]
+Remove-GCUser [[-username] <String[]>] [-Raw] [[-ApiKey] <Object>] [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
-{{ Fill in the Description }}
+Delete one or more users from the management server, using either raw username strings or user API objects.
 
 ## EXAMPLES
 
 ### Example 1
 ```powershell
-PS C:\> {{ Add example code here }}
+PS C:\> Remove-GCUser removeme
 ```
 
-{{ Add example description here }}
+Delete the "removeme" user.
 
 ## PARAMETERS
 
 ### -ApiKey
-{{ Fill ApiKey Description }}
+Provide an external ApiKey, in place of the global GCApiKey variable.
 
 ```yaml
 Type: Object
@@ -45,8 +45,23 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
+### -Confirm
+Prompts you for confirmation before running the cmdlet.
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases: cf
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
 ### -Raw
-{{ Fill Raw Description }}
+Return the raw result of the request.
 
 ```yaml
 Type: SwitchParameter
@@ -60,8 +75,24 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
+### -WhatIf
+Shows what would happen if the cmdlet runs.
+The cmdlet is not run.
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases: wi
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
 ### -username
-{{ Fill username Description }}
+The username of the user to be removed, either from string or from pipeline input of user objects.
 
 ```yaml
 Type: String[]

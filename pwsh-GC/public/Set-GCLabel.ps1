@@ -1,6 +1,10 @@
+<#
+    .ExternalHelp pwsh-GC-help.xml
+#>
+
+
 function Set-GCLabel {
     [CmdletBinding(SupportsShouldProcess)]
-
     param(
         [Parameter(ValueFromPipeline)]
         [PSTypeName("GCLabel")]

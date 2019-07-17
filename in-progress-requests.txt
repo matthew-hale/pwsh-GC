@@ -1,5 +1,0 @@
-/agent_aggregators
-/collectors
-/system-events
-/system/audit-log
-/rbac/*

@@ -8,30 +8,31 @@ schema: 2.0.0
 # Set-GCPassword
 
 ## SYNOPSIS
-{{ Fill in the Synopsis }}
+Reset a user's password with a given temporary password.
 
 ## SYNTAX
 
 ```
-Set-GCPassword [[-User] <Object>] [-Password] <String> [[-ApiKey] <Object>] [<CommonParameters>]
+Set-GCPassword [[-User] <Object>] [-Password] <String> [[-ApiKey] <Object>] [-WhatIf] [-Confirm]
+ [<CommonParameters>]
 ```
 
 ## DESCRIPTION
-{{ Fill in the Description }}
+Reset a user's password. The input password must meet the password complexity requirements on the management server.
 
 ## EXAMPLES
 
 ### Example 1
 ```powershell
-PS C:\> {{ Add example code here }}
+PS C:\> Get-GCUser resetme | Set-GCPassword -Password "newpassword123!"
 ```
 
-{{ Add example description here }}
+Set the password of the "resetme" user to "newpassword123!".
 
 ## PARAMETERS
 
 ### -ApiKey
-{{ Fill ApiKey Description }}
+Provide an external ApiKey, in place of the global GCApiKey variable.
 
 ```yaml
 Type: Object
@@ -45,8 +46,23 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
+### -Confirm
+Prompts you for confirmation before running the cmdlet.
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases: cf
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
 ### -Password
-{{ Fill Password Description }}
+The user's new temporary password.
 
 ```yaml
 Type: String
@@ -61,7 +77,7 @@ Accept wildcard characters: False
 ```
 
 ### -User
-{{ Fill User Description }}
+The user object to be reset.
 
 ```yaml
 Type: Object
@@ -72,6 +88,21 @@ Required: False
 Position: 0
 Default value: None
 Accept pipeline input: True (ByValue)
+Accept wildcard characters: False
+```
+
+### -WhatIf
+Shows what would happen if the cmdlet runs. The cmdlet is not run.
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases: wi
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
 Accept wildcard characters: False
 ```
 

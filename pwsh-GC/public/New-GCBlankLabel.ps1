@@ -1,6 +1,10 @@
+<#
+    .ExternalHelp pwsh-GC-help.xml
+#>
+
+
 function New-GCBlankLabel {
     [cmdletbinding(SupportsShouldProcess)]
-
     param (
         [Parameter(Mandatory)]
         [String]

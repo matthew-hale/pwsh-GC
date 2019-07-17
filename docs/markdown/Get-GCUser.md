@@ -8,33 +8,49 @@ schema: 2.0.0
 # Get-GCUser
 
 ## SYNOPSIS
-{{ Fill in the Synopsis }}
+Retrieve a user from the management server.
 
 ## SYNTAX
 
 ```
-Get-GCUser [[-Name] <String[]>] [-Raw] [[-ApiKey] <Object>] [<CommonParameters>]
+Get-GCUser [[-Name] <String[]>] [[-Limit] <Int32>] [[-Offset] <Int32>] [-Raw] [[-ApiKey] <Object>]
+ [<CommonParameters>]
 ```
 
 ## DESCRIPTION
-{{ Fill in the Description }}
+Pulls one or more users from the management server based on the given parameters.
 
 ## EXAMPLES
 
 ### Example 1
 ```powershell
-PS C:\> {{ Add example code here }}
+PS C:\> Get-GCUser
 ```
 
-{{ Add example description here }}
+Get all users.
 
 ## PARAMETERS
 
 ### -ApiKey
-{{ Fill ApiKey Description }}
+Provide an external ApiKey, in place of the global GCApiKey variable.
 
 ```yaml
 Type: Object
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: 3
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -Limit
+The maximum number of objects to return.
+
+```yaml
+Type: Int32
 Parameter Sets: (All)
 Aliases:
 
@@ -46,7 +62,7 @@ Accept wildcard characters: False
 ```
 
 ### -Name
-{{ Fill Name Description }}
+Get users based on username.
 
 ```yaml
 Type: String[]
@@ -60,8 +76,23 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
+### -Offset
+The index of the first object to be returned.
+
+```yaml
+Type: Int32
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: 2
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
 ### -Raw
-{{ Fill Raw Description }}
+Return the raw result instead of the user objects directly.
 
 ```yaml
 Type: SwitchParameter

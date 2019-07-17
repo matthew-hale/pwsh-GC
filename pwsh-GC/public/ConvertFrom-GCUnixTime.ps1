@@ -1,5 +1,9 @@
-function ConvertFrom-GCUnixTime {
+<#
+    .ExternalHelp pwsh-GC-help.xml
+#>
 
+
+function ConvertFrom-GCUnixTime {
     [cmdletbinding()]
     param (
         [Parameter(Mandatory,ValueFromPipeline)]

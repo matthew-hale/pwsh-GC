@@ -13,8 +13,8 @@ Retrieve an asset from the management server.
 ## SYNTAX
 
 ```
-Get-GCAsset [[-Search] <String>] [[-Status] <String>] [[-Risk] <Int32>] [[-Label] <Object>] [[-Asset] <Object>]
- [[-Limit] <Int32>] [[-Offset] <Int32>] [-Raw] [[-ApiKey] <Object>] [<CommonParameters>]
+Get-GCAsset [[-Search] <String>] [[-Status] <String>] [[-Risk] <String[]>] [[-Label] <Object>]
+ [[-Asset] <Object>] [[-Limit] <Int32>] [[-Offset] <Int32>] [-Raw] [[-ApiKey] <Object>] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -52,7 +52,7 @@ Get assets based on one or more GuardiCore asset objects.
 ```yaml
 Type: Object
 Parameter Sets: (All)
-Aliases:
+Aliases: Assets, ID
 
 Required: False
 Position: 4
@@ -107,7 +107,7 @@ Accept wildcard characters: False
 ```
 
 ### -Raw
-Return the raw result instead of the agent objects directly.
+Return the raw result instead of the asset objects directly.
 
 ```yaml
 Type: SwitchParameter
@@ -125,9 +125,10 @@ Accept wildcard characters: False
 Get assets based on their risk level.
 
 ```yaml
-Type: Int32
+Type: String[]
 Parameter Sets: (All)
 Aliases:
+Accepted values: 0, 1, 2, 3
 
 Required: False
 Position: 2

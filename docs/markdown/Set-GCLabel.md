@@ -8,30 +8,45 @@ schema: 2.0.0
 # Set-GCLabel
 
 ## SYNOPSIS
-{{ Fill in the Synopsis }}
+Update a label on the management server based on a label object input.
 
 ## SYNTAX
 
 ```
-Set-GCLabel [[-Label] <Object>] [<CommonParameters>]
+Set-GCLabel [[-Label] <Object>] [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
-{{ Fill in the Description }}
+Given a label object as input, set the corresponding label on the management server to be equal to the input label.
 
 ## EXAMPLES
 
 ### Example 1
 ```powershell
-PS C:\> {{ Add example code here }}
+PS C:\> Get-GCLabel -LabelKey Copy -LabelValue Me | Set-GCLabel
 ```
 
-{{ Add example description here }}
+Set the Copy: Me label to be equal to itself.
 
 ## PARAMETERS
 
+### -Confirm
+Prompts you for confirmation before running the cmdlet.
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases: cf
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
 ### -Label
-{{ Fill Label Description }}
+A label object, as given from the API.
 
 ```yaml
 Type: Object
@@ -42,6 +57,21 @@ Required: False
 Position: 0
 Default value: None
 Accept pipeline input: True (ByValue)
+Accept wildcard characters: False
+```
+
+### -WhatIf
+Shows what would happen if the cmdlet runs. The cmdlet is not run.
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases: wi
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
 Accept wildcard characters: False
 ```
 

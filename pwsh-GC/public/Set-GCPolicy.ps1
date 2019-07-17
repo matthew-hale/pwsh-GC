@@ -1,6 +1,10 @@
+<#
+    .ExternalHelp pwsh-GC-help.xml
+#>
+
+
 function Set-GCPolicy {
     [CmdletBinding(SupportsShouldProcess)]
-
     param (
         [Parameter(ValueFromPipeline)]
         [PSTypeName("GCPolicy")]

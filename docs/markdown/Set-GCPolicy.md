@@ -8,30 +8,60 @@ schema: 2.0.0
 # Set-GCPolicy
 
 ## SYNOPSIS
-{{ Fill in the Synopsis }}
+Update a policy on the management server based on a policy object input.
 
 ## SYNTAX
 
 ```
-Set-GCPolicy [[-Policy] <Object>] [<CommonParameters>]
+Set-GCPolicy [[-Policy] <Object>] [[-ApiKey] <Object>] [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
-{{ Fill in the Description }}
+Given a policy object as input, set the corresponding policy on the management server to be equal to the input policy. Changes are not pushed through until the policy is published.
 
 ## EXAMPLES
 
 ### Example 1
 ```powershell
-PS C:\> {{ Add example code here }}
+PS C:\> Get-GCPolicy -Search "set me" | Set-GCPolicy
 ```
 
-{{ Add example description here }}
+Set the "set me" policy to be equal to itself.
 
 ## PARAMETERS
 
+### -ApiKey
+Provide an external ApiKey, in place of the global GCApiKey variable.
+
+```yaml
+Type: Object
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: 1
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -Confirm
+Prompts you for confirmation before running the cmdlet.
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases: cf
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
 ### -Policy
-{{ Fill Policy Description }}
+One or more policy objects to be set.
 
 ```yaml
 Type: Object
@@ -42,6 +72,21 @@ Required: False
 Position: 0
 Default value: None
 Accept pipeline input: True (ByValue)
+Accept wildcard characters: False
+```
+
+### -WhatIf
+Shows what would happen if the cmdlet runs. The cmdlet is not run.
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases: wi
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
