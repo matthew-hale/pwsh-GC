@@ -94,6 +94,11 @@ Task Pester -Depends Build {
         $FilePath = $File.FullName
         . $FilePath
     }
+    $PrivateFunctions = Get-ChildItem "$ProjectRoot/$ModuleName/private/*.ps1"
+    foreach ( $File in $PrivateFunctions ) {
+        $FilePath = $File.FullName
+        . $FilePath
+    }
 
     $UnitTestResults = Invoke-Pester "$ProjectRoot/tests/unit" -PassThru
 
