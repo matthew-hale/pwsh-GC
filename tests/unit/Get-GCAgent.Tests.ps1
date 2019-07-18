@@ -5,12 +5,10 @@ Describe Get-GCAgent {
         }
 
         Mock pwsh-GC-get-request {
-            param ($Uri)
             Invoke-RestMethod -Uri $Uri -Method "get"
         }
 
         Mock Invoke-RestMethod {
-            param ($Method,$Uri)
             [PSCustomObject]@{
                 Method = $Method
                 Called = $true
