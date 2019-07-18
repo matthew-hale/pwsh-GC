@@ -27,10 +27,11 @@ Task Analyze -Depends Init {
         Invoke-ScriptAnalyzer $Function
     }
 
+    $AnalyzerResults
+
     $FailedCount = ($AnalyzerResults| Where-Object {$_.Severity -eq "Error"}).count
-    if (  $FailedCount -gt 0 ) {
-        throw "Failed $FailedCount analyzer rules, build failed"
-    }
+
+    Assert ( $FailedCount -eq 0 ) "Failed $FailedCount PSScriptAnalyzer rules, build failed"
 }
 
 Task Build -Depends Analyze {
@@ -80,9 +81,7 @@ Task Pester -Depends Build {
 
     $UnitTestResults = Invoke-Pester "$ProjectRoot/tests/unit" -PassThru
 
-    if ( $UnitTestResults.FailedCount -gt 0 ) {
-        throw "Failed '$($UnitTestResults.FailedCount)' tests, build failed"
-    }
+    Assert ( $UnitTestResults.FailedCount -eq 0 ) "Failed '$($UnitTestResults.FailedCount)' tests, build failed"
 
     "`n"
 }
