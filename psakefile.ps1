@@ -18,7 +18,22 @@ Task Init {
     "`n"
 }
 
-Task Build -Depends Init {
+Task Analyze -Depends Init {
+    $Lines
+    "Running module through PSScriptAnalyzer"
+
+    $PublicFunctions = Get-ChildItem "$ProjectRoot/pwsh-GC/public/*.ps1"
+    $AnalyzerResults = foreach ( $Function in $PublicFunctions ) {
+        Invoke-ScriptAnalyzer $Function
+    }
+
+    $FailedCount = ($AnalyzerResults| Where-Object {$_.Severity -eq "Error"}).count
+    if (  $FailedCount -gt 0 ) {
+        throw "Failed $FailedCount analyzer rules, build failed"
+    }
+}
+
+Task Build -Depends Analyze {
     $Lines
     "Concatenating functions into module file"
     $ModuleFilePath = Join-Path $ProjectRoot "out" "pwsh-GC" "pwsh-GC.psm1"
@@ -70,11 +85,6 @@ Task Pester -Depends Build {
     }
 
     "`n"
-}
-
-Task Analyze -Depends Build {
-    $Lines
-    "Running module through PSScriptAnalyzer"
 }
 
 Task Test -Depends Analyze,Pester
