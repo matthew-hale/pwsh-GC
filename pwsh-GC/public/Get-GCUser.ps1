@@ -1,8 +1,3 @@
-<#
-    .ExternalHelp pwsh-GC-help.xml
-#>
-
-
 function Get-GCUser {
     [cmdletbinding()]
     param (
@@ -27,7 +22,7 @@ function Get-GCUser {
             $Key = $ApiKey
         } else {
             $Key = $global:GCApiKey
-        } 
+        }
         $Uri = "/system/users"
     }
 
@@ -43,6 +38,6 @@ function Get-GCUser {
         pwsh-gc-get-request -Raw -Uri $Uri -Body $RequestBody -ApiKey $Key
     } else {
         pwsh-gc-get-request -Uri $Uri -Body $RequestBody -ApiKey $Key | foreach {$_.PSTypeNames.Clear(); $_.PSTypeNames.Add("GCUser"); $_}
-        
     }
 }
+

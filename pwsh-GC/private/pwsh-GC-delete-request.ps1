@@ -9,7 +9,7 @@ function pwsh-GC-delete-request {
 		[PSTypeName("GCApiKey")]$ApiKey
 	)
 	
-	$RequestToken = $ApiKey.Token
+	$RequestToken = $ApiKey.Token | ConvertTo-SecureString -AsPlainText -Force
 	$RequestUri = $ApiKey.Uri + $Uri
 
 	try {

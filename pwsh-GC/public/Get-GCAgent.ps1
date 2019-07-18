@@ -1,8 +1,3 @@
-<#
-    .ExternalHelp pwsh-GC-help.xml
-#>
-
-
 function Get-GCAgent {
     [CmdletBinding()]
     param (
@@ -69,12 +64,12 @@ function Get-GCAgent {
             $Key = $ApiKey
         } else {
             $Key = $global:GCApiKey
-        } 
+        }
         $Uri = "/agents"
     }
-    
+
     # Building the request body with given parameters
-    
+
     $Body = @{
         version = $Version -join ","
         kernel = $Kernel -join ","

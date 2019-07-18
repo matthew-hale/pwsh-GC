@@ -1,8 +1,3 @@
-<#
-    .ExternalHelp pwsh-GC-help.xml
-#>
-
-
 function Remove-GCLabel {
     [CmdletBinding(SupportsShouldProcess)]
     param (
@@ -19,7 +14,7 @@ function Remove-GCLabel {
                 $Key = $ApiKey
             } else {
                 $Key = $global:GCApiKey
-            } 
+            }
         }
     }
     process {

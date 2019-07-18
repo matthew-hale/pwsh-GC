@@ -1,8 +1,3 @@
-<#
-    .ExternalHelp pwsh-GC-help.xml
-#>
-
-
 function Remove-GCPolicy {
     [CmdletBinding(SupportsShouldProcess)]
     param (
@@ -19,9 +14,9 @@ function Remove-GCPolicy {
                 $Key = $ApiKey
             } else {
                 $Key = $global:GCApiKey
-            } 
+            }
         }
-        
+
         $Body = [PSCustomObject]@{
             action = "delete"
         }
@@ -29,11 +24,12 @@ function Remove-GCPolicy {
     process {
         foreach ($ThisPolicy in $Policy) {
             $Uri = "/visibility/policy/rules/" + $ThisPolicy.id
-            
+
             $Should = $Uri
-            if ( $PSCmdlet.ShouldProcess($Uri, "pwsh-GC-post-request -Raw -Uri $Uri -Body $Body -ApiKey $Key") ) {
+            if ( $PSCmdlet.ShouldProcess($Should, "pwsh-GC-post-request -Raw -Uri $Uri -Body $Body -ApiKey $Key") ) {
                 pwsh-GC-post-request -Raw -Uri $Uri -Body $Body -ApiKey $Key
             }
         }
     }
 }
+

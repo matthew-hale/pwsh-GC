@@ -1,8 +1,3 @@
-<#
-    .ExternalHelp pwsh-GC-help.xml
-#>
-
-
 function New-GCBlankLabel {
     [cmdletbinding(SupportsShouldProcess)]
     param (
@@ -23,7 +18,7 @@ function New-GCBlankLabel {
             $Key = $ApiKey
         } else {
             $Key = $global:GCApiKey
-        } 
+        }
         $Uri = "/visibility/labels"
     }
 
@@ -39,3 +34,4 @@ function New-GCBlankLabel {
         pwsh-GC-post-request -Raw -Uri $Uri -Body $Body -ApiKey $Key
     }
 }
+

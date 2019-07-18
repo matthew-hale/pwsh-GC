@@ -1,8 +1,3 @@
-<#
-    .ExternalHelp pwsh-GC-help.xml
-#>
-
-
 function Get-GCLabel {
     [CmdletBinding()]
     param (
@@ -41,12 +36,12 @@ function Get-GCLabel {
             $Key = $ApiKey
         } else {
             $Key = $global:GCApiKey
-        } 
+        }
         $Uri = "/visibility/labels"
     }
-    
+
     # Building the request body with given parameters
-    
+
     $Body = @{
         find_matches = $FindMatches:isPresent
 		text_search = $Search
@@ -69,3 +64,4 @@ function Get-GCLabel {
         pwsh-GC-get-request -Uri $Uri -Body $RequestBody -ApiKey $Key | foreach {$_.PSTypeNames.Clear(); $_.PSTypeNames.Add("GCLabel"); $_}
     }
 }
+

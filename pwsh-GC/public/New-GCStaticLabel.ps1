@@ -1,8 +1,3 @@
-<#
-    .ExternalHelp pwsh-GC-help.xml
-#>
-
-
 function New-GCStaticLabel {
 
     [CmdletBinding(SupportsShouldProcess)]
@@ -28,10 +23,10 @@ function New-GCStaticLabel {
                 $Key = $ApiKey
             } else {
                 $Key = $global:GCApiKey
-            } 
+            }
             $Uri = "/assets/labels/" + $LabelKey + "/" + $LabelValue
         }
-        
+
         $Body = [PSCustomObject]@{
             "vms" = @()
         }
@@ -50,3 +45,4 @@ function New-GCStaticLabel {
         }
     }
 }
+

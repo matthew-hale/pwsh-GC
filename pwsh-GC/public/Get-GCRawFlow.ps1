@@ -1,8 +1,3 @@
-<#
-    .ExternalHelp pwsh-GC-help.xml
-#>
-
-
 function Get-GCRawFlow {
     [cmdletbinding()]
     param (
@@ -63,7 +58,7 @@ function Get-GCRawFlow {
             $Key = $ApiKey
         } else {
             $Key = $global:GCApiKey
-        } 
+        }
         $Uri = "/connections?sort=slot_start_time"
     }
 
@@ -188,3 +183,4 @@ function Get-GCRawFlow {
         pwsh-GC-get-request -Uri $Uri -Body $RequestBody -ApiKey $Key | foreach {$_.PSTypeNames.Clear(); $_.PSTypeNames.Add("GCRawFlow"); $_}
     }
 }
+

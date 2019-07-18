@@ -1,8 +1,3 @@
-<#
-    .ExternalHelp pwsh-GC-help.xml
-#>
-
-
 function New-GCDynamicLabel {
     [CmdletBinding(SupportsShouldProcess)]
     param (
@@ -39,10 +34,10 @@ function New-GCDynamicLabel {
                 $Key = $ApiKey
             } else {
                 $Key = $global:GCApiKey
-            } 
+            }
             $Uri = "/visibility/labels"
         }
-        
+
         $Body = [PSCustomObject]@{
             id = $null
             key = $LabelKey
@@ -71,3 +66,4 @@ function New-GCDynamicLabel {
         }
     }
 }
+

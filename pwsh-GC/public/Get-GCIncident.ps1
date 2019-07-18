@@ -1,8 +1,3 @@
-<#
-    .ExternalHelp pwsh-GC-help.xml
-#>
-
-
 function Get-GCIncident{
     [CmdletBinding()]
     param (
@@ -65,9 +60,9 @@ function Get-GCIncident{
             $Key = $ApiKey
         } else {
             $Key = $global:GCApiKey
-        } 
+        }
         # This sort is required for legacy URI building
-        $Uri = "/incidents?sort=-start_time" 
+        $Uri = "/incidents?sort=-start_time"
     }
 
     # Handling start and end time defaults
@@ -75,16 +70,16 @@ function Get-GCIncident{
     if ( -not $StartTime ) {
         $StartTime = $(Get-Date).AddHours(-1)
     }
-    
+
     if ( -not $EndTime ) {
         $EndTime = Get-Date
     }
-    
+
     [Int64]$StartTime = $StartTime | ConvertTo-GCUnixTime
     [Int64]$EndTime = $EndTime | ConvertTo-GCUnixTime
-    
+
     # Building request body with parameters
-    
+
     $Body = @{
         from_time = $StartTime
         to_time = $EndTime
@@ -105,54 +100,54 @@ function Get-GCIncident{
     # This legacy URI building is actually necessary,
     # due to the complicated way in which the URI needs to be structured.
     ### SOURCE ###
-    
+
     $Uri += "&source="
-    
+
     if ( $SourceLabel ) {
         $Uri += "labels:"
         $Uri += $SourceLabel.id -join "|"
     }
-    
+
     if ( $SourceAsset ) {
         $Uri += "assets:"
         $Uri += $SourceAsset -join ","
     }
-    
+
     if ( $Uri[$Uri.length-1] -eq "=" ) {
         $Uri = $Uri.SubString(0,$Uri.Length-8)
     }
-    
+
     ### DESTINATION ###
-    
+
     $Uri += "&destination="
-    
+
     if ( $DestinationLabel ) {
         $Uri += "labels:"
         $Uri += $DestinationLabel.id -join "|"
     }
-    
+
     if ( $DestinationAsset ) {
         $Uri += "assets:"
         $Uri += $DestinationAsset -join ","
     }
-    
-    if ( $Uri[$Uri.length-1] -eq "=" ) {
+
+   if ( $Uri[$Uri.length-1] -eq "=" ) {
         $Uri = $Uri.SubString(0,$Uri.Length-13)
     }
-    
+
     ### ANY SIDE ###
     $Uri += "&any_side="
-    
+
     if ( $AnySideLabel ) {
         $Uri += "labels:"
         $Uri += $AnySideLabel.id -join "|"
     }
-    
+
     if ( $AnySideAsset ) {
         $Uri += "assets:"
         $Uri += $AnySideAsset -join ","
     }
-    
+
     if ( $Uri[$Uri.length-1] -eq "=" ) {
         $Uri = $Uri.SubString(0,$Uri.Length-10)
     }
@@ -165,3 +160,4 @@ function Get-GCIncident{
         pwsh-GC-get-request -Uri $Uri -Body $RequestBody -ApiKey $Key | foreach {$_.PSTypeNames.Clear(); $_.PSTypeNames.Add("GCIncident"); $_}
     }
 }
+

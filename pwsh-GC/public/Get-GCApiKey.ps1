@@ -1,8 +1,3 @@
-<#
-    .ExternalHelp pwsh-GC-help.xml
-#>
-
-
 function Get-GCApiKey {
     [CmdletBinding(SupportsShouldProcess)]
     param (
@@ -29,7 +24,7 @@ function Get-GCApiKey {
 
         if ( $pscmdlet.ShouldProcess("$Server","Invoke-RestMethod -Uri $TempUri -Method 'Post'") ) {
             try {
-                $Token = Invoke-RestMethod -Uri $TempUri -Method "Post" -Body $BodyJson -ContentType "application/json" | Select-Object -ExpandProperty "access_token" | ConvertTo-SecureString -AsPlainText -Force
+                $Token = Invoke-RestMethod -Uri $TempUri -Method "Post" -Body $BodyJson -ContentType "application/json" | Select-Object -ExpandProperty "access_token"
             }
             catch {
                 throw $_.Exception
@@ -39,7 +34,7 @@ function Get-GCApiKey {
         if ( $Export ) {
             # Returns the object on the pipeline.
 
-            [PSCustomObject]@{ 
+            [PSCustomObject]@{
                 PSTypeName = "GCApiKey"
                 Token = $Token
                 Uri = $Uri
@@ -47,7 +42,7 @@ function Get-GCApiKey {
         } else {
             # Saves the object in a global (session scope) variable called GCApiKey, so other functions don't need a key input.
 
-            $Global:GCApiKey = [PSCustomObject]@{ 
+            $Global:GCApiKey = [PSCustomObject]@{
                 PSTypeName = "GCApiKey"
                 Token = $Token
                 Uri = $Uri

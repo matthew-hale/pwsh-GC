@@ -1,8 +1,3 @@
-<#
-    .ExternalHelp pwsh-GC-help.xml
-#>
-
-
 function ConvertTo-GCUnixTime {
     [cmdletbinding()]
     param (
@@ -17,3 +12,4 @@ function ConvertTo-GCUnixTime {
         }
     }
 }
+

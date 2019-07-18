@@ -1,8 +1,3 @@
-<#
-    .ExternalHelp pwsh-GC-help.xml
-#>
-
-
 function Remove-GCUser {
     [cmdletbinding(SupportsShouldProcess)]
     param (
@@ -23,7 +18,7 @@ function Remove-GCUser {
                 $Key = $ApiKey
             } else {
                 $Key = $global:GCApiKey
-            } 
+            }
             $Uri = "/system/user"
         }
     }
@@ -43,3 +38,4 @@ function Remove-GCUser {
         }
     }
 }
+

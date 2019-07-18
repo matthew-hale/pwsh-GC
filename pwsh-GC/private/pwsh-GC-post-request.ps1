@@ -13,7 +13,7 @@ function pwsh-GC-post-request {
 		[Switch]$Raw
 	)
 	
-	$RequestToken = $ApiKey.Token
+	$RequestToken = $ApiKey.Token | ConvertTo-SecureString -AsPlainText -Force
 	$RequestUri = $ApiKey.Uri + $Uri
 	$RequestBody = $Body | ConvertTo-Json -Depth 10
 
@@ -36,3 +36,4 @@ function pwsh-GC-post-request {
 		}
 	}
 }
+

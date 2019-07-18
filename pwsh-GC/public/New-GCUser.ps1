@@ -1,8 +1,3 @@
-<#
-    .ExternalHelp pwsh-GC-help.xml
-#>
-
-
 function New-GCUser {
     [cmdletbinding(SupportsShouldProcess)]
 
@@ -40,7 +35,7 @@ function New-GCUser {
             $Key = $ApiKey
         } else {
             $Key = $global:GCApiKey
-        } 
+        }
         $Uri = "/system/user"
     }
 

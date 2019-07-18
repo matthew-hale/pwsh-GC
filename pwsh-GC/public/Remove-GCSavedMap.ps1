@@ -1,8 +1,3 @@
-<#
-    .ExternalHelp pwsh-GC-help.xml
-#>
-
-
 function Remove-GCSavedMap {
     [CmdletBinding(SupportsShouldProcess)]
     param (
@@ -19,9 +14,9 @@ function Remove-GCSavedMap {
                 $Key = $ApiKey
             } else {
                 $Key = $global:GCApiKey
-            } 
+            }
         }
-        
+
         $Body = [PSCustomObject]@{
             action = "delete"
         }
@@ -29,7 +24,7 @@ function Remove-GCSavedMap {
     process {
         foreach ($ThisMap in $Map) {
             $Uri = "/visibility/saved-maps/" + $ThisMap.id
-            
+
             $Should = [string]$Uri
             if ( $PSCmdlet.ShouldProcess($Should, "pwsh-GC-post-request -Raw -Uri $Uri -Body $Body -ApiKey $Key") ) {
                 pwsh-GC-post-request -Raw -Uri $Uri -Body $Body -ApiKey $Key
@@ -37,3 +32,4 @@ function Remove-GCSavedMap {
         }
     }
 }
+
