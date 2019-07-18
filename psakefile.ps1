@@ -1,7 +1,7 @@
 Properties {
     $ProjectRoot = $PSScriptRoot
     $ModuleName = "pwsh-GC"
-    $PublishRepository = "BB-Repo"
+    $PublishRepository = "Example"
     $Lines = "--------------------------------------------------------------------------------"
 }
 
