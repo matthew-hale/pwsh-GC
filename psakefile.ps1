@@ -89,16 +89,6 @@ Task Pester -Depends Build {
     "Running unit tests"
 
     Import-Module "$ProjectRoot/out/$ModuleName/$ModuleName.psd1"
-    $TestFunctions = Get-ChildItem "$ProjectRoot/tests/unit/functions/*.ps1"
-    foreach ( $File in $TestFunctions ) {
-        $FilePath = $File.FullName
-        . $FilePath
-    }
-    $PrivateFunctions = Get-ChildItem "$ProjectRoot/$ModuleName/private/*.ps1"
-    foreach ( $File in $PrivateFunctions ) {
-        $FilePath = $File.FullName
-        . $FilePath
-    }
 
     $UnitTestResults = Invoke-Pester "$ProjectRoot/tests/unit" -PassThru
 
