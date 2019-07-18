@@ -41,7 +41,10 @@ InModuleScope pwsh-GC {
             }
     
             It "Passes the correct Uri to pwsh-GC-get-request" {
+                $Current = $Result.Uri
                 $Should = "/agents"
+
+                $Current | Should -Be $Should
             }
         }
     }
