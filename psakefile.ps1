@@ -1,7 +1,7 @@
 Properties {
     $ProjectRoot = $PSScriptRoot
-    $PSVersion = $PSVersionTable.PSVersion.Major
-    $Timestamp = {Get-Date -format "MM:dd:yyyy-HH:mm:ss.fff"}
+    $ModuleName = "pwsh-GC"
+    $PublishRepository = "BB-Repo"
     $Lines = "--------------------------------------------------------------------------------"
 }
 
@@ -13,8 +13,8 @@ Task Init {
     "Make required output folders"
     Set-Location $ProjectRoot
     mkdir "out"
-    mkdir "out/pwsh-GC"
-    mkdir "out/pwsh-GC/en-US"
+    mkdir "out/$ModuleName"
+    mkdir "out/$ModuleName/en-US"
     "`n"
 }
 
@@ -22,7 +22,7 @@ Task Analyze -Depends Init {
     $Lines
     "Running module through PSScriptAnalyzer"
 
-    $PublicFunctions = Get-ChildItem "$ProjectRoot/pwsh-GC/public/*.ps1"
+    $PublicFunctions = Get-ChildItem "$ProjectRoot/$ModuleName/public/*.ps1"
     $AnalyzerResults = foreach ( $Function in $PublicFunctions ) {
         Invoke-ScriptAnalyzer $Function
     }
@@ -37,10 +37,10 @@ Task Analyze -Depends Init {
 Task Build -Depends Analyze {
     $Lines
     "Concatenating functions into module file"
-    $ModuleFilePath = Join-Path $ProjectRoot "out" "pwsh-GC" "pwsh-GC.psm1"
+    $ModuleFilePath = Join-Path $ProjectRoot "out" $ModuleName "$ModuleName.psm1"
     $ModuleFile = New-Item $ModuleFilePath
-    $PrivateFunctions = Get-ChildItem "$ProjectRoot/pwsh-GC/private/*.ps1"
-    $PublicFunctions = Get-ChildItem "$ProjectRoot/pwsh-GC/public/*.ps1"
+    $PrivateFunctions = Get-ChildItem "$ProjectRoot/$ModuleName/private/*.ps1"
+    $PublicFunctions = Get-ChildItem "$ProjectRoot/$ModuleName/public/*.ps1"
     $ExportFunctions = foreach ( $Function in $PublicFunctions ) {
         $Function.BaseName
     }
@@ -60,10 +60,18 @@ Task Build -Depends Analyze {
     }
 
     "Creating en-US maml help file"
-    New-ExternalHelp -Path "$ProjectRoot/docs/markdown" -OutputPath "$ProjectRoot/out/pwsh-GC/en-US"
+    New-ExternalHelp -Path "$ProjectRoot/docs/markdown" -OutputPath "$ProjectRoot/out/$ModuleName/en-US"
 
     "Copying manifest"
-    Copy-Item "$ProjectRoot/pwsh-GC/pwsh-GC.psd1" "$ProjectRoot/out/pwsh-GC/pwsh-GC.psd1"
+    Copy-Item "$ProjectRoot/$ModuleName/$ModuleName.psd1" "$ProjectRoot/out/$ModuleName/$ModuleName.psd1"
+
+    "Updating manifest"
+    $ManifestParams = @{
+        Path = "$ProjectRoot/out/$ModuleName/$ModuleName.psd1"
+        FunctionsToExport = $ExportFunctions
+        AliasesToExport = "gcapi"
+    }
+    Update-ModuleManifest @ManifestParams
 
     "`n"
 }
@@ -72,7 +80,7 @@ Task Pester -Depends Build {
     $Lines
     "Running unit tests"
 
-    Import-Module "$ProjectRoot/out/pwsh-GC/pwsh-GC.psd1"
+    Import-Module "$ProjectRoot/out/$ModuleName/$ModuleName.psd1"
     $TestFunctions = Get-ChildItem "$ProjectRoot/tests/unit/functions/*.ps1"
     foreach ( $File in $TestFunctions ) {
         $FilePath = $File.FullName
@@ -90,6 +98,7 @@ Task Test -Depends Analyze,Pester
 
 Task Publish -Depends Test {
     $Lines
-    "Publishing not yet implemented"
+    "Publishing to dev repository"
+    Publish-Module -Path "$ProjectRoot/out/$ModuleName" -Repository $PublishRepository
 }
 
