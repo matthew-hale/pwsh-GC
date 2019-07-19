@@ -24,7 +24,7 @@ InModuleScope pwsh-GC {
                 }
             }
     
-            $Result = Get-GCAgent -ApiKey $ApiKey
+            $Result = Get-Agent -ApiKey $ApiKey
     
             It "Successfully calls Invoke-RestMethod" {
                 $Current = $Result.Called
