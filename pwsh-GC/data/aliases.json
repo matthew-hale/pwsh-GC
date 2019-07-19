@@ -1,6 +1,6 @@
 [
     {
-        "name": "gcapi",
+        "name": "api",
         "value": "Get-GCApiKey"
     }
 ]
