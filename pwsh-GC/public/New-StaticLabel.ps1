@@ -1,4 +1,4 @@
-function New-GCStaticLabel {
+function New-StaticLabel {
 
     [CmdletBinding(SupportsShouldProcess)]
     param (

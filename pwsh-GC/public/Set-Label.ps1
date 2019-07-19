@@ -1,13 +1,11 @@
-function Remove-GCLabel {
+function Set-Label {
     [CmdletBinding(SupportsShouldProcess)]
-    param (
+    param(
         [Parameter(ValueFromPipeline)]
         [PSTypeName("GCLabel")]
-        $Label,
-
-        [PSTypeName("GCApiKey")]
-        $ApiKey
+        $Label
     )
+
     begin {
         if ( GCApiKey-present $ApiKey ) {
             if ( $ApiKey ) {
@@ -17,12 +15,15 @@ function Remove-GCLabel {
             }
         }
     }
+
     process {
-        foreach ($ThisLabel in $Label) {
+        foreach ( $ThisLabel in $Label ) {
             $Uri = "/visibility/labels/" + $ThisLabel.id
+            $RequestBody = $ThisLabel | Select-Object -ExcludeProperty id,_id
+
             $Should = $Uri
-            if ( $PSCmdlet.ShouldProcess($Should, "pwsh-GC-delete-request -Uri $Uri -ApiKey $Key") ) {
-                pwsh-GC-delete-request -Uri $Uri -ApiKey $Key
+            if ( $PSCmdlet.ShouldProcess($Should, "pwsh-GC-post-request -Raw -Uri $Uri -Method Put -ApiKey $Key") ) {
+                pwsh-GC-post-request -Raw -Uri $Uri -Body $RequestBody -Method Put -ApiKey $Key
             }
         }
     }

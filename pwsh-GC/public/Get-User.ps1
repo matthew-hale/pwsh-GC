@@ -1,4 +1,4 @@
-function Get-GCUser {
+function Get-User {
     [cmdletbinding()]
     param (
         [String[]]

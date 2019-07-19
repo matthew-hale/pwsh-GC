@@ -1,4 +1,4 @@
-function New-GCDynamicLabel {
+function New-DynamicLabel {
     [CmdletBinding(SupportsShouldProcess)]
     param (
         [System.String]

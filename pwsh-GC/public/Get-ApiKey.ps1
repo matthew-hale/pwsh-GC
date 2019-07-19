@@ -1,4 +1,4 @@
-function Get-GCApiKey {
+function Get-ApiKey {
     [CmdletBinding(SupportsShouldProcess)]
     param (
         [Parameter(Mandatory=$true)]

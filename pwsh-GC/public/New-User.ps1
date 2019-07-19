@@ -1,4 +1,4 @@
-function New-GCUser {
+function New-User {
     [cmdletbinding(SupportsShouldProcess)]
 
     param (

@@ -1,4 +1,4 @@
-function Get-GCRawFlow {
+function Get-RawFlow {
     [cmdletbinding()]
     param (
         [DateTime]

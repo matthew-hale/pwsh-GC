@@ -1,4 +1,4 @@
-function Publish-GCPolicy {
+function Publish-Policy {
     [CmdletBinding(SupportsShouldProcess)]
     param(
         [Parameter(Mandatory)]

@@ -1,4 +1,4 @@
-function Get-GCAgent {
+function Get-Agent {
     [CmdletBinding()]
     param (
         [String]

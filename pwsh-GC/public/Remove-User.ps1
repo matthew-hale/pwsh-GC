@@ -1,4 +1,4 @@
-function Remove-GCUser {
+function Remove-User {
     [cmdletbinding(SupportsShouldProcess)]
     param (
         [Parameter(ValueFromPipelineByPropertyName)]

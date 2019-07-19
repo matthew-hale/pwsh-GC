@@ -1,4 +1,4 @@
-function Get-GCPolicy {
+function Get-Policy {
     [CmdletBinding()]
     param (
         [System.String]
