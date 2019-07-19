@@ -88,6 +88,7 @@ Task Pester -Depends Build {
     $Lines
     "Running unit tests"
 
+    Remove-Module $ModuleName -Force
     Import-Module "$ProjectRoot/out/$ModuleName/$ModuleName.psd1"
 
     $UnitTestResults = Invoke-Pester "$ProjectRoot/tests/unit" -PassThru
