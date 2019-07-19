@@ -1,7 +1,7 @@
 Properties {
     $ProjectRoot = $PSScriptRoot
     $ModuleName = "pwsh-GC"
-    $PublishRepository = "Example"
+    $PublishRepository = [Environment]::GetEnvironmentVariable("Repository")
     $Lines = "--------------------------------------------------------------------------------"
 }
 
@@ -36,7 +36,8 @@ Task Analyze -Depends Init {
 
 Task Build -Depends Analyze {
     $Lines
-    "Concatenating functions into module file"
+    "Concatenating functions into module file`n"
+
     $ModuleFilePath = Join-Path $ProjectRoot "out" $ModuleName "$ModuleName.psm1"
     $ModuleFile = New-Item $ModuleFilePath
     $PrivateFunctions = Get-ChildItem "$ProjectRoot/$ModuleName/private/*.ps1"
@@ -44,20 +45,27 @@ Task Build -Depends Analyze {
     $ExportFunctions = foreach ( $Function in $PublicFunctions ) {
         $Function.BaseName
     }
+    $Aliases = Get-Content "$ProjectRoot/$ModuleName/data/aliases.json" | ConvertFrom-Json
 
     foreach ( $Function in $PublicFunctions ) {
         Get-Content $Function | Add-Content $ModuleFile
     }
 
-    $ExportString = "Export-ModuleMember -Function " + ($ExportFunctions -Join ",")
-    $ExportString | Add-Content $ModuleFile
-    "Set-Alias gcapi Get-GCApiKey" | Add-Content $ModuleFile
-    "Export-ModuleMember -Alias gcapi" | Add-Content $ModuleFile
-    "" | Add-Content $ModuleFile
-
     foreach ( $Function in $PrivateFunctions ) {
         Get-Content $Function | Add-Content $ModuleFile
     }
+
+
+    foreach ( $Alias in $Aliases ) {
+        ("Set-Alias -Name " + $Alias.name + " -value " + $Alias.value) | Add-Content $ModuleFile
+    }
+
+    "" | Add-Content $ModuleFile
+
+    $ExportString = "Export-ModuleMember -Function " + ($ExportFunctions -Join ",") + " -Alias " + ($Aliases.name -Join ",")
+    $ExportString | Add-Content $ModuleFile
+
+    "" | Add-Content $ModuleFile
 
     "Creating en-US maml help file"
     New-ExternalHelp -Path "$ProjectRoot/docs/markdown" -OutputPath "$ProjectRoot/out/$ModuleName/en-US"
@@ -81,11 +89,6 @@ Task Pester -Depends Build {
     "Running unit tests"
 
     Import-Module "$ProjectRoot/out/$ModuleName/$ModuleName.psd1"
-    $TestFunctions = Get-ChildItem "$ProjectRoot/tests/unit/functions/*.ps1"
-    foreach ( $File in $TestFunctions ) {
-        $FilePath = $File.FullName
-        . $FilePath
-    }
 
     $UnitTestResults = Invoke-Pester "$ProjectRoot/tests/unit" -PassThru
 
