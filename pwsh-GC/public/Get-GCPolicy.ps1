@@ -8,6 +8,10 @@ function Get-GCPolicy {
         [System.String[]]
         $Section = @("allow","alert","block"),
 
+        [ValidateSet("UNCHANGED","CREATED","MODIFIED","DELETED")]
+        [string[]]
+        $State
+
         [ValidateSet("TCP","UDP")]
         [System.Array]
         $Protocol = @("TCP","UDP"),
