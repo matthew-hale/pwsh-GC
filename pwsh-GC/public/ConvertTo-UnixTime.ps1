@@ -1,4 +1,4 @@
-function ConvertTo-GCUnixTime {
+function ConvertTo-UnixTime {
     [cmdletbinding()]
     param (
         [Parameter(Mandatory,ValueFromPipeline)]

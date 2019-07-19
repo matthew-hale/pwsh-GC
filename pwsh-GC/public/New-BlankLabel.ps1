@@ -1,4 +1,4 @@
-function New-GCBlankLabel {
+function New-BlankLabel {
     [cmdletbinding(SupportsShouldProcess)]
     param (
         [Parameter(Mandatory)]

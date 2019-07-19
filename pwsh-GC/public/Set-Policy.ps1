@@ -1,4 +1,4 @@
-function Set-GCPolicy {
+function Set-Policy {
     [CmdletBinding(SupportsShouldProcess)]
     param (
         [Parameter(ValueFromPipeline)]

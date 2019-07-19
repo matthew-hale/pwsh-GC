@@ -1,4 +1,4 @@
-function New-GCPolicy {
+function New-Policy {
     [CmdletBinding(SupportsShouldProcess)]
     param (
         [Parameter(Mandatory=$true)]

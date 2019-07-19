@@ -1,4 +1,4 @@
-function Get-GCSavedMap {
+function Get-SavedMap {
     [CmdletBinding()]
     param (
         [System.String]

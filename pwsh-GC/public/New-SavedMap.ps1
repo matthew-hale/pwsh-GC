@@ -1,4 +1,4 @@
-function New-GCSavedMap{
+function New-SavedMap{
     [CmdletBinding(SupportsShouldProcess)]
     param (
         [System.String]

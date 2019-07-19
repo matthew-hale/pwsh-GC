@@ -1,4 +1,4 @@
-function Get-GCAsset {
+function Get-Asset {
     [CmdletBinding()]
     param (
         [System.String]

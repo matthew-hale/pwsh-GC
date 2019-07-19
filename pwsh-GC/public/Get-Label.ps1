@@ -1,4 +1,4 @@
-function Get-GCLabel {
+function Get-Label {
     [CmdletBinding()]
     param (
 		[String]

@@ -1,4 +1,4 @@
-function Get-GCIncident{
+function Get-Incident{
     [CmdletBinding()]
     param (
         [DateTime]

@@ -1,9 +1,9 @@
-function Remove-GCSavedMap {
+function Remove-Policy {
     [CmdletBinding(SupportsShouldProcess)]
     param (
         [Parameter(ValueFromPipeline)]
-        [PSTypeName("GCSavedMap")]
-        $Map,
+        [System.Array]
+        $Policy,
 
         [PSTypeName("GCApiKey")]
         $ApiKey
@@ -22,10 +22,10 @@ function Remove-GCSavedMap {
         }
     }
     process {
-        foreach ($ThisMap in $Map) {
-            $Uri = "/visibility/saved-maps/" + $ThisMap.id
+        foreach ($ThisPolicy in $Policy) {
+            $Uri = "/visibility/policy/rules/" + $ThisPolicy.id
 
-            $Should = [string]$Uri
+            $Should = $Uri
             if ( $PSCmdlet.ShouldProcess($Should, "pwsh-GC-post-request -Raw -Uri $Uri -Body $Body -ApiKey $Key") ) {
                 pwsh-GC-post-request -Raw -Uri $Uri -Body $Body -ApiKey $Key
             }
