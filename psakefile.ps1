@@ -1,7 +1,7 @@
 Properties {
     $ProjectRoot = $PSScriptRoot
     $ModuleName = "pwsh-GC"
-    $PublishRepository = "Example"
+    $PublishRepository = [Environment]::GetEnvironmentVariable("Repository")
     $Lines = "--------------------------------------------------------------------------------"
 }
 
