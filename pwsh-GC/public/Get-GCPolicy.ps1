@@ -10,7 +10,7 @@ function Get-GCPolicy {
 
         [ValidateSet("UNCHANGED","CREATED","MODIFIED","DELETED")]
         [string[]]
-        $State
+        $State,
 
         [ValidateSet("TCP","UDP")]
         [System.Array]
