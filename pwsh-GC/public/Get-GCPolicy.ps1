@@ -131,7 +131,7 @@ function Get-GCPolicy {
         search = $Search
         comments = $Comments
         ruleset = $Ruleset
-        state = $State
+        state = $State -join ","
         port = $Port -join ","
     }
 
