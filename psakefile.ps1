@@ -77,7 +77,7 @@ Task Build -Depends Analyze {
     $ManifestParams = @{
         Path = "$ProjectRoot/out/$ModuleName/$ModuleName.psd1"
         FunctionsToExport = $ExportFunctions
-        AliasesToExport = "gcapi"
+        AliasesToExport = $Aliases
     }
     Update-ModuleManifest @ManifestParams
 
