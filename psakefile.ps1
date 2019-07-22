@@ -82,6 +82,11 @@ Task Build -Depends Analyze {
     Update-ModuleManifest @ManifestParams
 
     "`n"
+
+    if ( Get-Item "$ProjectRoot/LICENSE" ) {
+        "Copying license"
+        Get-Content "$ProjectRoot/LICENSE" | Set-Content "$ProjectRoot/out/$ModuleName/LICENSE"
+    }
 }
 
 Task Pester -Depends Build {
