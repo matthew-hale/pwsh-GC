@@ -17,7 +17,7 @@ Foreach ($Import in @($Public + $Private)) {
 }
 
 # Create desired aliases
-New-Alias -Name gcapi -Value Get-GCApiKey
+New-Alias -Name api -Value Get-GCApiKey
 
 # Export the public functions and aliases
 Export-ModuleMember -Function $Public.Basename -Alias * 
