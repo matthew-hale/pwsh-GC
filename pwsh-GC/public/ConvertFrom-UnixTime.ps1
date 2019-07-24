@@ -10,7 +10,7 @@ function ConvertFrom-UnixTime {
             $Origin = New-Object DateTime 1970, 1, 1, 0, 0, 0, ([DateTimeKind]::Utc)
 
             # Remember: GuardiCore works with epoch times in milliseconds
-            $Origin.AddSeconds([Int]($ThisUnixDate/1000))
+            $Origin.AddSeconds([Int]($ThisUnixDate/1000)).ToLocalTime()
         }
     }
 }
