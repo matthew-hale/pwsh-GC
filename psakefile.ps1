@@ -77,19 +77,21 @@ Task Build -Depends Analyze {
     $ManifestParams = @{
         Path = "$ProjectRoot/out/$ModuleName/$ModuleName.psd1"
         FunctionsToExport = $ExportFunctions
-        AliasesToExport = $Aliases
+        AliasesToExport = $Aliases.Name
     }
     Update-ModuleManifest @ManifestParams
 
     "`n"
+
+    if ( Get-Item "$ProjectRoot/LICENSE" ) {
+        "Copying license"
+        Get-Content "$ProjectRoot/LICENSE" | Set-Content "$ProjectRoot/out/$ModuleName/LICENSE"
+    }
 }
 
 Task Pester -Depends Build {
     $Lines
     "Running unit tests"
-
-    Remove-Module $ModuleName -Force
-    Import-Module "$ProjectRoot/out/$ModuleName/$ModuleName.psd1"
 
     $UnitTestResults = Invoke-Pester "$ProjectRoot/tests/unit" -PassThru
 

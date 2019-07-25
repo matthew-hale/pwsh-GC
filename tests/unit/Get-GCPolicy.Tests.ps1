@@ -1,5 +1,5 @@
 InModuleScope pwsh-GC {
-    Describe Get-GCAgent {
+    Describe Get-GCPolicy {
         $ApiKey = [PSCustomObject]@{
             PSTypeName = "GCApiKey"
             Uri = "test"
@@ -24,7 +24,7 @@ InModuleScope pwsh-GC {
                 }
             }
     
-            $Result = Get-Agent -ApiKey $ApiKey
+            $Result = Get-Policy -ApiKey $ApiKey
     
             It "Successfully calls Invoke-RestMethod" {
                 $Current = $Result.Called
@@ -42,7 +42,7 @@ InModuleScope pwsh-GC {
     
             It "Passes the correct Uri to pwsh-GC-get-request" {
                 $Current = $Result.Uri
-                $Should = "/agents"
+                $Should = "/visibility/policy/rules?limit=20"
 
                 $Current | Should -Be $Should
             }
