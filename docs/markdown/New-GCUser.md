@@ -13,8 +13,9 @@ Create a new user on the management server.
 ## SYNTAX
 
 ```
-New-GCUser [-Name] <String> [[-Description] <String>] [-Email] <String> [-Permissions] <String[]> [-TwoFactor]
- [-Password] <String> [-IncidentPasswordAccess] [[-ApiKey] <Object>] [-WhatIf] [-Confirm] [<CommonParameters>]
+New-GCUser [-Name] <String> [[-Description] <String>] [[-Email] <String>] [-Permissions] <String[]>
+ [-TwoFactor] [-Password] <String> [-IncidentPasswordAccess] [[-ApiKey] <Object>] [-WhatIf] [-Confirm]
+ [<CommonParameters>]
 ```
 
 ## DESCRIPTION

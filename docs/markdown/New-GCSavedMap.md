@@ -15,8 +15,8 @@ Create a saved map on the management server.
 ```
 New-GCSavedMap [[-Name] <String>] [-Public] [[-FilterHashTableInclude] <Hashtable>]
  [[-FilterHashTableExclude] <Hashtable>] [[-StartTime] <DateTime>] [[-EndTime] <DateTime>]
- [[-TimeRange] <Array>] [-IncludeProcesses] [-TimeResolution] [-EmailOnProgress] [[-ApiKey] <Object>]
- [<CommonParameters>]
+ [[-TimeRange] <Array>] [-IncludeProcesses] [-TimeResolution] [-EmailOnProgress] [[-ApiKey] <Object>] [-WhatIf]
+ [-Confirm] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -190,6 +190,36 @@ If true, the map will resolve accurate times for connections within the time ran
 Type: SwitchParameter
 Parameter Sets: (All)
 Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -Confirm
+Prompts you for confirmation before running the cmdlet.
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases: cf
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -WhatIf
+Shows what would happen if the cmdlet runs. The cmdlet is not run.
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases: wi
 
 Required: False
 Position: Named

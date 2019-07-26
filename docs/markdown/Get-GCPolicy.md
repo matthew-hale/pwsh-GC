@@ -13,10 +13,10 @@ Retrieve a policy from the management server.
 ## SYNTAX
 
 ```
-Get-GCPolicy [[-Search] <String>] [[-Section] <String[]>] [[-Protocol] <Array>] [[-Port] <Array>]
- [[-SourceLabel] <Object>] [[-DestinationLabel] <Object>] [[-AnySideLabel] <Object>] [[-SourceProcess] <Array>]
- [[-DestinationProcess] <Array>] [[-AnySideProcess] <Array>] [[-SourceAsset] <Object>]
- [[-DestinationAsset] <Object>] [[-AnySideAsset] <Object>] [[-SourceSubnet] <Array>]
+Get-GCPolicy [[-Search] <String>] [[-Section] <String[]>] [-State <String[]>] [[-Protocol] <Array>]
+ [[-Port] <Array>] [[-SourceLabel] <Object>] [[-DestinationLabel] <Object>] [[-AnySideLabel] <Object>]
+ [[-SourceProcess] <Array>] [[-DestinationProcess] <Array>] [[-AnySideProcess] <Array>]
+ [[-SourceAsset] <Object>] [[-DestinationAsset] <Object>] [[-AnySideAsset] <Object>] [[-SourceSubnet] <Array>]
  [[-DestinationSubnet] <String>] [[-AnySideSubnet] <String>] [[-Ruleset] <String>] [[-Comments] <String>]
  [-SourceInternet] [-DestinationInternet] [-AnySideInternet] [[-Limit] <Int32>] [[-Offset] <Int32>] [-Raw]
  [[-ApiKey] <Object>] [<CommonParameters>]
@@ -415,6 +415,21 @@ Aliases:
 
 Required: False
 Position: 13
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -State
+Get policies based on state (unchanged, created, modified, deleted).
+
+```yaml
+Type: String[]
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
