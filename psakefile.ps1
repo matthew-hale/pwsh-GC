@@ -93,6 +93,8 @@ Task Pester -Depends Build {
     $Lines
     "Running unit tests"
 
+    Import-Module "$ProjectRoot/out/$ModuleName/$ModuleName.psd1"
+
     $UnitTestResults = Invoke-Pester "$ProjectRoot/tests/unit" -PassThru
 
     Assert ( $UnitTestResults.FailedCount -eq 0 ) "Failed '$($UnitTestResults.FailedCount)' tests, build failed"
