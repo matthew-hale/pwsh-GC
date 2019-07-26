@@ -67,9 +67,6 @@ Task Build -Depends Analyze {
 
     "" | Add-Content $ModuleFile
 
-    "Creating en-US maml help file"
-    New-ExternalHelp -Path "$ProjectRoot/docs/markdown" -OutputPath "$ProjectRoot/out/$ModuleName/en-US"
-
     "Copying manifest"
     Copy-Item "$ProjectRoot/$ModuleName/$ModuleName.psd1" "$ProjectRoot/out/$ModuleName/$ModuleName.psd1"
 
@@ -87,6 +84,34 @@ Task Build -Depends Analyze {
         "Copying license"
         Get-Content "$ProjectRoot/LICENSE" | Set-Content "$ProjectRoot/out/$ModuleName/LICENSE"
     }
+
+    "Creating updated en-US maml help file"
+    Import-Module "$ProjectRoot/out/$ModuleName/$ModuleName.psd1"
+
+    $OriginalHelpFiles = Get-ChildItem "$ProjectRoot/docs/markdown"
+    $OriginalFileCount = $OriginalHelpFiles.Count
+
+    Update-Help -Path "$ProjectRoot/docs/markdown"
+
+    $NewHelpFiles = Get-ChildItem "$ProjectRoot/docs/markdown"
+    $NewFileCount = $NewHelpFiles.Count
+
+    if ( $NewFileCount -ne $OriginalFileCount) {
+        throw "Help files not correct; update help files then re-commit"
+    }
+
+    for ( $i = 0; $i -lt $NewFileCount; $i++ ) {
+        $NewFile = $NewHelpFiles[$i]
+        $OriginalFile = $OriginalHelpFiles[$i]
+
+        if ( $OriginalFile.LastWriteTime -ne $NewFile.LastWriteTime ) {
+            throw "Help files not correct; update help files then re-commit"
+        }
+    }
+
+    New-ExternalHelp -Path "$ProjectRoot/docs/markdown" -OutputPath "$ProjectRoot/out/$ModuleName/en-US"
+
+    Remove-Module "$ProjectRoot/out/$ModuleName/$ModuleName.psd1"
 }
 
 Task Pester -Depends Build {

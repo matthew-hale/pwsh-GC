@@ -14,11 +14,10 @@ Create a segmentation policy on the management server.
 
 ```
 New-GCPolicy [-Section] <String> [-Action] <String> [[-Protocol] <Array>] [[-Port] <Array>]
- [[-PortRange] <Array>] [[-SourceLabel] <Array>] [[-DestinationLabel] <Array>] [[-SourceLabelFile] <String[]>]
- [[-DestinationLabelFile] <String[]>] [[-SourceProcesses] <Array>] [[-DestinationProcesses] <Array>]
- [[-SourceAsset] <Array>] [[-DestinationAsset] <Array>] [[-SourceSubnet] <String[]>]
- [[-DestinationSubnet] <String[]>] [[-Ruleset] <String>] [[-Comments] <String>] [-SourceInternet]
- [-DestinationInternet] [[-ApiKey] <Object>] [-WhatIf] [-Confirm] [<CommonParameters>]
+ [[-PortRange] <Array>] [[-SourceLabel] <Array>] [[-DestinationLabel] <Array>] [[-SourceProcesses] <Array>]
+ [[-DestinationProcesses] <Array>] [[-SourceAsset] <Array>] [[-DestinationAsset] <Array>]
+ [[-SourceSubnet] <String[]>] [[-DestinationSubnet] <String[]>] [[-Ruleset] <String>] [[-Comments] <String>]
+ [-SourceInternet] [-DestinationInternet] [[-ApiKey] <Object>] [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -136,21 +135,6 @@ Aliases:
 
 Required: False
 Position: 6
-Default value: None
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-### -DestinationLabelFile
-Specify destination labels from a file.
-
-```yaml
-Type: String[]
-Parameter Sets: (All)
-Aliases:
-
-Required: False
-Position: 8
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -303,21 +287,6 @@ Aliases:
 
 Required: False
 Position: 5
-Default value: None
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-### -SourceLabelFile
-Specify source labels from a file.
-
-```yaml
-Type: String[]
-Parameter Sets: (All)
-Aliases:
-
-Required: False
-Position: 7
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False

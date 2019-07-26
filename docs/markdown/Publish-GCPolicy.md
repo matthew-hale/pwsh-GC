@@ -13,7 +13,7 @@ Publish the current policy set on the management server, including pending chang
 ## SYNTAX
 
 ```
-Publish-GCPolicy [-Comments] <String>  [[-ApiKey] <Object>] [-WhatIf] [-Confirm] [<CommonParameters>]
+Publish-GCPolicy [-Comments] <String> [[-ApiKey] <Object>] [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
 ## DESCRIPTION

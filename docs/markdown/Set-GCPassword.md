@@ -13,7 +13,7 @@ Reset a user's password with a given temporary password.
 ## SYNTAX
 
 ```
-Set-GCPassword [[-User] <Object>] [-Password] <String> [[-ApiKey] <Object>] [-WhatIf] [-Confirm]
+Set-GCPassword [-Name <Object>] [-Password] <String> [[-ApiKey] <Object>] [-WhatIf] [-Confirm]
  [<CommonParameters>]
 ```
 
@@ -76,21 +76,6 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -User
-The user object to be reset.
-
-```yaml
-Type: Object
-Parameter Sets: (All)
-Aliases:
-
-Required: False
-Position: 0
-Default value: None
-Accept pipeline input: True (ByValue)
-Accept wildcard characters: False
-```
-
 ### -WhatIf
 Shows what would happen if the cmdlet runs. The cmdlet is not run.
 
@@ -103,6 +88,21 @@ Required: False
 Position: Named
 Default value: None
 Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -Name
+The username/username object of the user to reset.
+
+```yaml
+Type: Object
+Parameter Sets: (All)
+Aliases: Username, User
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: True (ByValue)
 Accept wildcard characters: False
 ```
 
