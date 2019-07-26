@@ -91,13 +91,13 @@ Task Build -Depends Analyze {
     $OriginalHelpFiles = Get-ChildItem "$ProjectRoot/docs/markdown"
     $OriginalFileCount = $OriginalHelpFiles.Count
 
-    Update-Help -Path "$ProjectRoot/docs/markdown"
+    Update-MarkdownHelp -Path "$ProjectRoot/docs/markdown"
 
     $NewHelpFiles = Get-ChildItem "$ProjectRoot/docs/markdown"
     $NewFileCount = $NewHelpFiles.Count
 
     if ( $NewFileCount -ne $OriginalFileCount) {
-        throw "Help files not correct; update help files then re-commit"
+        throw "Help files not correct (missing new file); update help files then re-commit"
     }
 
     for ( $i = 0; $i -lt $NewFileCount; $i++ ) {
@@ -105,7 +105,8 @@ Task Build -Depends Analyze {
         $OriginalFile = $OriginalHelpFiles[$i]
 
         if ( $OriginalFile.LastWriteTime -ne $NewFile.LastWriteTime ) {
-            throw "Help files not correct; update help files then re-commit"
+            $ThrowString = "Help file not correct (" + $NewFile.name + "); update help files then re-commit"
+            throw $ThrowString
         }
     }
 
