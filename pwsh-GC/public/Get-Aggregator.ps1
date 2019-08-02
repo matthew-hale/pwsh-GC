@@ -4,7 +4,7 @@ function Get-Aggregator {
         [string]
         $Search,
 
-        [ValidateSet("UP","DOWN")]
+        [ValidateSet("UP","DOWN","RUNTIME_ERROR")]
         [string[]]
         $Status,
 
