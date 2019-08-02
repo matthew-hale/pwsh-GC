@@ -12,9 +12,14 @@ $Modules = @(
 
 $ModuleInstallScope = "CurrentUser"
 
-Install-Module -Name $Modules -Scope $ModuleInstallScope -Force
+foreach ( $Module in $Modules ) {
+    if ( -not (Get-Module $Module -ListAvailable) ) {
+        Install-Module -Name $Module -Scope $ModuleInstallScope -Force
+    }
 
-Import-Module psake
+    Update-Module $Module
+    Import-Module $Module
+}
 
 Invoke-psake -taskList $Task
 
