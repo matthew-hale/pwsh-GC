@@ -1,16 +1,28 @@
 function Get-ApiKey {
     [CmdletBinding(SupportsShouldProcess)]
     param (
-        [Parameter(Mandatory=$true)]
-        [System.String]$Server,
+        [Parameter(Mandatory=$true,ParameterSetName = "ByName")]
+        [System.String]
+        $Server,
+
+        [Parameter(Mandatory=$true,ParameterSetName = "ByUri")]
+        [String]
+        $Uri,
 
         [Parameter(Mandatory=$true,ValueFromPipeline=$true)]
-        [Alias('Credentials','Cred')][PSCredential]$Credential,
+        [Alias('Credentials','Cred')]
+        [PSCredential]
+        $Credential,
 
-        [Switch]$Export
+        [Switch]
+        $Export
     )
     begin {
-        $Uri = "https://" + $Server + ".cloud.guardicore.com/api/v3.0"
+        if ( $Server ) {
+            $Uri = "https://" + $Server + ".cloud.guardicore.com/api/v3.0"
+        } else {
+            $Uri = $Uri + "/api/v3.0"
+        }
         $TempUri = $Uri + "/authenticate"
         $Body = [PSCustomObject]@{
             "username" = ""
