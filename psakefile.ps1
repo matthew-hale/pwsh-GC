@@ -11,10 +11,9 @@ Task Init {
     Import-Module pester,platyPS,PSScriptAnalyzer
     $Lines
     "Make required output folders"
-    Set-Location $ProjectRoot
-    mkdir "out"
-    mkdir "out/$ModuleName"
-    mkdir "out/$ModuleName/en-US"
+    mkdir "$ProjectRoot/out"
+    mkdir "$ProjectRoot/out/$ModuleName"
+    mkdir "$ProjectRoot/out/$ModuleName/en-US"
     "`n"
 }
 
@@ -112,7 +111,7 @@ Task Build -Depends Analyze {
 
     New-ExternalHelp -Path "$ProjectRoot/docs/markdown" -OutputPath "$ProjectRoot/out/$ModuleName/en-US"
 
-    Remove-Module "$ProjectRoot/out/$ModuleName/$ModuleName.psd1"
+    Remove-Module "$ModuleName"
 }
 
 Task Pester -Depends Build {
