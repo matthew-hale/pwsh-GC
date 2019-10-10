@@ -13,9 +13,15 @@ Alternatively, returns a portable key object on the pipeline for future use.
 
 ## SYNTAX
 
+### ByName
 ```
 Get-GCApiKey [-Server] <String> [-Credential] <PSCredential> [-Export] [-WhatIf] [-Confirm]
  [<CommonParameters>]
+```
+
+### ByUri
+```
+Get-GCApiKey -Uri <String> [-Credential] <PSCredential> [-Export] [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -98,7 +104,7 @@ GuardiCore management server, in the format: "cus-XXXX".
 
 ```yaml
 Type: String
-Parameter Sets: (All)
+Parameter Sets: ByName
 Aliases:
 
 Required: True
@@ -117,6 +123,21 @@ Parameter Sets: (All)
 Aliases: wi
 
 Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -Uri
+{{ Fill Uri Description }}
+
+```yaml
+Type: String
+Parameter Sets: ByUri
+Aliases:
+
+Required: True
 Position: Named
 Default value: None
 Accept pipeline input: False
