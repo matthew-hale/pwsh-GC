@@ -40,6 +40,12 @@ function Get-RawFlow {
         [Switch]
         $DestinationInternet,
 
+        [ValidateSet("successful","failed","redirected_to_hpvm")]
+        $Type,
+
+        [ValidateSet("allowed","alerted_by_management","blocked_by_management","blocked")]
+        $Action,
+
         [Int32]
         $Limit = 20,
 
@@ -78,6 +84,8 @@ function Get-RawFlow {
     $Body = @{
         from_time = (ConvertTo-GCUnixTime $StartTime)
         to_time = (ConvertTo-GCUnixTime $EndTime)
+        connection_type = $Type -join ","
+        policy_verdict = $Action -join ","
         offset = $Offset
         limit = $Limit
     }
