@@ -1,6 +1,10 @@
 # pwsh-GC
 A collection of Powershell Core functions and scripts for GuardiCore Centra administration and management.
 
+## Project status
+
+This project has been abandoned for the time being. As I no longer work for a company that uses GuardiCore, I don't have any access to a GuardiCore instance with which to develop this API wrapper. Feel free to fork and continue work on it if you wish.
+
 ## Roadmap
 + Complete help files & pester tests
 + Implement Windows PowerShell compatibility (if possible without significant issue)
